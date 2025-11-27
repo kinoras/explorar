@@ -1,4 +1,6 @@
 using ExploreHKMOApi.Services;
+using Google.Maps.Routing.V2;
+using Google.Api.Gax.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IPlaceMemory, JsonPlaceMemory>();
-
+builder.Services.AddSingleton<RoutesClient>(sp =>
+{
+    var clientbuilder = new RoutesClientBuilder();
+    return clientbuilder.Build();
+});
+builder.Services.AddSingleton<IRoutingService, GoogleRoutingService>();
 
 var app = builder.Build();
 
