@@ -74,11 +74,28 @@ public class GoogleRoutingService : IRoutingService
                 Origin = origin,
                 Destination = dest,
                 TravelMode = travelMode,
-                DepartureTime = departureTimestamp,
                 LanguageCode = "zh-TW",
                 ComputeAlternativeRoutes = false
             };
             
+            switch (travelMode)
+            {
+                case RouteTravelMode.Drive:
+                case RouteTravelMode.TwoWheeler:
+                    computeRequest.RoutingPreference = RoutingPreference.TrafficAwareOptimal;
+                    computeRequest.DepartureTime = departureTimestamp;
+                    break;
+                
+                case RouteTravelMode.Transit:
+                    computeRequest.DepartureTime = departureTimestamp;
+                    break;
+                
+                case RouteTravelMode.Walk:
+                case RouteTravelMode.Bicycle:
+                default:
+                    break;
+            }
+
             var fieldMask = "routes.distanceMeters," +
                             "routes.duration," +
                             "routes.legs.steps.travelMode," +
@@ -213,9 +230,9 @@ public class GoogleRoutingService : IRoutingService
     private static RouteTravelMode MapTravelMode(string mode) =>
     mode.ToLower() switch
     {
-        "walking" => RouteTravelMode.Walk,
+        "walking" or "walk" => RouteTravelMode.Walk,
         "taxi" => RouteTravelMode.Drive,
-        "driving" => RouteTravelMode.Drive,
+        "driving" or "drive" => RouteTravelMode.Drive,
         "transit" => RouteTravelMode.Transit,
         _ => RouteTravelMode.Transit
     };
