@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist_Mono, Inter } from 'next/font/google'
 
+import { Header } from '@/components/layout/header'
+
 import { cn } from '@/lib/utils'
 
 import './globals.css'
@@ -32,10 +34,14 @@ export default function RootLayout({
                     latinSans.variable,
                     latinMono.variable,
                     'border-border outline-ring/50', // Default outline colors
-                    'text-foreground bg-neutral-50 antialiased **:font-sans!' // Appearance settings
+                    'text-foreground bg-neutral-50 antialiased **:font-sans!', // Appearance settings
+                    'flex min-h-screen justify-center' // Root layout
                 )}
             >
-                {children}
+                <div id="root" className="bg-background w-full max-w-lg">
+                    <Header />
+                    {children}
+                </div>
             </body>
         </html>
     )

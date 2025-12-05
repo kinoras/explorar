@@ -11,9 +11,6 @@
     --font-sans: var(--font-latin-sans);
     --font-mono: var(--font-latin-mono);
 
-    /* Spacing */
-    --spacing-page-x: calc(var(--spacing) * 4.5); /* 18px */
-
     /* Chart colors */
     --color-chart-1: oklch(0.646 0.222 41.116);
     --color-chart-2: oklch(0.6 0.118 184.704);
