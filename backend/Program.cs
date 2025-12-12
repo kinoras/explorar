@@ -13,7 +13,10 @@ if (!string.IsNullOrWhiteSpace(googleCredentialsJson) && string.IsNullOrEmpty(En
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SupportNonNullableReferenceTypes();
+});
 builder.Services.AddSingleton<IPlaceMemory, JsonPlaceMemory>();
 builder.Services.AddSingleton<RoutesClient>(sp =>
 {
