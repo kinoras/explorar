@@ -8,8 +8,8 @@
     --color-foreground: oklch(0.145 0 0);
 
     /* Fonts */
-    --font-sans: var(--font-latin-sans);
-    --font-mono: var(--font-latin-mono);
+    --font-sans: var(--font-latin-sans), var(--font-cjk-sans);
+    --font-mono: var(--font-latin-mono), var(--font-cjk-sans);
 
     /* Chart colors */
     --color-chart-1: oklch(0.646 0.222 41.116);
@@ -17,6 +17,9 @@
     --color-chart-3: oklch(0.398 0.07 227.392);
     --color-chart-4: oklch(0.828 0.189 84.429);
     --color-chart-5: oklch(0.769 0.188 70.08);
+
+    /* Theme colors */
+    --color-theme: #006ac6;
 
     /* Outline colors */
     --color-ring: oklch(0.708 0 0);
@@ -39,11 +42,5 @@
     --color-primary: oklch(0.205 0 0);
     --color-popover: oklch(1 0 0);
     --color-card: oklch(1 0 0);
-
-    /* Radius */
-    --radius: 0.625rem;
-    --radius-sm: calc(var(--radius) - 4px);
-    --radius-md: calc(var(--radius) - 2px);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 4px);
+    --color-inactive: color-mix(in oklab, oklch(92.2% 0 0) 75%, transparent);
 }
