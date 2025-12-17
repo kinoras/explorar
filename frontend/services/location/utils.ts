@@ -27,7 +27,8 @@ export const formatCategoryText = (key: string): string => {
     return getCategoryByKey(key)?.name
 }
 
-export type WeeklyHours = Record<number, { open: string; close: string }>
+export type DailyHours = { open: string; close: string }
+export type WeeklyHours = Record<number, DailyHours>
 export type Location = {
     /** Unique identifier of the location. */
     id: Place['id']

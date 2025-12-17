@@ -1,4 +1,4 @@
-import { Header } from '@/components/layout/header'
+import { Header } from './header'
 
 import { parseRegion } from '@/services/region'
 
