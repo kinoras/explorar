@@ -14,9 +14,9 @@ const Locations = async ({ region, sort }: { region: Region; sort: LocationSortO
                     key={id}
                     href={`/${region}/locations/${id}`}
                     // Data fields below
-                    image={images?.[0]}
-                    name={name ?? ''}
-                    description={description?.content ?? ''}
+                    image={images[0]}
+                    name={name}
+                    description={description ?? ''}
                     rating={rating ?? undefined}
                     category={category}
                 />

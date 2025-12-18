@@ -1,8 +1,9 @@
-import { type Place, getPlaces } from '@/integrations/client'
+import { getPlaces } from '@/integrations/client'
 
 import { Region } from '@/services/region'
 
-import { LocationSortOption } from './sort'
+import { type LocationSortOption } from './sort'
+import { type Location, parseLocation } from './utils'
 
 const adaptSortOption = (sort: LocationSortOption) => {
     switch (sort) {
@@ -23,10 +24,11 @@ const adaptSortOption = (sort: LocationSortOption) => {
 export const getLocationsByRegion = async (
     region: Region,
     sort: LocationSortOption
-): Promise<Array<Place>> => {
+): Promise<Location[]> => {
     // Fetch locations of the specified region
     const locations = (await getPlaces({ query: { region, ...adaptSortOption(sort) } })).data
 
-    // Return the fetched locations or an empty array if none are found
-    return locations || []
+    return !locations
+        ? [] // No locations found
+        : locations.map(parseLocation)
 }

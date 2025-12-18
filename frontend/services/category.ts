@@ -1,5 +1,7 @@
 import { getCategories } from '@/integrations/client'
 
+import { defaultCategory } from '@/lib/config'
+
 import type { Region } from './region'
 
 type Category = string
@@ -21,14 +23,20 @@ export const categoryDetails: Record<Category, CategoryDetail> = {
     shopping: {
         name: 'Shopping',
         image: '/assets/background/category-shopping.webp' // https://unsplash.com/photos/jo8C9bt3uo8
+    },
+
+    // Fallback category
+    uncategorised: {
+        name: 'Uncategorised',
+        image: '' // No image
     }
 }
 
-type GetCategoriesByRegionResult = {
+export type CategoryObject = {
     key: Category
     name: string
     image: string
-}[]
+}
 
 /**
  * Fetches categories available in a region.
@@ -36,9 +44,7 @@ type GetCategoriesByRegionResult = {
  * @param region - The region to fetch categories for
  * @returns Array of category objects with key, name, and image
  */
-export const getCategoriesByRegion = async (
-    region: Region
-): Promise<GetCategoriesByRegionResult> => {
+export const getCategoriesByRegion = async (region: Region): Promise<CategoryObject[]> => {
     // Fetch categories of the specified region
     const categories = (await getCategories({ query: { region } })).data
 
@@ -52,8 +58,11 @@ export const getCategoriesByRegion = async (
  * Gets category details by category key.
  *
  * @param key - The category key to look up
- * @returns Category details or null if not found
+ * @returns Category details object
  */
-export const getCategoryByKey = (key: Category): CategoryDetail | null => {
-    return categoryDetails[key] || null
+export const getCategoryByKey = (key: Category): CategoryObject => {
+    const details = categoryDetails[key]
+    return details
+        ? { key, ...details }
+        : { key: defaultCategory, ...categoryDetails[defaultCategory] }
 }

@@ -23,9 +23,12 @@ const appConfigs: Record<Region, RegionalConfig> = {
     }
 } as const
 
-/** Default values */
+// Default values
 export const defaultRegion: Region = 'mo'
 export const defaultLocationSortOption: LocationSortOption = 'ranking'
+
+// Fallbacks
+export const defaultCategory = 'uncategorised'
 
 /**
  * Gets the app configuration for a region.

@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { RatingStars } from '@/components/atoms/rating-stars'
 import { SmartImage } from '@/components/atoms/smart-image'
 
-import { getCategoryByKey } from '@/services/category'
+import type { CategoryObject } from '@/services/category'
+import { formatRatingNumber } from '@/services/location/utils'
 
 import { cn } from '@/lib/utils'
 
@@ -24,10 +25,8 @@ const LocationEntry = ({
     name?: string
     description?: string
     rating?: number
-    category?: string
+    category: CategoryObject
 }) => {
-    const ratingText = typeof rating === 'number' ? Number(rating).toFixed(1) : 'N/A'
-    const categoryText = getCategoryByKey(category ?? '')?.name ?? 'Uncategorised'
     return (
         <Link className={cn('flex items-center gap-2.5', className)} {...props}>
             {/* Cover image */}
@@ -43,10 +42,10 @@ const LocationEntry = ({
                 <h3 className="line-clamp-1 font-medium">{name}</h3>
                 <p className="line-clamp-2 text-sm text-neutral-500">{description}</p>
                 <div className="flex items-center gap-1 text-xs text-neutral-500">
-                    <span className="tabular-nums">{ratingText}</span>
+                    <span className="tabular-nums">{formatRatingNumber(rating)}</span>
                     <RatingStars rating={rating ?? 0} className="[&_svg]:size-3" />
                     <span>·</span>
-                    <span>{categoryText}</span>
+                    <span>{category.name}</span>
                 </div>
             </div>
         </Link>
