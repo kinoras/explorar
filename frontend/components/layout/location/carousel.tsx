@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 const LocationCarousel = ({ images }: { images: string[] }) => {
     return (
         <Swiper className="w-full">
-            {images?.map((src, index) => (
+            {images.map((src, index) => (
                 <SwiperSlide key={index}>
                     <SmartImage
                         src={src}

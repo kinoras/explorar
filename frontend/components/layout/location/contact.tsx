@@ -14,7 +14,7 @@ const WebsiteLink = ({ website }: { website: string }) => (
     </Link>
 )
 
-const LocationContact = async ({ phone, website }: { phone?: string; website?: string }) => (
+const LocationContact = ({ phone, website }: { phone?: string; website?: string }) => (
     <DataSection title="Contact">
         <DataList
             className="[&_span]:line-clamp-1"

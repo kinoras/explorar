@@ -24,7 +24,7 @@ export const formatRatingNumber = (rating: unknown): string => {
  * @returns The category name or 'Uncategorised' if not found
  */
 export const formatCategoryText = (key: string): string => {
-    return getCategoryByKey(key)?.name
+    return getCategoryByKey(key).name
 }
 
 export type DailyHours = { open: string; close: string }
