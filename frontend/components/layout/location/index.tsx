@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 
 import { LocationCarousel, LocationCarouselSkeleton } from './carousel'
 import { LocationContact, LocationContactSkeleton } from './contact'
-import { LocationdDescription, LocationdDescriptionSkeleton } from './description'
+import { LocationDescription, LocationDescriptionSkeleton } from './description'
 import { LocationFooter, LocationFooterSkeleton } from './footer'
 import { LocationHours } from './hours'
 import { LocationMap, LocationMapSkeleton } from './map'
@@ -45,7 +45,7 @@ const LocationLayout = ({
         <div className={blockStyles.content}>
             <LocationMeta name={name} category={category.name} rating={rating} address={address} />
             <Separator />
-            {description && <LocationdDescription description={description} />}
+            {description && <LocationDescription description={description} />}
             {coordinates && <LocationMap coordinates={coordinates} />}
             {(phone || website) && <LocationContact phone={phone} website={website} />}
             <LocationHours hours={hours} />
@@ -64,7 +64,7 @@ const LocationLayoutSkeleton = ({ className, ...props }: ComponentProps<'div'>) 
         <div className={blockStyles.content}>
             <LocationMetaSkeleton />
             <Separator />
-            <LocationdDescriptionSkeleton />
+            <LocationDescriptionSkeleton />
             <LocationMapSkeleton />
             <LocationContactSkeleton />
         </div>
