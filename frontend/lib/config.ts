@@ -1,5 +1,6 @@
-import type { LocationSortOption } from '@/services/location/sort'
-import type { Region } from '@/services/region'
+import type { CategoryKey } from '@/types/category'
+import type { LocationSortOption } from '@/types/location'
+import type { Region } from '@/types/region'
 
 type RegionalConfig = {
     /** Page title */
@@ -25,13 +26,12 @@ const appConfigs: Record<Region, RegionalConfig> = {
 
 // Default values
 export const defaultRegion: Region = 'mo'
+export const defaultCategoryKey: CategoryKey = 'uncategorised'
 export const defaultLocationSortOption: LocationSortOption = 'ranking'
-
-// Fallbacks
-export const defaultCategory = 'uncategorised'
 
 /**
  * Gets the app configuration for a region.
+ *
  * @param region - The region to get configuration for
  * @returns The regional app configuration object
  */

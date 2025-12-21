@@ -3,29 +3,29 @@ import type { ComponentProps } from 'react'
 import { RatingStars } from '@/components/atoms/rating-stars'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { formatRatingNumber } from '@/services/location/utils'
-
 import { cn } from '@/lib/utils'
 
 const LocationMeta = ({
     name,
     category,
-    rating,
+    ratingNumber = 0,
+    ratingString = 'N/A',
     address,
     className,
     ...props
 }: ComponentProps<'div'> & {
     name: string
-    category: string
-    rating?: number
-    address: string
+    category?: string
+    ratingNumber?: number
+    ratingString?: string
+    address?: string
 }) => (
     <div className={cn('flex flex-col gap-1.5 py-4 **:leading-tight', className)} {...props}>
         <h1 className="text-2xl font-bold tracking-tight">{name}</h1>
         <p className="text-subtitle line-clamp-1 text-sm">{address}</p>
         <p className="text-subtitle flex items-center gap-1 text-sm">
-            <span className="tabular-nums">{formatRatingNumber(rating)}</span>
-            <RatingStars rating={rating ?? 0} className="mb-px [&_svg]:size-3.5!" />
+            <span className="tabular-nums">{ratingString}</span>
+            <RatingStars rating={ratingNumber} className="mb-px [&_svg]:size-3.5!" />
             <span>·</span>
             <span>{category}</span>
         </p>

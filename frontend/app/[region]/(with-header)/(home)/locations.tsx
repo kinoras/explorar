@@ -1,8 +1,9 @@
 import { LocationEntry, LocationEntrySkeleton } from '@/components/custom/location-entry'
 
-import { getLocationsByRegion } from '@/services/location/list'
-import type { LocationSortOption } from '@/services/location/sort'
-import type { Region } from '@/services/region'
+import { getLocationsByRegion } from '@/services/location'
+
+import type { LocationSortOption } from '@/types/location'
+import type { Region } from '@/types/region'
 
 const Locations = async ({ region, sort }: { region: Region; sort: LocationSortOption }) => {
     const locations = await getLocationsByRegion(region, sort)
@@ -17,8 +18,9 @@ const Locations = async ({ region, sort }: { region: Region; sort: LocationSortO
                     image={images[0]}
                     name={name}
                     description={description ?? ''}
-                    rating={rating ?? undefined}
-                    category={category}
+                    ratingNumber={rating?.value}
+                    ratingString={rating?.formatted}
+                    category={category.name}
                 />
             ))}
         </>

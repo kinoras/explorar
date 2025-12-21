@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react'
 
-import type { Region } from '@/services/region'
+import type { Region } from '@/types/region'
 
 type RegionContextType = {
     region: Region

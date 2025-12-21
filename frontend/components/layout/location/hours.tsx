@@ -1,7 +1,7 @@
 import { DataList, DataListSkeleton } from '@/components/atoms/data-list'
 import { DataSection, DataSectionSkeleton } from '@/components/atoms/data-section'
 
-import type { WeeklyHours } from '@/services/location/utils'
+import type { WeeklyHours } from '@/types/location'
 
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 

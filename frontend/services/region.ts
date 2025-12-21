@@ -1,30 +1,24 @@
 import { defaultRegion } from '@/lib/config'
+import { supportedRegions } from '@/lib/const'
 
-// Defining supported regions
-const regions = [
-    'hk', // Hong Kong
-    'mo' // Macau
-] as const
-export type Region = (typeof regions)[number]
+import type { Region } from '@/types/region'
 
 /**
  * Validates if a string is a supported region.
  *
- * @param region - The region string to validate
- * @returns True if the region is valid, false otherwise
+ * @param regionString - The region string to validate
+ * @returns True if the region string is valid, false otherwise
  */
-export const validateRegion = (region: string): region is Region => {
-    return regions.includes(region as Region)
+export const validateRegion = (regionString: string): regionString is Region => {
+    return supportedRegions.includes(regionString as Region)
 }
 
 /**
- * Parses and validates a region string.
+ * Converts a string to Region type, defaulting if invalid.
  *
- * @param region - The region string to parse
- * @returns The validated region or the default region if invalid
+ * @param regionString - The region string to convert
+ * @returns The corresponding region if valid, otherwise the default region
  */
-export const parseRegion = (region?: string): Region => {
-    return region && validateRegion(region)
-        ? region // Valid region
-        : defaultRegion // Fallback
+export const stringToRegion = (regionString: string): Region => {
+    return validateRegion(regionString) ? regionString : defaultRegion
 }

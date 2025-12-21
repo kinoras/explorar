@@ -5,7 +5,7 @@ import { notFound } from 'next/dist/client/components/navigation'
 import { LocationLayout, LocationLayoutSkeleton } from '@/components/layout/location'
 import { DialogContent } from '@/components/ui/dialog'
 
-import { getLocationById } from '@/services/location/single'
+import { getLocationById } from '@/services/location'
 
 import { cn } from '@/lib/utils'
 

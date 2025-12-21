@@ -2,9 +2,9 @@ import type { ComponentProps } from 'react'
 
 import { Separator } from '@/components/ui/separator'
 
-import type { Location } from '@/services/location/utils'
-
 import { cn } from '@/lib/utils'
+
+import type { Location } from '@/types/location'
 
 import { LocationCarousel, LocationCarouselSkeleton } from './carousel'
 import { LocationContact, LocationContactSkeleton } from './contact'
@@ -43,7 +43,13 @@ const LocationLayout = ({
         <LocationCarousel images={images} />
 
         <div className={blockStyles.content}>
-            <LocationMeta name={name} category={category.name} rating={rating} address={address} />
+            <LocationMeta
+                name={name}
+                category={category.name}
+                ratingNumber={rating?.value}
+                ratingString={rating?.formatted}
+                address={address}
+            />
             <Separator />
             {description && <LocationDescription description={description} />}
             {coordinates && <LocationMap coordinates={coordinates} />}

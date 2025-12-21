@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { LocationLayout, LocationLayoutSkeleton } from '@/components/layout/location'
 
-import { getLocationById } from '@/services/location/single'
+import { getLocationById } from '@/services/location'
 
 import { LocationPageHeader } from './header'
 

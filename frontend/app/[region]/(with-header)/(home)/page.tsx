@@ -11,8 +11,8 @@ import {
     ShelfTitle
 } from '@/components/ui/shelf'
 
-import { parseSortOption } from '@/services/location/sort'
-import { parseRegion } from '@/services/region'
+import { stringToLocationSortOption } from '@/services/location-utils'
+import { stringToRegion } from '@/services/region'
 
 import { unifySearchParam } from '@/lib/utils'
 
@@ -22,8 +22,11 @@ import { LocationsActions } from './locations-actions'
 
 const Home = async ({ params, searchParams }: PageProps<'/[region]'>) => {
     // Extract and parse page props
-    const region = await params.then(({ region }) => parseRegion(region))
-    const sort = await searchParams.then(({ sort }) => parseSortOption(unifySearchParam(sort)[0]))
+    const { region: _region } = await params
+    const { sort: _sort } = await searchParams
+
+    const region = stringToRegion(_region)
+    const sort = stringToLocationSortOption(unifySearchParam(_sort)[0])
 
     return (
         <main>

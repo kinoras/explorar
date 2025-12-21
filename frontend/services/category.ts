@@ -1,68 +1,55 @@
 import { getCategories } from '@/integrations/client'
 
-import { defaultCategory } from '@/lib/config'
+import { defaultCategoryKey } from '@/lib/config'
+import { categories } from '@/lib/const'
 
-import type { Region } from './region'
+import type { Category, CategoryKey } from '@/types/category'
+import type { Region } from '@/types/region'
 
-type Category = string
-type CategoryDetail = { name: string; image: string }
-
-export const categoryDetails: Record<Category, CategoryDetail> = {
-    entertainment: {
-        name: 'Entertainment',
-        image: '/assets/background/category-entertainment.webp' // https://unsplash.com/photos/TnwP3VdUCUA
-    },
-    landmarks: {
-        name: 'Landmarks',
-        image: '/assets/background/category-landmarks.webp' // https://unsplash.com/photos/8GIsOVL_rlY
-    },
-    museums: {
-        name: 'Museums',
-        image: '/assets/background/category-museums.webp' // https://unsplash.com/photos/PWzUSxpeI8o
-    },
-    shopping: {
-        name: 'Shopping',
-        image: '/assets/background/category-shopping.webp' // https://unsplash.com/photos/jo8C9bt3uo8
-    },
-
-    // Fallback category
-    uncategorised: {
-        name: 'Uncategorised',
-        image: '' // No image
-    }
+/**
+ * Checks if a given string is a valid CategoryKey (appears in `categories`).
+ *
+ * @param key - The category key string to look up
+ * @returns True if the key is a valid category key, false otherwise
+ */
+const validateCategoryKey = (keyString: string): keyString is CategoryKey => {
+    return keyString in categories
 }
 
-export type CategoryObject = {
-    key: Category
-    name: string
-    image: string
+/**
+ * Converts a category key to its corresponding category object.
+ *
+ * @param key - The category key to look up
+ * @returns The corresponding category object
+ */
+const categoryKeyToObject = (key: CategoryKey): Category => {
+    const details = categories[key]
+    return { key, ...details }
+}
+
+/**
+ * Converts a string as a CategoryKey to a Category object.
+ *
+ * @param keyString - The category key string to look up
+ * @returns The corresponding category object, or the default category if not found
+ */
+export const stringToCategory = (keyString: string): Category => {
+    const key = validateCategoryKey(keyString) ? keyString : defaultCategoryKey
+    return categoryKeyToObject(key)
 }
 
 /**
  * Fetches categories available in a region.
  *
  * @param region - The region to fetch categories for
- * @returns Array of category objects with key, name, and image
+ * @returns Array of categories in the given region
  */
-export const getCategoriesByRegion = async (region: Region): Promise<CategoryObject[]> => {
-    // Fetch categories of the specified region
-    const categories = (await getCategories({ query: { region } })).data
+export const getCategoriesByRegion = async (region: Region): Promise<Category[]> => {
+    // Fetch categories (keys) of the specified region
+    const regionCategories = (await getCategories({ query: { region } })).data ?? []
 
-    // Return only the category details that are present in the fetched categories
-    return Object.entries(categoryDetails)
-        .map(([key, value]) => ({ key, ...value }))
-        .filter((category) => categories?.includes(category.key))
-}
-
-/**
- * Gets category details by category key.
- *
- * @param key - The category key to look up
- * @returns Category details object
- */
-export const getCategoryByKey = (key: Category): CategoryObject => {
-    const details = categoryDetails[key]
-    return details
-        ? { key, ...details }
-        : { key: defaultCategory, ...categoryDetails[defaultCategory] }
+    // Return the categories as Category objects
+    return regionCategories
+        .filter(validateCategoryKey) // Ensure valid category keys
+        .map((keyString) => stringToCategory(keyString)) // Convert to Category objects
 }

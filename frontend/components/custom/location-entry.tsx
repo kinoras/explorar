@@ -5,9 +5,6 @@ import { RegionLink } from '@/components/atoms/region-link'
 import { SmartImage } from '@/components/atoms/smart-image'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import type { CategoryObject } from '@/services/category'
-import { formatRatingNumber } from '@/services/location/utils'
-
 import { cn } from '@/lib/utils'
 
 const LocationEntry = ({
@@ -16,7 +13,8 @@ const LocationEntry = ({
     image,
     name,
     description,
-    rating,
+    ratingNumber = 0,
+    ratingString = 'N/A',
     category,
     ...props
 }: Omit<ComponentProps<typeof RegionLink>, 'href'> & {
@@ -24,8 +22,9 @@ const LocationEntry = ({
     image?: string
     name?: string
     description?: string
-    rating?: number
-    category: CategoryObject
+    ratingNumber?: number
+    ratingString?: string
+    category?: string
 }) => {
     return (
         <RegionLink
@@ -46,10 +45,10 @@ const LocationEntry = ({
                 <h3 className="line-clamp-1 font-medium">{name}</h3>
                 <p className="line-clamp-2 text-sm text-neutral-500">{description}</p>
                 <div className="flex items-center gap-1 text-xs text-neutral-500">
-                    <span className="tabular-nums">{formatRatingNumber(rating)}</span>
-                    <RatingStars rating={rating ?? 0} className="[&_svg]:size-3" />
+                    <span className="tabular-nums">{ratingString}</span>
+                    <RatingStars rating={ratingNumber} className="[&_svg]:size-3" />
                     <span>·</span>
-                    <span>{category.name}</span>
+                    <span>{category}</span>
                 </div>
             </div>
         </RegionLink>
