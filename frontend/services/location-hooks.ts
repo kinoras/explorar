@@ -1,0 +1,37 @@
+import useSWR from 'swr'
+
+import { isPresent } from '@/lib/utils'
+
+import type { Location, LocationID } from '@/types/location'
+
+import { getLocationById } from './location'
+
+/**
+ * Hook to fetch multiple locations by their IDs.
+ *
+ * @param ids - Array of location IDs to fetch
+ * @returns An object containing the locations, loading state, and any error encountered.
+ */
+export const useLocations = (
+    ids: LocationID[]
+): {
+    /** Array of fetched locations, sorted by their IDs. */
+    locations: Location[]
+    /** Indicates whether the data is currently being loaded. */
+    loading: boolean
+    /** Any error encountered during fetching. */
+    error: any
+} => {
+    const sortedIds = ids.toSorted()
+
+    const { data, error, isLoading } = useSWR(
+        ['itinerary-locations', sortedIds.join(',')], // SWR key
+        () => Promise.all(sortedIds.map(getLocationById)) // Fetcher
+    )
+
+    return {
+        locations: (data ?? []).filter(isPresent),
+        loading: isLoading,
+        error
+    }
+}

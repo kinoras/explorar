@@ -1,7 +1,7 @@
 import { getPlaces } from '@/integrations/client'
 import { getPlacesById } from '@/integrations/client'
 
-import type { Location, LocationSortOption } from '@/types/location'
+import type { Location, LocationID, LocationSortOption } from '@/types/location'
 import type { Region } from '@/types/region'
 
 import { placeToLocation } from './location-utils'
@@ -32,9 +32,9 @@ export const getLocationsByRegion = async (
  * Get a single location by its ID.
  *
  * @param id - The ID of the location to fetch
- * @returns The place with the specified ID or undefined if not found
+ * @returns The location with the specified ID or undefined if not found
  */
-export const getLocationById = async (id: number): Promise<Location | undefined> => {
+export const getLocationById = async (id: LocationID): Promise<Location | undefined> => {
     // Fetch place with the specified ID
     const place = (await getPlacesById({ path: { id } })).data
 

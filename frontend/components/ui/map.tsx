@@ -436,7 +436,7 @@ const MapLayersControl = ({
 }
 
 const MapMarker = ({
-    icon = <FontAwesomeIcon icon={faLocationDot} size='xl' />,
+    icon = <FontAwesomeIcon icon={faLocationDot} size="xl" />,
     iconAnchor = [12, 12],
     bgPos,
     popupAnchor,

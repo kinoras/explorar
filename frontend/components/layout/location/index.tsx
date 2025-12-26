@@ -25,6 +25,7 @@ const Spacer = () => <span className={blockStyles.spacer} />
 
 const LocationLayout = ({
     location: {
+        id,
         name,
         description,
         category,
@@ -59,7 +60,7 @@ const LocationLayout = ({
 
         <Spacer />
 
-        <LocationFooter />
+        <LocationFooter id={id} />
     </div>
 )
 
