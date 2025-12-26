@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { DataList, DataListSkeleton } from '@/components/atoms/data-list'
-import { DataSection, DataSectionSkeleton } from '@/components/atoms/data-section'
+import { DataList, DataListSkeleton } from '../_components/list'
+import { DataSection, DataSectionSkeleton } from '../_components/section'
 
 const PhoneLink = ({ phone }: { phone: string }) => (
     <Link href={`tel:${phone}`} className="text-theme tabular-nums">

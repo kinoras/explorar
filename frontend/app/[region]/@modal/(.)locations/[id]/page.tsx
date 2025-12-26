@@ -1,13 +1,13 @@
 import { Suspense } from 'react'
 
-import { notFound } from 'next/dist/client/components/navigation'
-
-import { LocationLayout, LocationLayoutSkeleton } from '@/components/layout/location'
 import { DialogContent } from '@/components/ui/dialog'
 
-import { getLocationById } from '@/services/location'
-
 import { cn } from '@/lib/utils'
+
+import {
+    LocationContent,
+    LocationContentSkeleton
+} from '@/app/[region]/(no-header)/locations/[id]/content'
 
 import { LocationModalHeader } from './header'
 import { LocationModalShell } from './shell'
@@ -26,21 +26,12 @@ const LocationModal = async ({ params }: PageProps<'/[region]/locations/[id]'>) 
             >
                 <LocationModalHeader title="Location Details" />
 
-                <Suspense fallback={<LocationLayoutSkeleton />}>
+                <Suspense fallback={<LocationContentSkeleton />}>
                     <LocationContent id={Number(id)} />
                 </Suspense>
             </DialogContent>
         </LocationModalShell>
     )
-}
-
-const LocationContent = async ({ id }: { id: number }) => {
-    const location = await getLocationById(id)
-
-    // Location not found
-    if (!location) notFound()
-
-    return <LocationLayout location={location} />
 }
 
 export default LocationModal

@@ -1,5 +1,6 @@
-import { DataSection, DataSectionSkeleton } from '@/components/atoms/data-section'
 import { Skeleton } from '@/components/ui/skeleton'
+
+import { DataSection, DataSectionSkeleton } from '../_components/section'
 
 const LocationDescription = ({ description }: { description: string }) => (
     <DataSection title="About">

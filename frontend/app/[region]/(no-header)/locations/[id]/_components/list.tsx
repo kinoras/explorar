@@ -1,8 +1,8 @@
 import type { ComponentProps, ReactNode } from 'react'
 
-import { cn } from '@/lib/utils'
+import { Skeleton } from '@/components/ui/skeleton'
 
-import { Skeleton } from '../ui/skeleton'
+import { cn } from '@/lib/utils'
 
 const DataList = ({
     ratio = '1:2',

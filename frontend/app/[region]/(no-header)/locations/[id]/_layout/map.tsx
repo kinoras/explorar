@@ -1,6 +1,7 @@
-import { DataSection, DataSectionSkeleton } from '@/components/atoms/data-section'
 import { Map, MapMarker, MapTileLayer, MapZoomControl } from '@/components/ui/map'
 import { Skeleton } from '@/components/ui/skeleton'
+
+import { DataSection, DataSectionSkeleton } from '../_components/section'
 
 const LocationMap = ({ coordinates }: { coordinates: [number, number] }) => {
     return (
