@@ -5,7 +5,7 @@ import { validateRegion } from '@/services/region'
 import { defaultRegion } from '@/lib/config'
 import { RegionProvider } from '@/lib/context'
 
-const RegionLayout = async ({ children, modal, params }: LayoutProps<'/[region]'>) => {
+const RegionLayout = async ({ children, modal, sheet, params }: LayoutProps<'/[region]'>) => {
     const { region } = await params
 
     // If the region is invalid, redirect to the default region
@@ -16,6 +16,7 @@ const RegionLayout = async ({ children, modal, params }: LayoutProps<'/[region]'
     return (
         <RegionProvider region={region}>
             {modal}
+            {sheet}
             {children}
         </RegionProvider>
     )

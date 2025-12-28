@@ -1,10 +1,13 @@
-import { ItineraryContent } from './content'
-import { ItineraryPageHeader } from './header'
+import { NaviButton } from '@/components/atoms/navi-button'
+
+import { ItineraryContent, ItineraryHeader } from '.'
 
 const ItineraryPage = () => {
     return (
         <>
-            <ItineraryPageHeader />
+            <ItineraryHeader>
+                <NaviButton appearance="back" href="/" />
+            </ItineraryHeader>
             <ItineraryContent />
         </>
     )

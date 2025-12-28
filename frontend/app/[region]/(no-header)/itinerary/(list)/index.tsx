@@ -1,6 +1,10 @@
 'use client'
 
+import type { ComponentProps } from 'react'
+
 import dayjs from 'dayjs'
+
+import { PageHeader } from '@/components/custom/page-header'
 
 import { useItineraryList } from '@/services/itinerary'
 import { useLocations } from '@/services/location-hooks'
@@ -31,4 +35,11 @@ const ItineraryContent = () => {
     )
 }
 
-export { ItineraryContent }
+const ItineraryHeader = ({
+    children: closeButton,
+    ...props
+}: ComponentProps<typeof PageHeader>) => {
+    return <PageHeader {...props}>{closeButton}</PageHeader>
+}
+
+export { ItineraryContent, ItineraryHeader }
