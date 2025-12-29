@@ -36,7 +36,7 @@ export const stringToLocationSortOption = (optionString: string): LocationSortOp
  */
 export const placeToLocation = (place: Place): Location => {
     return {
-        id: place.id ?? -1, // In theory should always be present
+        id: place.id?.toString() ?? '', // In theory should always be present
         name: place.name ?? 'Mysterious Place',
         category: stringToCategory(place.category ?? ''),
         description: place.description?.content,

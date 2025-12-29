@@ -36,7 +36,7 @@ export const getLocationsByRegion = async (
  */
 export const getLocationById = async (id: LocationID): Promise<Location | undefined> => {
     // Fetch place with the specified ID
-    const place = (await getPlacesById({ path: { id } })).data
+    const place = (await getPlacesById({ path: { id: parseInt(id) } })).data
 
     return place
         ? placeToLocation(place) // Convert to Location object

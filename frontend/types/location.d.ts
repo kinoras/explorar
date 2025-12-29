@@ -24,7 +24,7 @@ type DailyHours = {
 export type WeeklyHours = Record<number, DailyHours | undefined>
 
 /** Unique identifier type for a location. */
-export type LocationID = number
+export type LocationID = string
 
 /** Location details object. */
 export type Location = {
