@@ -1,7 +1,9 @@
 import { useItineraryStore } from '@/store'
+import { isLocationInItinerary } from '@/store/utils'
 
-import { LocationID } from '@/types/location'
-import { Region } from '@/types/region'
+import type { Itinerary } from '@/types/itinerary'
+import type { LocationID } from '@/types/location'
+import type { Region } from '@/types/region'
 
 /**
  * Hook to manage a specific location in the itinerary for a given region.
@@ -17,7 +19,7 @@ export const useItineraryItem = (
     const { itineraries, addLocation, removeLocation } = useItineraryStore()
     return [
         // Whether the location is in the itinerary list
-        itineraries[region].includes(location),
+        isLocationInItinerary(itineraries[region], location),
         // Append the location to the itinerary list
         () => addLocation(region, location),
         // Remove the location from the itinerary list
@@ -31,7 +33,7 @@ export const useItineraryItem = (
  * @param region - The region of the itinerary list
  * @returns An object containing the itinerary list of location IDs for the specified region.
  */
-export const useItineraryList = (region: Region): { itinerary: LocationID[] } => {
+export const useItineraryList = (region: Region): { itinerary: Itinerary } => {
     const { itineraries } = useItineraryStore()
     return { itinerary: itineraries[region] }
 }

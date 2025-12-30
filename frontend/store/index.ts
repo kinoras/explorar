@@ -1,15 +1,27 @@
+import dayjs from 'dayjs'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { stringToDate } from '@/services/date'
+
+import type { Itinerary } from '@/types/itinerary'
 import type { LocationID } from '@/types/location'
 import type { Region } from '@/types/region'
 
-interface ItineraryState {
-    /** Lists of location IDs for each region */
-    itineraries: Record<Region, LocationID[]>
+import {
+    addLocationToItinerary,
+    createEmptyItinerary,
+    isLocationInItinerary,
+    mergeDailyItineraries,
+    removeLocationFromItinerary
+} from './utils'
+
+type ItineraryState = {
+    /** Itineraries for each region */
+    itineraries: Record<Region, Itinerary>
 }
 
-interface ItineraryActions {
+type ItineraryActions = {
     /** Add a location to the region's itinerary */
     addLocation: (region: Region, location: LocationID) => void
 
@@ -19,26 +31,29 @@ interface ItineraryActions {
     /** Clear all locations for a specific region */
     clearLocations: (region: Region) => void
 
-    /** Set the locations for a region's itinerary */
-    reorderLocations: (region: Region, locations: LocationID[]) => void
+    /** Change the start and end dates of the itinerary for a specific region */
+    changeDates: (region: Region, start: string, end: string) => void
 }
 
 type ItineraryStore = ItineraryState & ItineraryActions
 
 export const useItineraryStore = create<ItineraryStore>()(
     persist(
-        (set, get) => ({
-            itineraries: { hk: [], mo: [] }, // Initial state
+        (set) => ({
+            itineraries: {
+                hk: createEmptyItinerary(),
+                mo: createEmptyItinerary()
+            },
 
             addLocation: (region, location) =>
                 set((state) => {
                     // Don't add if already exists
-                    if (state.itineraries[region].includes(location)) return state
+                    if (isLocationInItinerary(state.itineraries[region], location)) return state
 
                     return {
                         itineraries: {
                             ...state.itineraries,
-                            [region]: [...state.itineraries[region], location]
+                            [region]: addLocationToItinerary(state.itineraries[region], location)
                         }
                     }
                 }),
@@ -47,7 +62,7 @@ export const useItineraryStore = create<ItineraryStore>()(
                 set((state) => ({
                     itineraries: {
                         ...state.itineraries,
-                        [region]: state.itineraries[region].filter((id) => id !== location)
+                        [region]: removeLocationFromItinerary(state.itineraries[region], location)
                     }
                 })),
 
@@ -55,15 +70,24 @@ export const useItineraryStore = create<ItineraryStore>()(
                 set((state) => ({
                     itineraries: {
                         ...state.itineraries,
-                        [region]: []
+                        [region]: createEmptyItinerary(
+                            state.itineraries[region].start, // Preserve start date
+                            state.itineraries[region].locations.length // Preserve duration (number of days)
+                        )
                     }
                 })),
 
-            reorderLocations: (region, locations) =>
+            changeDates: (region, start, end) =>
                 set((state) => ({
                     itineraries: {
                         ...state.itineraries,
-                        [region]: locations
+                        [region]: {
+                            start: stringToDate(start),
+                            locations: mergeDailyItineraries(
+                                state.itineraries[region].locations, // Locations
+                                dayjs(end).diff(dayjs(start), 'day') + 1 // Duration: both ends inclusive
+                            )
+                        }
                     }
                 }))
         }),

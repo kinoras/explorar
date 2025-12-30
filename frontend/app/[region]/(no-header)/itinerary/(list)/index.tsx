@@ -17,22 +17,25 @@ import { ItineraryLocations, ItineraryLocationsSkeleton } from './_layout/locati
 const ItineraryContent = () => {
     const { region } = useRegion()
     const { itinerary } = useItineraryList(region)
-    const { locations, loading } = useLocations(itinerary)
+
+    // Fetch details for all locations in the itinerary
+    const { locations, loading } = useLocations(itinerary.locations.flat())
 
     if (loading) {
         // Show fallback while loading
         return <ItineraryLocationsSkeleton />
     }
 
-    return (
+    return itinerary.locations.map((dailyLocations, index) => (
         <ItineraryLocations
-            day={1}
-            date={dayjs().toString()}
-            locations={itinerary
+            key={index}
+            day={index + 1}
+            date={dayjs(itinerary.start).add(index, 'day').format('YYYY-MM-DD')}
+            locations={dailyLocations
                 .map((locId) => locations.find((loc) => loc.id === locId))
                 .filter(isPresent)}
         />
-    )
+    ))
 }
 
 const ItineraryHeader = ({
