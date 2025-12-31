@@ -6,9 +6,11 @@ import { PageHeader } from '@/components/custom/page-header'
 
 import { getLocationById } from '@/services/location'
 
+import type { LocationID } from '@/types/location'
+
 import { LocationLayout, LocationLayoutSkeleton } from './_layout'
 
-const LocationContent = async ({ id }: { id: number }) => {
+const LocationContent = async ({ id }: { id: LocationID }) => {
     const location = await getLocationById(id)
 
     // Location not found

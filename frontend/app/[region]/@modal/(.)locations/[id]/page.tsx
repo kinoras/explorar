@@ -17,7 +17,7 @@ const LocationModal = async ({ params }: PageProps<'/[region]/locations/[id]'>) 
                 <ModalCloseButton />
             </LocationHeader>
             <Suspense fallback={<LocationContentSkeleton />}>
-                <LocationContent id={Number(id)} />
+                <LocationContent id={id} />
             </Suspense>
         </ModalLayout>
     )

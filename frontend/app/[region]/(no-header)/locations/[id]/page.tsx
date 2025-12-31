@@ -13,7 +13,7 @@ const LocationPage = async ({ params }: PageProps<'/[region]/locations/[id]'>) =
                 <NaviButton appearance="back" href="/" />
             </LocationHeader>
             <Suspense fallback={<LocationContentSkeleton />}>
-                <LocationContent id={Number(id)} />
+                <LocationContent id={id} />
             </Suspense>
         </>
     )
