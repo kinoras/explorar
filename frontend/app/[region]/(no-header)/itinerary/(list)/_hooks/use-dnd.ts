@@ -10,7 +10,7 @@ import {
     useSensor,
     useSensors
 } from '@dnd-kit/core'
-import { sortableKeyboardCoordinates as coordinateGetter } from '@dnd-kit/sortable'
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 
 import type { DailyItinerary } from '@/types/itinerary'
 
@@ -26,7 +26,7 @@ export const useItineraryDnd = (
 
     const sensors = useSensors(
         useSensor(PointerSensor), // Mouse or touch
-        useSensor(KeyboardSensor, { coordinateGetter }) // Keyboard
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }) // Keyboard
     )
 
     // Check if the given unique id is a day id (i.e., not a location id)

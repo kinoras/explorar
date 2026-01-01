@@ -50,7 +50,7 @@ export const useItineraryDuration = (
     const { itineraries, changeDates } = useItineraryStore()
     const { start: _start, locations } = itineraries[region]
 
-    const start = stringToDate(_start) // Format ensurance
+    const start = stringToDate(_start) // Format assurance
 
     return {
         start,
@@ -72,11 +72,11 @@ export const useItineraryList = (
     itinerary: DailyItinerary[]
     /** Function to arrange a location within the itinerary */
     arrangeLocation: (location: LocationID, day: number, index: number) => void
-} & { itinerary: { date: string; locations: LocationID[] }[] } => {
+} => {
     const { itineraries, moveLocation } = useItineraryStore()
     const { start: _start, locations } = itineraries[region]
 
-    const start = stringToDate(_start) // Format ensurance
+    const start = stringToDate(_start) // Format assurance
 
     return {
         itinerary: locations.map((dailyLocations, index) => ({
