@@ -40,7 +40,7 @@ const Calendar = ({
             }}
             classNames={{
                 root: cn('w-fit', defaultClassNames.root),
-                months: cn('flex gap-4 flex-col md:flex-row relative', defaultClassNames.months),
+                months: cn('flex gap-4 flex-col relative', defaultClassNames.months),
                 month: cn('flex flex-col w-full gap-4', defaultClassNames.month),
                 nav: cn(
                     'flex items-center gap-1 w-full absolute top-0 inset-x-0 justify-end',
@@ -168,7 +168,7 @@ const CalendarDayButton = ({
             data-range-middle={modifiers.range_middle}
             className={cn(
                 'data-[range-middle=true]:bg-theme-accent data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none',
-                'group-data-[focused=true]/day:border-blue-400 group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10',
+                'group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-blue-400',
                 'dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal [&>span]:text-xs [&>span]:opacity-70',
                 defaultClassNames.day,
                 className

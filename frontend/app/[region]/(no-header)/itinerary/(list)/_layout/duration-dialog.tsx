@@ -104,7 +104,7 @@ const DurationDialog = ({
                     }}
                 />
                 <Separator />
-                <DialogFooter>
+                <DialogFooter className="sm:flex-col">
                     <Button
                         variant="theme"
                         className="rounded-xl"
