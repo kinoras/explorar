@@ -7,7 +7,7 @@ import { useMap } from 'react-leaflet'
 import { Map, MapMarker, MapTileLayer } from '@/components/ui/map'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { cn, isPresent } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 
 import type { Coordinates } from '@/types/location'
 
@@ -29,7 +29,7 @@ const MapBoundsController = ({ positions }: { positions: Coordinates[] }) => {
     return null
 }
 
-const RouteMap = ({ positions }: { positions: Array<Coordinates | undefined> }) => {
+const RouteMap = ({ positions }: { positions: { marker: number; coordinates: Coordinates }[] }) => {
     return (
         <div
             className={cn(
@@ -49,18 +49,15 @@ const RouteMap = ({ positions }: { positions: Array<Coordinates | undefined> }) 
                 scrollWheelZoom={false}
                 touchZoom={false}
             >
-                <MapBoundsController positions={positions.filter(isPresent)} />
+                <MapBoundsController positions={positions.map((pos) => pos.coordinates)} />
                 <MapTileLayer />
-                {positions.map(
-                    (coords, index) =>
-                        coords && ( // Not filtering to preserve indices
-                            <MapMarker
-                                key={index}
-                                icon={<RouteMapMarker size="sm" children={index + 1} />}
-                                position={coords}
-                            />
-                        )
-                )}
+                {positions.map(({ marker, coordinates }) => (
+                    <MapMarker
+                        key={marker}
+                        icon={<RouteMapMarker size="sm" children={marker} />}
+                        position={coordinates}
+                    />
+                ))}
             </Map>
         </div>
     )

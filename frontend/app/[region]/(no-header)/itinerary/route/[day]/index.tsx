@@ -6,9 +6,8 @@ import { useItineraryList } from '@/services/itinerary'
 import { useLocations } from '@/services/location-hooks'
 
 import { useRegion } from '@/lib/context'
-import { isPresent } from '@/lib/utils'
 
-import { RouteMap, RouteMapSkeleton } from './_layout/map'
+import { RouteLayout, RouteLayoutSkeleton } from './_layout'
 import { RouteHeader } from './header'
 
 const RouteContent = ({ day }: { day: number }) => {
@@ -23,22 +22,14 @@ const RouteContent = ({ day }: { day: number }) => {
 
     // Fetch details for the locations in the itinerary
     const { date, locations: locationIds } = dailyItinerary
-    const { locations: locationDetails, loading: locationsLoading } = useLocations(locationIds)
-
-    const locations = locationIds
-        .map((locId) => locationDetails.find((loc) => loc.id === locId))
-        .filter(isPresent)
+    const { locations, loading: locationsLoading } = useLocations(locationIds)
 
     // Show fallback while loading
     if (locationsLoading) {
-        return <RouteMapSkeleton />
+        return <RouteLayoutSkeleton />
     }
 
-    return (
-        <main>
-            <RouteMap positions={locations.map((loc) => loc.position.coordinates)} />
-        </main>
-    )
+    return <RouteLayout locationIds={locationIds} locations={locations} />
 }
 
 export { RouteContent, RouteHeader }
