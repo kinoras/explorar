@@ -1,0 +1,43 @@
+{
+  "id": 9,
+  "name": "香港動植物公園",
+  "description": {
+    "content": "香港動植物公園是香港歷史最悠久的公園。公園佔地5.6公頃，分為東、西部分，兩者由一條行人隧道連接。公園東面部分稱為「舊公園」，設有兒童遊樂場、鳥舍、溫室及噴水池平台花園；西面部分稱為「新公園」，主要是哺乳類和爬行類動物的居所。除了欣賞動植物外，遊人也可於園中的古蹟徑漫步，參觀七個別具歷史意義的景點。",
+    "source": "tripadvisor"
+  },
+  "region": "hong-kong",
+  "category": "nature",
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "06:00", "close": "19:00" },
+      { "day": 2, "open": "06:00", "close": "19:00" },
+      { "day": 3, "open": "06:00", "close": "19:00" },
+      { "day": 4, "open": "06:00", "close": "19:00" },
+      { "day": 5, "open": "06:00", "close": "19:00" },
+      { "day": 6, "open": "06:00", "close": "19:00" },
+      { "day": 7, "open": "06:00", "close": "19:00" }
+    ]
+  },
+  "location": {
+    "address": "香港 中環雅賓利道",
+    "latitude": 22.27757728136781,
+    "longitude": 114.1558608469914
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/07/da/9c/f8/hong-kong-zoological.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/13/9e/c1/00/hk-park-3-01-largejpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/1b/ee/de/57/flamingos-at-the-hong.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/1b/55/18/54/hong-kong-zoological.jpg",
+    "https://media-cdn.tripadvisor.com/media/daodao/photo-o/18/c9/e1/43/mg-4261-largejpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/14/63/62/4c/statue-of-george-vi.jpg"
+  ],
+  "rating": 4.0,
+  "ranking": 56,
+  "phone": "+852 2530 0154",
+  "website": "https://www.hkzbg.gov.hk/tc/index.html",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 590811
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": 8,
+  "name": "天壇大佛",
+  "description": {
+    "content": "天壇大佛被譽為大嶼山最著名的旅遊點之一，鄰近寶蓮禪寺，由昂坪市集出發，只有約10分鐘步行距離。佛像坐南向北，可分為兩大部份，像身高26.4公尺，連蓮花座及基座總高度約34公尺，以250噸青銅，歷12年鑄造而成，展現釋迦牟尼在菩提樹下得道時的坐姿，右手展示「無畏印」代表救贖眾生痛苦的大悲心願，左手則下垂腿上，展示「予願印」，寓意予眾生福樂。",
+    "source": "tripadvisor"
+  },
+  "region": "hong-kong",
+  "category": "landmarks",
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "17:30" },
+      { "day": 2, "open": "10:00", "close": "17:30" },
+      { "day": 3, "open": "10:00", "close": "17:30" },
+      { "day": 4, "open": "10:00", "close": "17:30" },
+      { "day": 5, "open": "10:00", "close": "17:30" },
+      { "day": 6, "open": "10:00", "close": "17:30" },
+      { "day": 7, "open": "10:00", "close": "17:30" }
+    ]
+  },
+  "location": {
+    "address": "香港 大嶼山昂坪木魚峰頂",
+    "latitude": 22.25420,
+    "longitude": 113.90559
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/0e/1f/8a/27/gottinen-bringen-dem.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/0c/84/9d/9d/tian-tan-big-buddha.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/08/b5/cf/14/big-buddha.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/07/77/97/8f/big-buddha.jpg"
+  ],
+  "rating": 4.5,
+  "ranking": 3,
+  "phone": "+852 2985 5248",
+  "website": "http://www.plm.org.hk/eng/buddha.php",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 537975
+  }
+}

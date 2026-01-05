@@ -1,0 +1,41 @@
+{
+  "id": 7,
+  "name": "希慎廣場",
+  "description": {
+    "content": "希慎廣場主要面向年輕消費者，主營 Hollister、Red Valentino 和 Lululemon Athletica 等時尚流行品牌。 四樓的空中花園提供免費休息座位，您可在此欣賞香港美景。",
+    "source": "tripadvisor"
+  },
+  "region": "hong-kong",
+  "category": "shopping",
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "22:00" },
+      { "day": 2, "open": "10:00", "close": "22:00" },
+      { "day": 3, "open": "10:00", "close": "22:00" },
+      { "day": 4, "open": "10:00", "close": "22:00" },
+      { "day": 5, "open": "10:00", "close": "23:00" },
+      { "day": 6, "open": "10:00", "close": "23:00" },
+      { "day": 7, "open": "10:00", "close": "22:00" }
+    ]
+  },
+  "location": {
+    "address": "香港 銅鑼灣軒尼詩道500號",
+    "latitude": 22.279641,
+    "longitude": 114.183669
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/11/6c/dc/f8/photo5jpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/2a/a7/03/27/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/11/6c/dc/f2/photo0jpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/31/70/30/a4/caption.jpg"
+  ],
+  "rating": 4.0,
+  "ranking": 83,
+  "phone": "+852 2886 7222",
+  "website": "https://www.hysan.com.hk/portfolio/hysan-place/",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 3417522
+  }
+}
