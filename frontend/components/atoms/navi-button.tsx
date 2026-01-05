@@ -1,4 +1,4 @@
-import type { Children, ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 
 import { faChevronLeft, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
