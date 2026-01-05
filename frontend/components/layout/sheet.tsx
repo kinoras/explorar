@@ -31,7 +31,7 @@ const SheetLayout = ({ className, children, ...props }: ComponentProps<typeof Sh
                 showCloseButton={false}
                 onOpenAutoFocus={(e) => e.preventDefault()} // Disable auto focus
                 className={cn(
-                    'mx-auto h-[calc(100dvh-24px)] max-w-md',
+                    'mx-auto h-[calc(100dvh-24px)] max-w-md border-t-0',
                     'gap-0 overflow-y-scroll rounded-tl-3xl rounded-tr-3xl',
                     className
                 )}

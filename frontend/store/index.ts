@@ -36,12 +36,7 @@ type ItineraryActions = {
     changeDates: (region: Region, start: string, end: string) => void
 
     /** Move a location within the itinerary */
-    moveLocation: (
-        region: Region,
-        location: LocationID,
-        destDay: number,
-        destIndex: number
-    ) => void
+    moveLocation: (region: Region, location: LocationID, destDay: number, destIndex: number) => void
 }
 
 type ItineraryStore = ItineraryState & ItineraryActions

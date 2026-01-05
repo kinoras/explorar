@@ -23,7 +23,7 @@ const LocationContentSkeleton = LocationLayoutSkeleton
 
 const LocationHeader = ({ children: closeButton, ...props }: ComponentProps<typeof PageHeader>) => {
     return (
-        <PageHeader floating {...props}>
+        <PageHeader floating masking={200} {...props}>
             {closeButton}
         </PageHeader>
     )

@@ -1,10 +1,13 @@
 import type { CategoryDetails, CategoryKey } from '@/types/category'
 import type { LocationSortOption } from '@/types/location'
 import type { Region } from '@/types/region'
+import type { TransitMethod } from '@/types/route'
 
 export const supportedRegions: Region[] = ['hk', 'mo'] as const
 
 export const locationSortOptions: LocationSortOption[] = ['ranking', 'rating'] as const
+
+export const transitMethods: TransitMethod[] = ['transit', 'driving', 'walking'] as const
 
 export const categories: Record<CategoryKey, CategoryDetails> = {
     entertainment: {

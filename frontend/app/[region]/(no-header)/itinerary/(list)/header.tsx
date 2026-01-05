@@ -20,7 +20,7 @@ const ItineraryHeader = ({
     const { start, end, setDuration } = useItineraryDuration(region)
 
     return (
-        <PageHeader {...props}>
+        <PageHeader floating masking={240} {...props}>
             {closeButton}
 
             {/* Duration picker */}

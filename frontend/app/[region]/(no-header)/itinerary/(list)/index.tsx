@@ -7,13 +7,11 @@ import { useItineraryList } from '@/services/itinerary'
 import { useLocations } from '@/services/location-hooks'
 
 import { useRegion } from '@/lib/context'
-import { isPresent } from '@/lib/utils'
 
-import { DragHandle } from './_components/drag-handle'
-import { ItineraryLocation } from './_components/location'
 import { locationToItineraryLocationProps } from './_components/location-utils'
+import { SortableItineraryLocationOverlay } from './_components/sortable-location'
 import { useItineraryDnd } from './_hooks/use-dnd'
-import { ItineraryLocations, ItineraryLocationsSkeleton } from './_layout/locations'
+import { ItineraryLayout, ItineraryLayoutSkeleton } from './_layout'
 import { ItineraryHeader } from './header'
 
 const ItineraryContent = () => {
@@ -28,7 +26,7 @@ const ItineraryContent = () => {
 
     if (loading) {
         // Show fallback while loading
-        return <ItineraryLocationsSkeleton />
+        return <ItineraryLayoutSkeleton />
     }
 
     const activeLocation = activeId ? details.find((loc) => loc.id === activeId) : null
@@ -42,30 +40,15 @@ const ItineraryContent = () => {
             onDragEnd={handleDragEnd}
             modifiers={[restrictToVerticalAxis]}
         >
-            <div className="mb-6 flex flex-col gap-6">
-                {itinerary.map(({ date, locations }, index) => (
-                    <ItineraryLocations
-                        key={date}
-                        day={index + 1}
-                        date={date}
-                        locations={locations
-                            .map((locId) => details.find((loc) => loc.id === locId))
-                            .filter(isPresent)}
-                    />
-                ))}
-            </div>
+            <ItineraryLayout itinerary={itinerary} details={details} />
             <DragOverlay>
                 {activeLocation && (
-                    <div className="after:border-border relative flex after:absolute after:-inset-2.25 after:z-[-1] after:rounded-[20px] after:border after:bg-white">
-                        <ItineraryLocation
-                            className="flex-1"
-                            {...locationToItineraryLocationProps(
-                                activeLocation,
-                                findContainer(activeId!)! // Date of the container
-                            )}
-                        />
-                        <DragHandle />
-                    </div>
+                    <SortableItineraryLocationOverlay
+                        {...locationToItineraryLocationProps(
+                            activeLocation,
+                            findContainer(activeId!)! // Date of the container
+                        )}
+                    />
                 )}
             </DragOverlay>
         </DndContext>

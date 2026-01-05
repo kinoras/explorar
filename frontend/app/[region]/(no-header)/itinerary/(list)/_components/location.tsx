@@ -46,7 +46,7 @@ const ItineraryLocation = ({
             alt={name ?? ''}
             height={60}
             width={60}
-            className="size-15 rounded-xl object-cover"
+            className="size-15 shrink-0 rounded-xl object-cover"
         />
         {/* Content */}
         <div className="flex flex-col gap-0.75 leading-tight">

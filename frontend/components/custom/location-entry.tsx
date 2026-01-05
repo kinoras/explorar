@@ -38,7 +38,7 @@ const LocationEntry = ({
                 alt={name ?? ''}
                 height={80}
                 width={80}
-                className="size-20 rounded-xl object-cover"
+                className="size-20 shrink-0 rounded-xl object-cover"
             />
             {/* Text content */}
             <div className="flex flex-col gap-0.5 **:leading-snug">

@@ -15,6 +15,7 @@ const buttonConfig = {
 
 const NaviButton = ({
     appearance = 'close',
+    children,
     href,
     className,
     ...props
@@ -25,7 +26,7 @@ const NaviButton = ({
     const { icon, label } = buttonConfig[appearance]
 
     const isLink = href !== undefined
-    const content = <FontAwesomeIcon icon={icon} size="lg" />
+    const content = children ?? <FontAwesomeIcon icon={icon} size="lg" />
 
     return (
         <Button

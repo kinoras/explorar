@@ -26,6 +26,9 @@ export type WeeklyHours = Record<number, DailyHours | undefined>
 /** Unique identifier type for a location. */
 export type LocationID = string
 
+/** Coordinates type as `[latitude, longitude]`. */
+export type Coordinates = [number, number]
+
 /** Location details object. */
 export type Location = {
     /** Unique identifier of the location. */
@@ -44,8 +47,8 @@ export type Location = {
     position: {
         /** Address of the location. */
         address: string
-        /** Coordinates of the location as `[latitude, longitude]`. */
-        coordinates: [number, number] | undefined
+        /** Coordinates of the location. */
+        coordinates: Coordinates | undefined
     }
     /** Contact details of the location. */
     contacts: {
