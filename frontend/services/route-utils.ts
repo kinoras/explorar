@@ -60,5 +60,6 @@ export const routeLegToRoute = (leg: RouteLegDto): Route => ({
             : (leg.travelMode ?? '') // Otherwise use leg travel mode
     ),
     distance: leg.distance ?? -1,
-    duration: leg.duration ?? -1
+    duration: leg.duration ?? -1,
+    polyline: leg.polyline ?? undefined
 })

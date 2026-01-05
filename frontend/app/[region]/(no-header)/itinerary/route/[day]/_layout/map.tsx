@@ -2,9 +2,10 @@
 
 import { useEffect } from 'react'
 
+import { decode } from '@googlemaps/polyline-codec'
 import { useMap } from 'react-leaflet'
 
-import { Map, MapMarker, MapTileLayer } from '@/components/ui/map'
+import { Map, MapMarker, MapPolyline, MapTileLayer } from '@/components/ui/map'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import { cn } from '@/lib/utils'
@@ -35,7 +36,24 @@ const mapStyles = cn(
     'after:bg-linear-to-b after:from-transparent after:to-white'
 )
 
-const RouteMap = ({ positions }: { positions: { marker: number; coordinates: Coordinates }[] }) => {
+const RouteMap = ({
+    positions,
+    segments: _segments
+}: {
+    /** Marker positions on the map. */
+    positions: { marker: number; coordinates: Coordinates }[]
+    /** Polyline segments representing the routes. */
+    segments: string[]
+}) => {
+    // Decode polylines
+    const segments = _segments.map((seg) => decode(seg, 5))
+
+    // Determine map bounds using coordinates
+    const bounds = [
+        ...positions.map((pos) => pos.coordinates), // Locations
+        ...segments.flat() // Route segments
+    ]
+
     return (
         <div className={mapStyles}>
             <Map
@@ -49,13 +67,20 @@ const RouteMap = ({ positions }: { positions: { marker: number; coordinates: Coo
                 scrollWheelZoom={false}
                 touchZoom={false}
             >
-                <MapBoundsController positions={positions.map((pos) => pos.coordinates)} />
+                <MapBoundsController positions={bounds} />
                 <MapTileLayer />
                 {positions.map(({ marker, coordinates }) => (
                     <MapMarker
                         key={marker}
                         icon={<RouteMapMarker size="sm" children={marker} />}
                         position={coordinates}
+                    />
+                ))}
+                {segments.map((segment, index) => (
+                    <MapPolyline
+                        key={index}
+                        className="stroke-theme fill-none stroke-3"
+                        positions={segment}
                     />
                 ))}
             </Map>

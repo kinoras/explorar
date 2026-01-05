@@ -19,4 +19,6 @@ export type Route = {
     distance: number
     /** Duration of the route (in seconds) */
     duration: number
+    /** Encoded polyline representing the route */
+    polyline?: string
 }
