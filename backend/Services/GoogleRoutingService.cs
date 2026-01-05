@@ -1,3 +1,4 @@
+using System.Globalization;
 using ExploreHKMOApi.Models;
 using Google.Api.Gax.Grpc;
 using Google.Maps.Routing.V2;
@@ -24,15 +25,32 @@ public class GoogleRoutingService : IRoutingService
             throw new ArgumentException("At least 2 places are required.");
         }
 
-        if (!System.DateTime.TryParse(request.Date, out var localDate))
+        if (!System.DateTime.TryParseExact(request.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var localDate))
         {
             throw new ArgumentException("Invalid date format, it must be YYYY-MM-DD");
         }
+        
+        TimeZoneInfo hkTimeZone;
+        try
+        {
+            hkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Hong_Kong");
+        }
+        catch
+        {
+            hkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+        }
 
-        var departureLocal = new System.DateTime(localDate.Year, localDate.Month, localDate.Day, 9, 0, 0, DateTimeKind.Unspecified);
-        var hkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+        var nowHk = TimeZoneInfo.ConvertTimeFromUtc(System.DateTime.UtcNow, hkTimeZone);
+        var todayHk = nowHk.Date;
+        
+        System.DateTime departureLocal;
+        if (localDate.Date == todayHk)
+            departureLocal = nowHk.AddMinutes(5);
+        else
+            departureLocal = new System.DateTime(localDate.Year, localDate.Month, localDate.Day, 9, 0, 0, DateTimeKind.Unspecified);
+        
         var departureUtc = TimeZoneInfo.ConvertTimeToUtc(departureLocal, hkTimeZone);
-        var departureTimestamp = Timestamp.FromDateTime(departureUtc);
+        var departureTimestamp = Timestamp.FromDateTime(System.DateTime.SpecifyKind(departureUtc, DateTimeKind.Utc));
 
         var travelMode = MapTravelMode(request.Mode);
 

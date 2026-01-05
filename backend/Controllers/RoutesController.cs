@@ -1,3 +1,4 @@
+using System.Globalization;
 using ExploreHKMOApi.Models;
 using ExploreHKMOApi.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,34 @@ public class RoutesController : ControllerBase
         [FromBody] DayRouteRequest request,
         CancellationToken cancellationToken)
     {
+
+        if (!DateTime.TryParseExact(request.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var requestDate))
+        {
+            return UnprocessableEntity(new
+            {
+                message = "錯誤的日期格式"
+            });
+        }
+
+        var hkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Hong_Kong");
+        var todayHk = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, hkTimeZone).Date;
+
+        if (requestDate.Date < todayHk)
+        {
+            return UnprocessableEntity(new
+            {
+                message = "不能搜索過去的日期",
+                inputDate = request.Date,
+                today = todayHk.ToString("yyyy-MM-dd"),
+                timezone = "Asia/Hong_Kong"
+            });
+        }
+
         if (request.PlaceIds == null || request.PlaceIds.Count < 2)
         {
             return BadRequest("需要至少兩個地點");
         }
+        
 
         var allPlaces = _placeMemory.GetAll();
         var placeMap = allPlaces.ToDictionary(p => p.Id);
