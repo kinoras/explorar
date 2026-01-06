@@ -10,7 +10,7 @@ This project uses [pnpm](https://pnpm.io/) as the package manager.
 
 1.  Clone the repository.
 
-2.  Navigate to the this directory: `cd frontend`
+2.  Navigate to this directory: `cd frontend`
 
 3.  Install dependencies: `pnpm install`
 
