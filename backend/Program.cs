@@ -13,14 +13,18 @@ if (!string.IsNullOrWhiteSpace(googleCredentialsJson) && string.IsNullOrEmpty(En
     Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filePath);
 }
 
-builder.Services.AddControllers();
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Frontend", policy =>
+    options.AddPolicy("DefaultCorsPolicy", policy =>
     {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        if (allowedOrigins is { Length: > 0})
+        {
+            policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
+        }
     });
 });
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -36,12 +40,12 @@ builder.Services.AddSingleton<IRoutingService, GoogleRoutingService>();
 
 var app = builder.Build();
 
-app.UseCors("Frontend");
+app.UseCors("DefaultCorsPolicy");
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
+    options.RoutePrefix = "docs";
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "ExploreHKMO API");
-    options.RoutePrefix = "docs"; 
 });
 
 
