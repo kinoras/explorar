@@ -2,10 +2,13 @@
 
 import { notFound } from 'next/navigation'
 
+import dayjs from 'dayjs'
+
 import { useItineraryList } from '@/services/itinerary'
 import { useLocations } from '@/services/location-hooks'
 import { useRoutes } from '@/services/route-hooks'
 
+import { getAppConfigByRegion } from '@/lib/config'
 import { useRegion } from '@/lib/context'
 
 import { useRouteMethod } from './_hooks/context'
@@ -33,7 +36,16 @@ const RouteContent = ({ day }: { day: number }) => {
         return <RouteLayoutSkeleton />
     }
 
-    return <RouteLayout locationIds={locationIds} locations={locations} routes={routes} />
+    // Generate page title
+    const { title } = getAppConfigByRegion(region)
+    const pageTitle = `Day ${day} - ${dayjs(date).format('MMM D, YYYY')} | Itinerary Routes | ${title}`
+
+    return (
+        <>
+            <title>{pageTitle}</title>
+            <RouteLayout locationIds={locationIds} locations={locations} routes={routes} />
+        </>
+    )
 }
 
 export { RouteContent, RouteHeader }

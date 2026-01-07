@@ -8,7 +8,8 @@ import Image from 'next/image'
 const SmartImage = ({
     fallback,
     src,
-    ...restProps
+    alt,
+    ...props
 }: ComponentProps<typeof Image> & {
     /** Fallback src if the main src fails to load. */
     fallback?: typeof src
@@ -23,7 +24,8 @@ const SmartImage = ({
         <Image
             src={error && fallback ? fallback : src} // Show fallback on src load error if provided
             onError={() => setError(true)}
-            {...restProps}
+            alt={alt}
+            {...props}
         />
     )
 }

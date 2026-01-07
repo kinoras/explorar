@@ -1,2 +1,3 @@
 // Render nothing when closed
-export default () => null
+const Default = () => null
+export default Default

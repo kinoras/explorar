@@ -31,7 +31,7 @@ const ModalLayout = ({ className, children, ...props }: ComponentProps<typeof Di
                 showCloseButton={false}
                 onOpenAutoFocus={(e) => e.preventDefault()} // Disable auto focus
                 className={cn(
-                    'max-h-[calc(100dvh-96px)] w-[calc(100vw-18px)] max-w-md',
+                    'max-h-[calc(100dvh-96px)] w-[calc(100vw-18px)] max-w-104!',
                     'block! overflow-y-scroll border-none p-0!',
                     className
                 )}

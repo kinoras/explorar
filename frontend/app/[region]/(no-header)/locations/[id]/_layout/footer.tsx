@@ -32,7 +32,7 @@ const LocationFooter = ({ id }: { id: LocationID }) => {
                 suppressHydrationWarning
             >
                 <FontAwesomeIcon icon={inList ? faCheck : faPlus} />
-                <span>{inList ? 'Added to My List' : 'Add to My List'}</span>
+                <span>{inList ? 'Added to My Itinerary' : 'Add to My Itinerary'}</span>
             </Button>
         </Footer>
     )

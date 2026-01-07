@@ -47,6 +47,7 @@ const RouteLayout = ({
                         marker: item.marker,
                         coordinates: item.coordinates.current as Coordinates // Filtered above
                     }))}
+                segments={data.map((item) => item.route?.polyline).filter(isPresent)}
             />
             <ul
                 className={cn(

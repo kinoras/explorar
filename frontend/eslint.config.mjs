@@ -11,7 +11,11 @@ const eslintConfig = defineConfig([
         '.next/**',
         'out/**',
         'build/**',
-        'next-env.d.ts'
+        'next-env.d.ts',
+        // Auto-generated api clients:
+        'integrations/client/**',
+        // Third-party components:
+        'components/ui/map.tsx'
     ])
 ])
 

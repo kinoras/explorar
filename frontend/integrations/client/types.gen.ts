@@ -77,6 +77,7 @@ export type RouteLegDto = {
     duration?: number
     travelMode?: string
     steps?: Array<RouteStepDto>
+    polyline?: string | null
 }
 
 export type RouteStepDto = {

@@ -20,7 +20,7 @@ export const useLocations = (
     /** Indicates whether the data is currently being loaded. */
     loading: boolean
     /** Any error encountered during fetching. */
-    error: any
+    error: unknown
 } => {
     const sortedIds = ids.toSorted()
 

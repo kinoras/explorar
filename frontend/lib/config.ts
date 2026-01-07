@@ -8,6 +8,8 @@ type RegionalConfig = {
     name: string
     /** Page title */
     title: string
+    /** Page description */
+    description: string
     /** Logo image path */
     logo: string
     /** Decoration pattern image path */
@@ -20,6 +22,7 @@ const appConfigs: Record<Region, RegionalConfig> = {
     hk: {
         name: 'Hong Kong',
         title: 'Explore Hong Kong',
+        description: 'Discover the best of Hong Kong.',
         logo: '/assets/brand/hong-kong.svg',
         pattern: '/assets/brand/azulejo.svg',
         cover: '/assets/background/cover-hong-kong.webp' // https://unsplash.com/photos/ckxoFlEtlUc
@@ -27,6 +30,7 @@ const appConfigs: Record<Region, RegionalConfig> = {
     mo: {
         name: 'Macau',
         title: 'Explore Macau',
+        description: 'Discover the best of Macau.',
         logo: '/assets/brand/macau.svg',
         pattern: '/assets/brand/azulejo.svg',
         cover: '/assets/background/cover-macau.webp' // https://unsplash.com/photos/8Eu3HZXMYf8

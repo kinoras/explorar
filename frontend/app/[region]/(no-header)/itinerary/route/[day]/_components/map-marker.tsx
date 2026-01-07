@@ -4,8 +4,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import { cn } from '@/lib/utils'
 
-const markerStyles = ''
-
 const RouteMapMarker = ({
     size,
     className,

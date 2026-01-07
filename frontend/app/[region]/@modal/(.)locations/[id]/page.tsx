@@ -5,7 +5,8 @@ import { ModalCloseButton, ModalLayout } from '@/components/layout/modal'
 import {
     LocationContent,
     LocationContentSkeleton,
-    LocationHeader
+    LocationHeader,
+    getLocationMetadata
 } from '@/app/[region]/(no-header)/locations/[id]'
 
 const LocationModal = async ({ params }: PageProps<'/[region]/locations/[id]'>) => {
@@ -22,5 +23,9 @@ const LocationModal = async ({ params }: PageProps<'/[region]/locations/[id]'>) 
         </ModalLayout>
     )
 }
+
+// Seems not working with intercepting routes
+export const generateMetadata = async ({ params }: PageProps<'/[region]/locations/[id]'>) =>
+    getLocationMetadata((await params).id)
 
 export default LocationModal

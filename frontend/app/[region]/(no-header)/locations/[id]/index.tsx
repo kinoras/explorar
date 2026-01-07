@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react'
 
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { PageHeader } from '@/components/custom/page-header'
@@ -29,4 +30,11 @@ const LocationHeader = ({ children: closeButton, ...props }: ComponentProps<type
     )
 }
 
-export { LocationContent, LocationContentSkeleton, LocationHeader }
+const getLocationMetadata = async (id: LocationID): Promise<Metadata> => {
+    const location = await getLocationById(id)
+    return location
+        ? { title: location.name, description: location.description }
+        : { title: 'Location Not Found' }
+}
+
+export { LocationContent, LocationContentSkeleton, LocationHeader, getLocationMetadata }

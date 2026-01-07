@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'swiper/css';
+@import 'swiper/css/pagination';
 
 @custom-variant dark (&:not(*)); /* Not to support dark appearance */
 
@@ -120,7 +121,7 @@
         &[data-selected-single='true'],
         &[data-range-start='true'],
         &[data-range-end='true'] {
-            @apply bg-theme text-primary-foreground border-theme-accent rounded-full! border-3;
+            @apply bg-theme text-primary-foreground border-theme-accent hover:bg-theme/80! hover:text-primary-foreground! rounded-full! border-3;
         }
         &:last-child[data-selected='true'] {
             > button[data-range-middle='true'],
@@ -133,6 +134,13 @@
             > button[data-range-end='true'][data-range-start='false'] {
                 @apply before:from-theme-accent before:absolute before:inset-y-0 before:-left-3 before:w-3 before:bg-linear-to-l;
             }
+        }
+    }
+
+    .swiper-pagination-bullet {
+        @apply size-1.5! bg-white! opacity-50! transition-all! duration-300!;
+        &.swiper-pagination-bullet-active {
+            @apply w-12! rounded-full! opacity-100!;
         }
     }
 }

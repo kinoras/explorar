@@ -11,11 +11,7 @@ import { cn } from '@/lib/utils'
 const FloatingActionButton = ({ className, ...props }: ComponentProps<typeof Button>) => {
     return (
         <Button
-            className={cn(
-                'fixed right-4.5 bottom-4.5 z-50', // Positioning
-                'size-14 rounded-full shadow-[0_0_8px] shadow-black/10', // Appearance
-                className
-            )}
+            className={cn('size-14 rounded-full shadow-[0_0_8px] shadow-black/10', className)}
             variant="theme"
             size="icon-lg"
             asChild

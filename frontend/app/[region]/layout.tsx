@@ -1,8 +1,10 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
-import { validateRegion } from '@/services/region'
+import { stringToRegion, validateRegion } from '@/services/region'
 
 import { defaultRegion } from '@/lib/config'
+import { getAppConfigByRegion } from '@/lib/config'
 import { RegionProvider } from '@/lib/context'
 
 const RegionLayout = async ({ children, modal, sheet, params }: LayoutProps<'/[region]'>) => {
@@ -20,6 +22,15 @@ const RegionLayout = async ({ children, modal, sheet, params }: LayoutProps<'/[r
             {children}
         </RegionProvider>
     )
+}
+
+export const generateMetadata = async ({ params }: PageProps<'/[region]'>): Promise<Metadata> => {
+    const { region } = await params
+    const { title, description } = getAppConfigByRegion(stringToRegion(region))
+    return {
+        title: { default: title, template: `%s | ${title}` },
+        description: description
+    }
 }
 
 export default RegionLayout

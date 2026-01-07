@@ -2,6 +2,7 @@
 
 import type { ComponentProps } from 'react'
 
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { getAppConfigByRegion } from '@/lib/config'
@@ -21,7 +22,7 @@ const Header = ({ className, ...props }: ComponentProps<'header'>) => {
     const config = getAppConfigByRegion(region)
 
     return (
-        <header className={cn('my-6 flex items-end gap-2.5', className)} {...props}>
+        <header className={cn('mt-6 flex items-end gap-2.5', className)} {...props}>
             {/* Left azulejos */}
             <Azulejo className="basis-2 -scale-x-100" image={config.pattern} />
 
@@ -34,7 +35,7 @@ const Header = ({ className, ...props }: ComponentProps<'header'>) => {
                     `before:bg-[url('/assets/brand/explore.svg')]`
                 )}
             >
-                <img src={config.logo} className="h-6" alt="" />
+                <Image src={config.logo} className="h-6 w-auto!" height={24} width={200} alt="" />
                 <span className="sr-only">{config.title}</span>
             </Link>
 

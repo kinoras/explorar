@@ -29,7 +29,9 @@ const RouteLocation = ({
 }) => (
     <li className={cn(blockStyles.root, className)} {...props}>
         {/* Index */}
-        <RouteMapMarker size="md" className={blockStyles.marker} children={index} />
+        <RouteMapMarker size="md" className={blockStyles.marker}>
+            {index}
+        </RouteMapMarker>
 
         {/* Cover image */}
         <SmartImage

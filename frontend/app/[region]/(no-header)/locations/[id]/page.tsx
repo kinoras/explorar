@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 
 import { NaviButton } from '@/components/atoms/navi-button'
 
-import { LocationContent, LocationContentSkeleton, LocationHeader } from '.'
+import { LocationContent, LocationContentSkeleton, LocationHeader, getLocationMetadata } from '.'
 
 const LocationPage = async ({ params }: PageProps<'/[region]/locations/[id]'>) => {
     const { id } = await params
@@ -18,5 +18,8 @@ const LocationPage = async ({ params }: PageProps<'/[region]/locations/[id]'>) =
         </>
     )
 }
+
+export const generateMetadata = async ({ params }: PageProps<'/[region]/locations/[id]'>) =>
+    getLocationMetadata((await params).id)
 
 export default LocationPage
