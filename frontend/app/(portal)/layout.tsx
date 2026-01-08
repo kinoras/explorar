@@ -18,7 +18,7 @@ const PortalLayout = async ({ children }: LayoutProps<'/'>) => {
     return (
         <html lang="en">
             <body className={cn(sans.variable, mono.variable, cjk.variable)}>
-                <div id="root" className="bg-background w-full max-w-lg">
+                <div id="root" className="mx-auto w-full max-w-120 md:max-w-5xl">
                     {children}
                 </div>
             </body>

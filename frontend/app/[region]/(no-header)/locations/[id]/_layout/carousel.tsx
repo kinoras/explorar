@@ -8,7 +8,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 const LocationCarousel = ({ images }: { images: string[] }) => {
     return (
-        <Swiper className="w-full" modules={[Pagination]} pagination={{ clickable: true }}>
+        <Swiper
+            id="location-carousel"
+            className="w-full"
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+        >
             {images.map((src, index) => (
                 <SwiperSlide key={index}>
                     <SmartImage
