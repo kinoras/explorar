@@ -1,12 +1,12 @@
 # Explore Hong Kong & Macau
 
-This is the backend API for Explore Hong Kong & Macau, responsible for serving place data, categories, and generating travel routes between selected locations using Google Routes API.
+This is the backend API for **Explore Hong Kong & Macau**, responsible for serving place data, categories, and generating travel routes between selected locations using Google Routes API.
 
 ## 🛠 Project setup
 
 ### Requirements
 
-- .NET SDK 9.0+
+- .NET SDK **9.0+**
 
 - Windows/macOS/Linux
 
@@ -33,7 +33,7 @@ This is the backend API for Explore Hong Kong & Macau, responsible for serving p
 The backend uses the official Google Maps Routes API (V2) via the
 Google Cloud .NET SDK. Authentication is handled through Application Default Credentials (ADC).
 
-For those who do not know, please refer to this link: [Google Cloud](https://docs.cloud.google.com/docs/authentication/set-up-adc-local-dev-environment)
+If you are unfamiliar with ADC, please refer to this link: [Google Cloud](https://docs.cloud.google.com/docs/authentication/set-up-adc-local-dev-environment)
 
 Set the following environment variable:
 
@@ -81,8 +81,9 @@ GET `/places`
 | ------------ | ------------------------- |
 | `region`     | `hong-kong` or `macau`    |
 | `categories` | Filter by category IDs    |
-| `order`      | `ranking`, `rating`, etc. |
-| `limit`      | Limit number of results   |
+| `orderBy`    | `id`, `ranking`, `rating`, etc. |
+| `limit`      | Page size (default: 20, max: 50)   |
+| `cursor`     | ID of the first item to return on the next page |
 
 ### 2️⃣ Get place details
 GET `/places/{id}`

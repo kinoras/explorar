@@ -15,15 +15,20 @@ public class PlacesController : ControllerBase
         _memory = memory;
     }
 
-    //GET /places?region=hk&categories=entertainment&orderBy=ranking&orderDir=asc&limit=10
+    //GET /places?region=hk&categories=entertainment&orderBy=ranking&orderDir=asc&limit=10&cursor=13
     [HttpGet]
     public ActionResult<IEnumerable<Place>> GetList(
         [FromQuery] string? region,
         [FromQuery] string? categories,
         [FromQuery] string? orderBy,
         [FromQuery] string? orderDir,
-        [FromQuery] int? limit)
+        [FromQuery] int? limit,
+        [FromQuery] int? cursor)
     {
+        var pageSize = limit?? 10;
+        if (pageSize <= 0) pageSize = 10;
+        if (pageSize > 50) pageSize = 50;
+
         IEnumerable<Place> items = _memory.GetAll();
 
         if (!string.IsNullOrEmpty(region))
@@ -40,18 +45,52 @@ public class PlacesController : ControllerBase
             items = items.Where(p => set.Contains(p.Category.ToLower()));
         }
 
-        items = (orderBy ?? "Id").ToLower() switch
+        var dir = (orderDir?? "asc").ToLower();
+        var key = (orderBy?? "id"). ToLower();
+
+        items = key switch
         {
-            "rating" => ApplyOrder(items, p => p.Rating ?? 0, orderDir),
-            "name" => ApplyOrder(items, p => p.Name, orderDir),
-            "ranking" => ApplyOrder(items, p => p.Ranking ?? int.MaxValue, orderDir),
-            _ => ApplyOrder(items, p => p.Id, orderDir)
+            "rating" => ApplyOrder(items, p => p.Rating ?? 0, dir).ThenBy(p => p.Id),
+            "name" => ApplyOrder(items, p => p.Name, dir).ThenBy(p => p.Id),
+            "ranking" => ApplyOrder(items, p => p.Ranking ?? int.MaxValue, dir).ThenBy(p => p.Id),
+            _ => ApplyOrder(items, p => p.Id, dir)
         };
 
-        if (limit is > 0)
-            items = items.Take(limit.Value);
+        var orderedList = items.ToList();
+
+        // cursor paging
+        int startIndex = 0;
+        if (cursor.HasValue)
+        {
+            var idx = orderedList.FindIndex(p => p.Id == cursor.Value);
+            if (idx < 0)
+            {
+                return UnprocessableEntity(new
+                {
+                    message = "Invalid cursor. The cursor ID was not found in the filtered/sorted result.",
+                    cursor = cursor.Value,
+                    region,
+                    categories,
+                    orderBy = key,
+                    orderDir = dir
+                });
+            }
+            startIndex = idx;
+        }
+
+        var pagePlusOne = orderedList.Skip(startIndex).Take(pageSize + 1).ToList();
+        int? nextCursor = null;
+        if (pagePlusOne.Count > pageSize)
+        {
+            nextCursor = pagePlusOne[pageSize].Id;
+            pagePlusOne = pagePlusOne.Take(pageSize).ToList();
+        }
         
-        return Ok(items);
+        return Ok(new
+        {
+            places = pagePlusOne,
+            nextCursor
+        });
     }
 
     [HttpGet("{id:int}")]
