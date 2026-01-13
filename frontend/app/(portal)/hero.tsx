@@ -34,7 +34,7 @@ const PortalHero = () => {
         <section className="w-full">
             <Swiper
                 id="portal-hero"
-                className="h-auto md:h-84 lg:h-96"
+                className="h-auto md:h-70 lg:h-80"
                 // Behaviors
                 allowTouchMove={false}
                 loop={true}
@@ -53,7 +53,7 @@ const PortalHero = () => {
                         key={href}
                         className={cn(
                             'flex! flex-col-reverse gap-8 md:flex-row-reverse', // Layout
-                            'px-2 pt-4 pb-10 sm:py-6 md:py-7 lg:py-8', // Slide padding
+                            'px-2 pt-4 pb-10 sm:py-6 md:py-0', // Slide padding
                             'bg-white **:transition-all' // Appearance
                         )}
                     >
@@ -70,7 +70,7 @@ const PortalHero = () => {
                         />
 
                         {/* Content */}
-                        <div className="flex flex-col items-start justify-center gap-3 text-balance sm:flex-1">
+                        <div className="flex flex-col items-start justify-center gap-3 text-balance sm:flex-1 md:pb-4.5">
                             <h2 className="-ml-0.5 text-5xl font-bold tracking-tight md:-ml-0.75 md:text-6xl lg:text-7xl">
                                 <span className="block">Explore</span>
                                 <span className={color}>{title}</span>

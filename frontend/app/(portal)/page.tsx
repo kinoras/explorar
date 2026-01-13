@@ -1,14 +1,20 @@
 import { PortalFeatures } from './features'
+import { PortalFooter } from './footer'
+import { PortalHeader } from './header'
 import { PortalHero } from './hero'
 import { PortalIntegrations } from './integrations'
 
 const PortalPage = () => {
     return (
-        <main className="flex min-h-dvh flex-col items-center gap-16 px-4 py-4.5 md:gap-20 md:px-9 lg:px-14">
-            <PortalHero />
-            <PortalFeatures />
-            <PortalIntegrations />
-        </main>
+        <>
+            <PortalHeader />
+            <main className="flex min-h-dvh flex-col items-center gap-16 md:gap-18">
+                <PortalHero />
+                <PortalFeatures />
+                <PortalIntegrations />
+            </main>
+            <PortalFooter />
+        </>
     )
 }
 

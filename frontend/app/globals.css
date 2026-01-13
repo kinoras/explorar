@@ -150,10 +150,10 @@
         --swiper-pagination-bottom: 0;
         @apply flex justify-start! gap-2! pb-px pl-2.25;
         .swiper-pagination-bullet {
-            @apply mx-0! size-2! scale-110 bg-neutral-200/80! opacity-100! transition-all! duration-500!;
+            @apply mx-0! size-1.5! scale-120 bg-neutral-200/80! opacity-100! transition-all! duration-500!;
             &.swiper-pagination-bullet-active {
                 @apply w-12! scale-100! overflow-hidden! rounded-full!;
-                @apply relative after:absolute after:inset-0 after:bg-neutral-400/60;
+                @apply relative after:absolute after:inset-0 after:bg-neutral-400/50;
                 @apply after:w-[calc(var(--autoplay-progress)*100%)];
             }
         }
