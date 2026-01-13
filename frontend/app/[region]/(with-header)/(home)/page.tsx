@@ -17,7 +17,7 @@ import { stringToRegion } from '@/services/region'
 import { unifySearchParam } from '@/lib/utils'
 
 import { Categories, CategoriesSkeleton } from './categories'
-import { Locations, LocationsSkeleton } from './locations'
+import { Locations } from './locations'
 import { LocationsActions } from './locations-actions'
 
 const Home = async ({ params, searchParams }: PageProps<'/[region]'>) => {
@@ -56,9 +56,7 @@ const Home = async ({ params, searchParams }: PageProps<'/[region]'>) => {
                     <LocationsActions sort={sort} />
                 </ShelfHeader>
                 <ShelfContent className="space-y-4.5">
-                    <Suspense key={sort} fallback={<LocationsSkeleton itemsCount={4} />}>
-                        <Locations region={region} sort={sort} />
-                    </Suspense>
+                    <Locations region={region} sort={sort} />
                 </ShelfContent>
             </Shelf>
         </main>
