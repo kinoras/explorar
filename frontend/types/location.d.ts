@@ -60,3 +60,10 @@ export type Location = {
     /** Operating hours of the location. */
     hours: WeeklyHours | undefined
 }
+
+export type LocationsPage = {
+    /** Array of fetched locations. */
+    locations: Location[]
+    /** Cursor for the next page of results, if any. */
+    nextCursor: LocationID | undefined
+}

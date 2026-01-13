@@ -1,7 +1,7 @@
 import { getPlaces } from '@/integrations/client'
 import { getPlacesById } from '@/integrations/client'
 
-import type { Location, LocationID, LocationSortOption } from '@/types/location'
+import type { Location, LocationID, LocationSortOption, LocationsPage } from '@/types/location'
 import type { Region } from '@/types/region'
 
 import { placeToLocation } from './location-utils'
@@ -20,13 +20,20 @@ const sortQueryMap = {
  */
 export const getLocationsByRegion = async (
     region: Region,
-    sort: LocationSortOption
-): Promise<Location[]> => {
-    // Fetch locations of the specified region
-    const { data } = await getPlaces({ query: { region, ...sortQueryMap[sort] } })
-    const places = data?.places ?? []
+    sort: LocationSortOption,
+    startCursor?: LocationID
+): Promise<LocationsPage> => {
+    const cursor = startCursor ? parseInt(startCursor) : undefined
 
-    return places.map(placeToLocation)
+    // Fetch locations of the specified region
+    const { data } = await getPlaces({ query: { region, cursor, ...sortQueryMap[sort] } })
+    const places = data?.places ?? []
+    const nextCursor = data?.nextCursor?.toString()
+
+    return {
+        locations: places.map(placeToLocation),
+        nextCursor
+    }
 }
 
 /**

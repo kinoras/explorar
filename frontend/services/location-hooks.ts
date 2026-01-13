@@ -31,7 +31,7 @@ export const useLocationsByRegion = (
     )
 
     return {
-        locations: data ?? [],
+        locations: data?.locations ?? [],
         loading: isLoading,
         error
     }
