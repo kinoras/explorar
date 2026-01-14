@@ -6,14 +6,18 @@ import re
 import sys
 import requests
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load environment variables
 load_dotenv()
 
-API_KEY = os.getenv("TRIPADVISOR_API_KEY")
+TRIPADVISOR_API_KEY = os.getenv("TRIPADVISOR_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 LANGUAGE = "zh_TW"
 CURRENCY = "HKD"
+
+openai_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
 
 
 def get_next_id(output_dir: str) -> int:
@@ -79,7 +83,7 @@ def fetch_details(taid: int) -> dict | None:
     :rtype: dict | None
     """
     url = f"https://api.content.tripadvisor.com/api/v1/location/{taid}/details"
-    params = {"language": LANGUAGE, "currency": CURRENCY, "key": API_KEY}
+    params = {"language": LANGUAGE, "currency": CURRENCY, "key": TRIPADVISOR_API_KEY}
     try:
         response = requests.get(url, params=params)
         if response.status_code == 404:
@@ -106,7 +110,7 @@ def fetch_photos(taid: int) -> list[str]:
     :rtype: list[str]
     """
     url = f"https://api.content.tripadvisor.com/api/v1/location/{taid}/photos"
-    params = {"language": LANGUAGE, "key": API_KEY}
+    params = {"language": LANGUAGE, "key": TRIPADVISOR_API_KEY}
     try:
         response = requests.get(url, params=params)
         if response.status_code != 200:
@@ -134,6 +138,49 @@ def fetch_photos(taid: int) -> list[str]:
         return []
 
 
+def generate_description(name: str, region: str | None, length: int = 50) -> str | None:
+    """
+    Generates a description for a place using OpenAI.
+
+    :param name: Name of the place
+    :type name: str
+    :param region: Region of the place (hong-kong or macau)
+    :type region: str | None
+    :param length: Desired length of the description in characters
+    :type length: int
+    :return: Generated description
+    :rtype: str | None
+    """
+    if not openai_client:
+        return None
+
+    _region = ""
+    if region == "hong-kong":
+        _region = "香港的"
+    elif region == "macau":
+        _region = "澳門的"
+
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful travel assistant. You reply in Traditional Chinese.",
+                },
+                {
+                    "role": "user",
+                    "content": f"請用繁體中文為{_region}「{name}」寫一段旅遊介紹。內容要精簡，大約{length}字，重點介紹其吸引遊客之處。",
+                },
+            ],
+            max_tokens=500,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        print(f"Error generating description for {name}: {e}")
+        return None
+
+
 def map_data(details: dict, photos: list[str], new_id: int) -> tuple[dict, dict]:
     """
     Maps Tripadvisor API data to the internal place schema.
@@ -149,16 +196,7 @@ def map_data(details: dict, photos: list[str], new_id: int) -> tuple[dict, dict]
     """
     flags = {"missing_description": False, "missing_region": False}
 
-    # Description
-    description_content = details.get("description", "")
-    if description_content is None:
-        # TODO: Use intelligence to generate description?
-        description_content = ""
-
-    if not description_content or description_content.strip() == "":
-        flags["missing_description"] = True
-
-    description = {"content": description_content, "source": "tripadvisor"}
+    name = details.get("name_local") or details.get("name", "")
 
     # Region
     # Check ancestors location_ids (HK: 294217, Macau: 664891)
@@ -178,6 +216,30 @@ def map_data(details: dict, photos: list[str], new_id: int) -> tuple[dict, dict]
 
     if not region:
         flags["missing_region"] = True
+
+    # Description
+    description_content = details.get("description", "")
+    if description_content is None:
+        description_content = ""
+
+    source = "tripadvisor"
+
+    if not description_content or description_content.strip() == "":
+        flags["missing_description"] = True
+        if openai_client:
+            print(f"Description missing for {name}. Attempting to generate...")
+            gen_desc = generate_description(name, region)
+            if gen_desc:
+                description_content = gen_desc
+                source = "ai"
+                flags["missing_description"] = False
+                print(f"Generated description for {name}")
+            else:
+                print(f"Failed to generate description for {name}")
+        else:
+            print(f"No OpenAI API key; cannot generate description for {name}.")
+
+    description = {"content": description_content, "source": source}
 
     # Category
     # TA returns category: {name: "attraction", localized_name: ...}
@@ -233,7 +295,7 @@ def map_data(details: dict, photos: list[str], new_id: int) -> tuple[dict, dict]
 
     place_data = {
         "id": new_id,
-        "name": details.get("name_local") or details.get("name", ""),
+        "name": name,
         "description": description,
         "region": region,
         "category": category,
@@ -289,7 +351,7 @@ def main():
 
     args = parser.parse_args()
 
-    if not API_KEY:
+    if not TRIPADVISOR_API_KEY:
         print("Error: TRIPADVISOR_API_KEY not found in environment.")
         print("Please create a .env file with TRIPADVISOR_API_KEY=your_key")
         sys.exit(1)
