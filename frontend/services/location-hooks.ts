@@ -1,11 +1,14 @@
 import useSWR from 'swr'
+import useSWRInfinite from 'swr/infinite'
 
 import { isPresent } from '@/lib/utils'
 
-import type { Location, LocationID, LocationSortOption } from '@/types/location'
+import type { Location, LocationID, LocationSortOption, LocationsPage } from '@/types/location'
 import type { Region } from '@/types/region'
 
 import { getLocationById, getLocationsByRegion } from './location'
+
+type SWRInfiniteKey = readonly [Region, LocationSortOption, LocationID | undefined]
 
 /**
  * Hook to fetch locations for a specific region.
@@ -22,17 +25,35 @@ export const useLocationsByRegion = (
     locations: Location[]
     /** Indicates whether the data is currently being loaded. */
     loading: boolean
+    /** Function to load more locations. */
+    loadMore: () => void
+    /** Indicates whether there are more locations to load. */
+    hasMore: boolean
     /** Any error encountered during fetching. */
     error: unknown
 } => {
-    const { data, error, isLoading } = useSWR(
-        [region, sort], // SWR key
-        () => getLocationsByRegion(region, sort)
+    const { data, size, setSize, isValidating, error } = useSWRInfinite<LocationsPage>(
+        // Key generator function
+        (_, prevPage): SWRInfiniteKey | null =>
+            prevPage && !prevPage.nextCursor
+                ? null // No nextCursor for non-initial pages: reached the end
+                : ([region, sort, prevPage?.nextCursor] as const), // Otherwise, return the key for fetching
+
+        // Fetcher function
+        ([region, sort, cursor]: SWRInfiniteKey) => getLocationsByRegion(region, sort, cursor)
     )
 
+    const loading =
+        (!data && isValidating) || // Loading initial data
+        (size > 0 && data && typeof data[size - 1] === 'undefined') // Loading subsequent pages
+
+    const hasMore = !!data?.[data.length - 1]?.nextCursor // Check if there's a nextCursor in the last page
+
     return {
-        locations: data?.locations ?? [],
-        loading: isLoading,
+        locations: data?.flatMap((page) => page.locations) ?? [],
+        loading: !!loading, // Convert to boolean
+        loadMore: () => setSize(size + 1),
+        hasMore,
         error
     }
 }
