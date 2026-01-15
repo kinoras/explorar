@@ -26,6 +26,14 @@ export const categories: Record<CategoryKey, CategoryDetails> = {
         name: 'Shopping',
         image: '/assets/background/category-shopping.webp' // https://unsplash.com/photos/jo8C9bt3uo8
     },
+    nature: {
+        name: 'Nature',
+        image: '/assets/background/category-nature.webp' // https://unsplash.com/photos/nX5dXZPoJnQ
+    },
+    heritage: {
+        name: 'Heritage',
+        image: '/assets/background/category-heritage.webp' // https://unsplash.com/photos/qE6BF2CA0I0
+    },
 
     // Fallback
     uncategorised: {
