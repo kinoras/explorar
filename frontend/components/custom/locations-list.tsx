@@ -11,8 +11,16 @@ import { useLocationsByRegion } from '@/services/location-hooks'
 import type { LocationSortOption } from '@/types/location'
 import type { Region } from '@/types/region'
 
-const Locations = ({ region, sort }: { region: Region; sort: LocationSortOption }) => {
-    const { locations, loading, loadMore, hasMore } = useLocationsByRegion(region, sort)
+const LocationsList = ({
+    region,
+    sort,
+    categories
+}: {
+    region: Region
+    sort: LocationSortOption
+    categories?: string[]
+}) => {
+    const { locations, loading, loadMore, hasMore } = useLocationsByRegion(region, sort, categories)
     const { ref, inView } = useInView()
 
     useEffect(() => {
@@ -40,14 +48,14 @@ const Locations = ({ region, sort }: { region: Region; sort: LocationSortOption 
             ))}
             {(loading || hasMore) && (
                 <div ref={ref} className="space-y-4.5">
-                    <LocationsSkeleton itemsCount={4} />
+                    <LocationsListSkeleton itemsCount={4} />
                 </div>
             )}
         </>
     )
 }
 
-const LocationsSkeleton = ({ itemsCount }: { itemsCount: number }) => {
+const LocationsListSkeleton = ({ itemsCount }: { itemsCount: number }) => {
     return (
         <>
             {Array.from({ length: itemsCount }).map((_, index) => (
@@ -57,4 +65,4 @@ const LocationsSkeleton = ({ itemsCount }: { itemsCount: number }) => {
     )
 }
 
-export { Locations, LocationsSkeleton }
+export { LocationsList, LocationsListSkeleton }

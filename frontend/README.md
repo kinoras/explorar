@@ -57,8 +57,9 @@ The `app/` directory defines all application routes and pages, organized in the 
 - `[region]/` - Application entry (region-specific)
     - `(with-header)/` – Pages with the header and floating action button
         - `(home)/` – **Application home page**
+        - `locations/` – **Locations list page**
     - `(no-header)/` – Pages without a header (mostly subpages)
-        - `location/[id]/` – **Location details page** (ID-specific)
+        - `locations/[id]/` – **Location details page** (ID-specific)
         - `itinerary/(list)/` – **Itinerary list page**
         - `itinerary/route/[day]/` – **Itinerary route page** (day-specific)
     - `@modal/` – Intercepting routes displayed using a modal layout

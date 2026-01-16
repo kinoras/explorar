@@ -1,6 +1,7 @@
 import { getPlaces } from '@/integrations/client'
 import { getPlacesById } from '@/integrations/client'
 
+import type { CategoryKey } from '@/types/category'
 import type { Location, LocationID, LocationSortOption, LocationsPage } from '@/types/location'
 import type { Region } from '@/types/region'
 
@@ -16,11 +17,14 @@ const sortQueryMap = {
  *
  * @param region - The region to fetch locations for
  * @param sort - The field to order by (default: 'ranking')
+ * @param categories - Optional array of categories to filter by
+ * @param startCursor - Optional start cursor for pagination
  * @returns Array of places ordered by the specified field
  */
 export const getLocationsByRegion = async (
     region: Region,
     sort: LocationSortOption,
+    categories?: CategoryKey[],
     startCursor?: LocationID
 ): Promise<LocationsPage> => {
     const cursor = startCursor
@@ -28,7 +32,14 @@ export const getLocationsByRegion = async (
         : undefined
 
     // Fetch locations of the specified region
-    const { data } = await getPlaces({ query: { region, cursor, ...sortQueryMap[sort] } })
+    const { data } = await getPlaces({
+        query: {
+            region,
+            cursor,
+            categories: categories?.join(','),
+            ...sortQueryMap[sort]
+        }
+    })
     const places = data?.places ?? []
     const nextCursor = data?.nextCursor?.toString()
 

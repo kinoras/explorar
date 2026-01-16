@@ -2,6 +2,8 @@ import { Suspense } from 'react'
 
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
+import { LocationsActions } from '@/components/custom/locations-actions'
+import { LocationsList } from '@/components/custom/locations-list'
 import {
     Shelf,
     ShelfActionButton,
@@ -17,8 +19,6 @@ import { stringToRegion } from '@/services/region'
 import { unifySearchParam } from '@/lib/utils'
 
 import { Categories, CategoriesSkeleton } from './categories'
-import { Locations } from './locations'
-import { LocationsActions } from './locations-actions'
 
 const Home = async ({ params, searchParams }: PageProps<'/[region]'>) => {
     // Extract and parse page props
@@ -56,7 +56,7 @@ const Home = async ({ params, searchParams }: PageProps<'/[region]'>) => {
                     <LocationsActions sort={sort} />
                 </ShelfHeader>
                 <ShelfContent className="space-y-4.5">
-                    <Locations region={region} sort={sort} />
+                    <LocationsList region={region} sort={sort} />
                 </ShelfContent>
             </Shelf>
         </>

@@ -21,7 +21,7 @@ const CategoryTile = ({
     return (
         <RegionLink
             className={cn('relative h-30 overflow-hidden rounded-xl', className)}
-            href={`/categories/${identifier}`}
+            href={`/locations?categories=${identifier}`}
             {...props}
         >
             {/* Content layer */}
