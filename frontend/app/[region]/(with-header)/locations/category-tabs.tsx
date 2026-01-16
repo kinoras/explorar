@@ -8,6 +8,7 @@ import { getCategoriesByRegion } from '@/services/category'
 import { cn } from '@/lib/utils'
 
 import type { CategoryKey } from '@/types/category'
+import type { LocationSortOption } from '@/types/location'
 import type { Region } from '@/types/region'
 
 const CategoryTab = ({ active, href, name }: { active: boolean; href: string; name: string }) => (
@@ -27,12 +28,15 @@ const CategoryTab = ({ active, href, name }: { active: boolean; href: string; na
 
 const CategoryTabs = async ({
     region,
-    activeCategories
+    activeCategories,
+    sort
 }: {
     /** The region to fetch categories for */
     region: Region
     /** The currently active categories */
     activeCategories: CategoryKey[]
+    /** The current sort option */
+    sort: LocationSortOption
 }) => {
     const categories = await getCategoriesByRegion(region)
 
@@ -54,18 +58,18 @@ const CategoryTabs = async ({
                 const active = activeCategories.includes(key)
 
                 // Build search params for the tab link
-                const searchParams = new URLSearchParams()
+                const params = new URLSearchParams([['sort', sort]]) // Preserve sort param
                 const newActiveCategories = active
                     ? activeCategories.filter((c) => c !== key) // Remove if active
                     : [...activeCategories, key] // Otherwise append
                 if (newActiveCategories.length > 0)
-                    searchParams.set('categories', newActiveCategories.join(' '))
+                    params.set('categories', newActiveCategories.join(' '))
 
                 return (
                     <CategoryTab
                         key={key}
                         active={active}
-                        href={`/locations?${searchParams.toString()}`}
+                        href={`/locations?${params.toString()}`}
                         name={name}
                     />
                 )

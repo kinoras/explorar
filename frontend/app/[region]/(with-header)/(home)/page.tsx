@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
+import { LocationsActions } from '@/components/custom/locations-actions'
 import { LocationsList } from '@/components/custom/locations-list'
 import {
     Shelf,
@@ -18,7 +19,6 @@ import { stringToRegion } from '@/services/region'
 import { unifySearchParam } from '@/lib/utils'
 
 import { Categories, CategoriesSkeleton } from './categories'
-import { LocationsActions } from './locations-actions'
 
 const Home = async ({ params, searchParams }: PageProps<'/[region]'>) => {
     // Extract and parse page props
