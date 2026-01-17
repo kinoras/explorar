@@ -28,7 +28,7 @@ public class RoutesController : ControllerBase
         {
             return UnprocessableEntity(new
             {
-                message = "錯誤的日期格式"
+                message = "Invalid date format"
             });
         }
 
@@ -37,18 +37,20 @@ public class RoutesController : ControllerBase
 
         if (requestDate.Date < todayHk)
         {
-            return UnprocessableEntity(new
-            {
-                message = "不能搜索過去的日期",
-                inputDate = request.Date,
-                today = todayHk.ToString("yyyy-MM-dd"),
-                timezone = "Asia/Hong_Kong"
-            });
+            return UnprocessableEntity(
+                new
+                {
+                    message = "Cannot search for past dates",
+                    inputDate = request.Date,
+                    today = todayHk.ToString("yyyy-MM-dd"),
+                    timezone = "Asia/Hong_Kong",
+                }
+            );
         }
 
         if (request.PlaceIds == null || request.PlaceIds.Count < 2)
         {
-            return BadRequest("需要至少兩個地點");
+            return UnprocessableEntity(new { message = "At least two places are required" });
         }
         
 
@@ -59,7 +61,7 @@ public class RoutesController : ControllerBase
         {
             if (!placeMap.TryGetValue(id, out var place))
             {
-                return BadRequest($"找不到地點 id={id}");
+                return UnprocessableEntity(new { message = "Place not found", id });
             }
             orderedPlaces.Add(place);
         }
@@ -70,7 +72,7 @@ public class RoutesController : ControllerBase
         {
             return UnprocessableEntity(new
             {
-                message = "所有地點必須在同一地區",
+                message = "All places must be in the same region",
                 regions = orderedPlaces.Select(p => new {p.Id, p.Region})
             });
         }
