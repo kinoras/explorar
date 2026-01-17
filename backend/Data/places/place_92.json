@@ -1,0 +1,43 @@
+{
+  "id": 92,
+  "name": "香港apm",
+  "region": "hong-kong",
+  "category": "shopping",
+  "description": {
+    "content": "香港apm是集購物、美食和娛樂於一體的時尚地標，擁有眾多國際品牌及獨特設計店。此外，商場內的美食廣場提供多樣美味選擇，讓遊客在購物之餘享受美食盛宴。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 九龍觀塘觀塘道418號",
+    "latitude": 22.31273,
+    "longitude": 114.22591
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/0f/b9/ca/7e/apm.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1c/65/70/18/bear-in-love.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/0f/b9/cc/9b/apple-apm-hong-kong.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/0d/ad/25/0e/a-apm.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/0c/dc/38/19/summer-event.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "11:00", "close": "02:00" },
+      { "day": 2, "open": "11:00", "close": "02:00" },
+      { "day": 3, "open": "11:00", "close": "02:00" },
+      { "day": 4, "open": "11:00", "close": "02:00" },
+      { "day": 5, "open": "11:00", "close": "02:00" },
+      { "day": 6, "open": "11:00", "close": "02:00" },
+      { "day": 7, "open": "11:00", "close": "02:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.0,
+  "ranking": 105,
+  "phone": "+852 2267 0500",
+  "website": "http://www.hkapm.com.hk",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 3362610
+  }
+}

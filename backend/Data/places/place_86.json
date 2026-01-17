@@ -1,0 +1,43 @@
+{
+  "id": 86,
+  "name": "嘉道理農場暨植物園",
+  "region": "hong-kong",
+  "category": "nature",
+  "description": {
+    "content": "嘉道理農場暨植物園是香港的一個農場以及植物園，位於新界大浦區。聽到嘉道理農場暨植物園這個名字人們一定會感到非常的奇怪為什麼取這樣的名字呢？而且為什麼農場跟植物園是在一起的呢？其實，這些問題都來自於一段歷史，在1949年的時候大量的中國內地居民湧入香港，之後嘉道理兄弟經研究成立了“嘉道理農業輔助會”讓他們以務農為生。現在的嘉道理農場暨植物園把重點轉移到了自然保護以及教育方面去了。現在這裏本地植物佔一半以上， 飼養動物大部分是香港的大型哺乳類動物、爬蟲、昆蟲等兩棲動物等，另外這裏還會有一些水鳥園、蝴蝶園、昆蟲館、鹿苑等。這裏豐富的生物產、植物產等都吸引了嘉道理農場暨植物園旅遊的人們。",
+    "source": "tripadvisor"
+  },
+  "location": {
+    "address": "香港 新界林村林錦公路",
+    "latitude": 22.43340,
+    "longitude": 114.11855
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1a/96/d7/28/img-20191208-125105-largejpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/08/5e/3c/bf/kadoorie-memorial-pavillion.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/02/59/8f/59/muntjac.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1a/96/d7/2b/img-20191208-131509-largejpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/16/01/a0/20/kfbg-main-entrance.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "09:30", "close": "17:00" },
+      { "day": 2, "open": "09:30", "close": "17:00" },
+      { "day": 3, "open": "09:30", "close": "17:00" },
+      { "day": 4, "open": "09:30", "close": "17:00" },
+      { "day": 5, "open": "09:30", "close": "17:00" },
+      { "day": 6, "open": "09:30", "close": "17:00" },
+      { "day": 7, "open": "09:30", "close": "17:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.5,
+  "ranking": 54,
+  "phone": "+852 2483 7200",
+  "website": "https://www.kfbg.org/",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 593179
+  }
+}

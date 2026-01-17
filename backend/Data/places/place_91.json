@@ -1,0 +1,43 @@
+{
+  "id": 91,
+  "name": "迪欣湖",
+  "region": "hong-kong",
+  "category": "nature",
+  "description": {
+    "content": "迪欣湖位於香港大嶼山，是一個融合自然美景和休閒娛樂的理想去處。遊客可以享受湖畔散步、划船和野餐，周圍環境清新怡人，讓人遠離城市喧囂，沉浸在大自然的懷抱中。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 香港迪士尼樂園度假區",
+    "latitude": 22.31982,
+    "longitude": 114.03858
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/18/31/9f/8d/20190701-153448-largejpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/02/34/59/54/entrance-to-the-park.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/12/1b/f1/78/photo7jpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/11/1f/f5/7b/photo1jpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/11/1f/f5/79/photo0jpg.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "09:00", "close": "19:00" },
+      { "day": 2, "open": "09:00", "close": "19:00" },
+      { "day": 3, "open": "09:00", "close": "19:00" },
+      { "day": 4, "open": "09:00", "close": "19:00" },
+      { "day": 5, "open": "09:00", "close": "19:00" },
+      { "day": 6, "open": "09:00", "close": "19:00" },
+      { "day": 7, "open": "09:00", "close": "19:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.2,
+  "ranking": 171,
+  "phone": null,
+  "website": "https://www.hongkongdisneyland.com/zh-hk/destinations/inspiration-lake-recreation-centre/",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 2359688
+  }
+}

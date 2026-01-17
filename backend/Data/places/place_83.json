@@ -1,0 +1,35 @@
+{
+  "id": 83,
+  "name": "美利樓",
+  "region": "hong-kong",
+  "category": "heritage",
+  "description": {
+    "content": "美利樓(Murray House)是香港一座具有維多利亞時期色彩的建築物，本來位於香港島北岸的中環，但現時經已整座搬遷至香港島東南部的赤柱。美利樓建於1844年，屬於域多利兵房的一部份，主要用作英軍的軍營。到了香港日治時期，這座建築物被日軍用作「日本憲兵部辦事處」及「日本軍事統師部」，還設有很多囚犯室及用作刑場，當中被殺者據稱超過四千多人，堪稱醫院外死人最多的建築物。第二次世界大戰結束后，美利樓曾被多個香港政府部門作為辦公室。1975年至1982年期間，美利樓成為了香港差餉物業估價處的總部。1960年至1970年代，美利樓頻頻傳出鬧鬼之事，港英政府期間不單請了牧師和神父在大樓內驅鬼，又使用佛教超渡儀式來把怨氣凈化，希望能安撫人心，由於政府需動用公餉做法事，因此存有相關檔案紀錄。1982年，因應香港中銀大廈的建築工程，美利樓需要被拆卸。但由於其歷史價值，香港政府決定將這座建築物完整保留及遷至他處。分拆出來的超過3000件建築物料被妥善紀錄及儲存。1990年，香港房屋委員會決定將美利樓搬遷至赤柱。整座建築物於1998年重建完成，並於1999年重新開幕。樓高三層的美利樓以巨型花崗岩為主要建築材料，並揉合了東、西方建築特色。美利樓既用了中式的瓦面斜頂的屋頂，又有採用了古歐陸維多利亞式圓形石柱，加上香港特殊歷史背景，別具特色。美利樓是香港現今最大規模的古迹重建工程之一，並成為赤柱的一個重要標誌，遊人可在此細覽遺迹，緬懷昔日歷史。了解美利樓的方方面面，掌據美利樓最真實的第一手資料，就在TripAdvisor。",
+    "source": "tripadvisor"
+  },
+  "location": {
+    "address": "香港 赤柱赤柱大街96號美利樓",
+    "latitude": 22.21808,
+    "longitude": 114.21003
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/22/04/79/61/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-s/02/fd/6c/65/murray-house.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/0c/a1/c9/26/view-from-blake-pier.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-w/28/ff/e3/f1/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-w/28/ff/e3/f0/caption.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": null,
+    "exceptions": null
+  },
+  "rating": 3.8,
+  "ranking": 237,
+  "phone": null,
+  "website": "http://www.stanleyplaza.com/StanleyPlaza/Pages/About_murray_house.aspx?lang=tc",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 2050654
+  }
+}

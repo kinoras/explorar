@@ -1,0 +1,42 @@
+{
+  "id": 84,
+  "name": "茶具文物館",
+  "region": "hong-kong",
+  "category": "museums",
+  "description": {
+    "content": "位於香港公園內的前英軍總司令官邸——茶具文物館，是一座以中國茶文化為主題的專門博物館。館內收藏橫跨唐、宋、明、清至近代的茶具與相關文物，包括紫砂壺、瓷器、銀器與書畫，呈現中國茶道在器物、藝術與生活美學上的演變。建築本身為十九世紀殖民時期古蹟，典雅莊重，與展覽內容相得益彰。文物館亦不時舉辦專題展覽與茶藝活動，讓訪客在靜謐的環境中，深入體會香港連結中西、承載茶文化傳統的獨特歷史底蘊。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 中環紅棉路10號",
+    "latitude": 22.27841,
+    "longitude": 114.16244
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/01/9a/8b/f2/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/15/ec/50/28/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/03/70/8a/aa/hong-kong-museum-of-teaware.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1d/26/0b/a3/delicate-china-teacups.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1d/26/0b/7d/yinxing-clay-teapot-with.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "18:00" },
+      { "day": 3, "open": "10:00", "close": "18:00" },
+      { "day": 4, "open": "10:00", "close": "18:00" },
+      { "day": 5, "open": "10:00", "close": "18:00" },
+      { "day": 6, "open": "10:00", "close": "18:00" },
+      { "day": 7, "open": "10:00", "close": "18:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.0,
+  "ranking": 118,
+  "phone": "+852 2869 0690",
+  "website": "http://hk.art.museum/en_US/web/ma/tea-ware.html",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 311567
+  }
+}

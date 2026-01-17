@@ -1,0 +1,43 @@
+{
+  "id": 88,
+  "name": "東薈城名店倉",
+  "region": "hong-kong",
+  "category": "shopping",
+  "description": {
+    "content": "座落於優美的大嶼山，東薈城名店倉是香港大型名店折扣商場，亦是遠離鬧市煩囂的理想地點。東薈城名店倉匯集150多個國際著名時尚品牌、逾40間中西美饌及一站式消閒娛樂體驗，全年以低至1折的心動價讓你搜購心頭好。現在就展開你的吃喝玩樂之旅，漂亮出走，感受東薈城名店倉的魅力吧！",
+    "source": "tripadvisor"
+  },
+  "location": {
+    "address": "香港 大嶼山東涌達東路20號",
+    "latitude": 22.28993,
+    "longitude": 113.94185
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/26/a9/3a/7a/mall-interior.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1d/d0/aa/66/citygate-outlets.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/2a/c7/41/e9/shadows-of-butterflies.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-w/2a/c7/41/e0/shadows-of-butterflies.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/2a/bb/e6/27/shadows-of-butterflies.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "22:00" },
+      { "day": 2, "open": "10:00", "close": "22:00" },
+      { "day": 3, "open": "10:00", "close": "22:00" },
+      { "day": 4, "open": "10:00", "close": "22:00" },
+      { "day": 5, "open": "10:00", "close": "22:00" },
+      { "day": 6, "open": "10:00", "close": "22:00" },
+      { "day": 7, "open": "10:00", "close": "22:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 3.5,
+  "ranking": 159,
+  "phone": "+852 2109 2933",
+  "website": "http://www.citygateoutlets.com.hk",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 2008060
+  }
+}

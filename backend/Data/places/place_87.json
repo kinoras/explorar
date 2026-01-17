@@ -1,0 +1,42 @@
+{
+  "id": 87,
+  "name": "香港藝術館",
+  "region": "hong-kong",
+  "category": "museums",
+  "description": {
+    "content": "香港藝術館以豐富的中國及國際藝術品聞名，展出多幅精彩的繪畫、雕塑及當代藝術作品。館內的文物和多元化展覽吸引了藝術愛好者與遊客，是探索香港文化的重要去處。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 九龍尖沙咀梳士巴利道10號",
+    "latitude": 22.29368,
+    "longitude": 114.17238
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/21/7b/81/8e/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-w/32/32/7d/a7/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-w/32/32/7d/a5/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/32/32/7d/a3/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/32/32/7d/a2/caption.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "18:00" },
+      { "day": 2, "open": "10:00", "close": "18:00" },
+      { "day": 3, "open": "10:00", "close": "18:00" },
+      { "day": 5, "open": "10:00", "close": "18:00" },
+      { "day": 6, "open": "10:00", "close": "21:00" },
+      { "day": 7, "open": "10:00", "close": "21:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.0,
+  "ranking": 78,
+  "phone": "+852 2721 0116",
+  "website": "http://hk.art.museum/",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 311603
+  }
+}

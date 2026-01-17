@@ -1,0 +1,43 @@
+{
+  "id": 90,
+  "name": "圓方廣場",
+  "region": "hong-kong",
+  "category": "shopping",
+  "description": {
+    "content": "這家高端購物中心以中國五行為設計理念，劃分出奢侈品、美妝和生活用品、時尚單品、餐飲和娛樂五大區域。 此外，這裏的戶外酒吧還深受外國友人的喜愛。",
+    "source": "tripadvisor"
+  },
+  "location": {
+    "address": "香港 九龍尖沙咀柯士甸道西1號",
+    "latitude": 22.30474,
+    "longitude": 114.16117
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/0a/73/60/5e/elements-mall.jpg",
+    "https://media-cdn.tripadvisor.com/media/daodao/photo-s/03/1d/06/4f/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/02/4a/7f/68/elements-mall-not-among.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/17/7a/ec/96/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/11/84/d2/74/caption.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "22:00" },
+      { "day": 2, "open": "10:00", "close": "22:00" },
+      { "day": 3, "open": "10:00", "close": "22:00" },
+      { "day": 4, "open": "10:00", "close": "22:00" },
+      { "day": 5, "open": "10:00", "close": "22:00" },
+      { "day": 6, "open": "10:00", "close": "22:00" },
+      { "day": 7, "open": "10:00", "close": "22:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.2,
+  "ranking": 50,
+  "phone": "+852 2735 5234",
+  "website": "https://www.elementshk.com/tch/elements/main",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 2136182
+  }
+}

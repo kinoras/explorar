@@ -1,0 +1,35 @@
+{
+  "id": 81,
+  "name": "天主教玫瑰堂",
+  "region": "hong-kong",
+  "category": "heritage",
+  "description": {
+    "content": "尖沙咀天主教玫瑰堂是香港著名的歷史建築，以其獨特的哥德式建築風格和美麗的彩色玻璃窗聞名。這裡不僅是靈修的場所，也是拍攝美麗照片的理想地點，吸引眾多遊客前來參觀。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 九龍尖沙咀漆咸道南125號",
+    "latitude": 22.30247,
+    "longitude": 114.17678
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/26/c0/af/03/rosary-church.jpg",
+    "https://media-cdn.tripadvisor.com/media/daodao/photo-s/04/aa/21/83/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/26/c0/af/05/rosary-church.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/26/c0/af/04/rosary-church.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/26/c0/af/02/rosary-church.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": null,
+    "exceptions": null
+  },
+  "rating": 4.2,
+  "ranking": 197,
+  "phone": "+852 2368 0980",
+  "website": "http://rosarychurch.catholic.org.hk",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 4178121
+  }
+}

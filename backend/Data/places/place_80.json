@@ -1,0 +1,43 @@
+{
+  "id": 80,
+  "name": "1881 Heritage",
+  "region": "hong-kong",
+  "category": "heritage",
+  "description": {
+    "content": "「1881 Heritage」是香港獨特的歷史文化景點，由 19 世紀的警察辦公大樓改建而成，如今是時髦的露天購物中心，展示迷人的維多利亞建築風格。遊客可在此享受購物樂趣，同時感受歷史的韻味。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 尖沙咀廣東道2A號",
+    "latitude": 22.29582,
+    "longitude": 114.17042
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/09/db/3a/a6/1881.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/01/87/8b/1e/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/2a/bc/b6/b4/hong-kong-october-2023.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/1d/21/54/2b/built-in-1884-the-old.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/11/c5/45/70/1881-2017.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "07:00", "close": "00:00" },
+      { "day": 2, "open": "07:00", "close": "00:00" },
+      { "day": 3, "open": "07:00", "close": "00:00" },
+      { "day": 4, "open": "07:00", "close": "00:00" },
+      { "day": 5, "open": "07:00", "close": "00:00" },
+      { "day": 6, "open": "07:00", "close": "00:00" },
+      { "day": 7, "open": "07:00", "close": "00:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 4.1,
+  "ranking": 44,
+  "phone": "+852 2926 8000",
+  "website": "http://www.1881heritage.com/",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 1776172
+  }
+}

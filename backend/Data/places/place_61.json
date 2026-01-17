@@ -28,7 +28,7 @@
       { "day": 6, "open": "10:00", "close": "18:00" },
       { "day": 7, "open": "10:00", "close": "18:00" }
     ],
-    "exceptions": "聖誕前夕及農曆新年除夕: 10:00 - 17:00"
+    "exceptions": null
   },
   "rating": 3.6,
   "ranking": 377,

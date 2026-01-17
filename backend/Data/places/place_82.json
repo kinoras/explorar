@@ -1,0 +1,35 @@
+{
+  "id": 82,
+  "name": "姻緣石",
+  "region": "hong-kong",
+  "category": "landmarks",
+  "description": {
+    "content": "姻緣石位於香港半山區，擁有壯觀的海景與壯麗的岩石景觀，是情侶拍照打卡的熱門地點。此地寧靜宜人，非常適合浪漫散步和欣賞日落，讓你與摯愛共度美好時光。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港半山寶雲道健身徑",
+    "latitude": 22.27109,
+    "longitude": 114.17693
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-o/16/65/f7/bd/lover-s-rock.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/16/5e/0c/1e/lover-s-rock-overlooking.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/29/81/42/21/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/29/81/42/20/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/1b/31/9b/bd/rock-temple-on-the-way.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": null,
+    "exceptions": null
+  },
+  "rating": 4.0,
+  "ranking": 636,
+  "phone": null,
+  "website": null,
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 16154671
+  }
+}

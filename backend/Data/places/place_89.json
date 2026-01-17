@@ -1,0 +1,43 @@
+{
+  "id": 89,
+  "name": "赤柱市集",
+  "region": "hong-kong",
+  "category": "shopping",
+  "description": {
+    "content": "赤柱市場是一條歷史性街道，坐落于香港寧靜的南海岸，受到當地人及遊客的喜愛。在這裡可以買到各式紀念品，例如漆器、刺繡桌布、書畫等。",
+    "source": "tripadvisor"
+  },
+  "location": {
+    "address": "香港 赤柱赤柱新街",
+    "latitude": 22.21832,
+    "longitude": 114.21305
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/2b/12/9b/b6/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/08/2e/e8/a8/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-s/00/10/74/fe/stanley-market.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/17/70/a8/44/photo4jpg.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/16/eb/b6/81/ein-tempel.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": [
+      { "day": 1, "open": "10:00", "close": "19:00" },
+      { "day": 2, "open": "10:00", "close": "19:00" },
+      { "day": 3, "open": "10:00", "close": "19:00" },
+      { "day": 4, "open": "10:00", "close": "19:00" },
+      { "day": 5, "open": "10:00", "close": "19:00" },
+      { "day": 6, "open": "10:00", "close": "19:00" },
+      { "day": 7, "open": "10:00", "close": "19:00" }
+    ],
+    "exceptions": null
+  },
+  "rating": 3.8,
+  "ranking": 90,
+  "phone": null,
+  "website": "https://www.hk-stanley-market.com/",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 320715
+  }
+}

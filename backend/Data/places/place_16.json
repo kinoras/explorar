@@ -6,7 +6,7 @@
     "source": "tripadvisor"
   },
   "region": "hong-kong",
-  "category": "landmarks",
+  "category": "heritage",
   "hours": {
     "timezone": "Asia/Hong_Kong",
     "regular": [

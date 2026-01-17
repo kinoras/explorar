@@ -1,0 +1,35 @@
+{
+  "id": 85,
+  "name": "淺水灣泳灘",
+  "region": "hong-kong",
+  "category": "nature",
+  "description": {
+    "content": "淺水灣泳灘位於香港島南區，以晶瑩剔透的海水和柔軟的沙灘聞名。這裡不僅適合游泳，還有美麗的海景、豪華的海濱餐廳及休閒設施，是享受陽光與放鬆心情的理想之地。",
+    "source": "ai"
+  },
+  "location": {
+    "address": "香港 淺水灣海灘道",
+    "latitude": 22.23646,
+    "longitude": 114.19666
+  },
+  "images": [
+    "https://media-cdn.tripadvisor.com/media/photo-m/1280/2b/d7/da/7c/caption.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/09/8c/64/77/repulse-bay-beach.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/09/8c/64/75/repulse-bay-beach.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/09/8c/64/73/repulse-bay-beach.jpg",
+    "https://media-cdn.tripadvisor.com/media/photo-o/09/8c/64/6d/repulse-bay-beach.jpg"
+  ],
+  "hours": {
+    "timezone": "Asia/Hong_Kong",
+    "regular": null,
+    "exceptions": null
+  },
+  "rating": 4.1,
+  "ranking": 48,
+  "phone": "+852 2812 2483",
+  "website": "https://www.lcsd.gov.hk/tc/beach/index/beach-location-hk/beach-address-south.html#repulsebay",
+  "_connection": {
+    "type": "tripadvisor",
+    "locationId": 593142
+  }
+}
