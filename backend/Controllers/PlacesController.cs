@@ -67,7 +67,7 @@ public class PlacesController : ControllerBase
             {
                 return UnprocessableEntity(new
                 {
-                    message = "Invalid cursor. The cursor ID was not found in the filtered/sorted result.",
+                    message = "Invalid cursor",
                     cursor = cursor.Value,
                     region,
                     categories,
@@ -94,7 +94,8 @@ public class PlacesController : ControllerBase
     public ActionResult<Place> GetById(int id)
     {
         var place = _memory.GetById(id);
-        if (place is null) return NotFound();
+        if (place is null)
+            return NotFound(new { message = "Place not found", id });
         return Ok(place);
     }
 
