@@ -4,6 +4,8 @@ import { createContext, useContext } from 'react'
 
 import type { Region } from '@/types/region'
 
+import { SWRConfigProvider } from './swr-config'
+
 type RegionContextType = {
     region: Region
 }
@@ -25,5 +27,9 @@ export const RegionProvider = ({
     children: React.ReactNode
     region: Region
 }) => {
-    return <RegionContext.Provider value={{ region }}>{children}</RegionContext.Provider>
+    return (
+        <RegionContext.Provider value={{ region }}>
+            <SWRConfigProvider>{children}</SWRConfigProvider>
+        </RegionContext.Provider>
+    )
 }
