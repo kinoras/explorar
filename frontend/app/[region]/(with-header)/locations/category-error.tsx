@@ -4,9 +4,9 @@ import { useEffect } from 'react'
 
 import { showToast } from '@/services/toast'
 
-import { CategoriesSkeleton } from './categories'
+import { CategoryTabsSkeleton } from './category-tabs'
 
-const CategoriesError = ({ message }: { message: string }) => {
+const CategoryTabsError = ({ message }: { message: string }) => {
     useEffect(() => {
         showToast({
             type: 'error',
@@ -17,7 +17,7 @@ const CategoriesError = ({ message }: { message: string }) => {
         })
     }, [message, showToast])
 
-    return <CategoriesSkeleton itemsCount={2} />
+    return <CategoryTabsSkeleton />
 }
 
-export default CategoriesError
+export default CategoryTabsError

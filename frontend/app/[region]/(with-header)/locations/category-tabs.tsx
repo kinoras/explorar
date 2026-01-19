@@ -5,11 +5,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import { getCategoriesByRegion } from '@/services/category'
 
+import { getAppErrorDescription, toAppError } from '@/lib/errors'
 import { cn } from '@/lib/utils'
 
 import type { CategoryKey } from '@/types/category'
 import type { LocationSortOption } from '@/types/location'
 import type { Region } from '@/types/region'
+
+import CategoryTabsError from './category-error'
 
 const CategoryTab = ({ active, href, name }: { active: boolean; href: string; name: string }) => (
     <Button
@@ -38,44 +41,48 @@ const CategoryTabs = async ({
     /** The current sort option */
     sort: LocationSortOption
 }) => {
-    const categories = await getCategoriesByRegion(region)
+    try {
+        const categories = await getCategoriesByRegion(region)
 
-    return (
-        <div
-            className="-mx-4.5 flex items-center gap-2 overflow-x-scroll px-4.5 pb-1"
-            style={{ scrollbarWidth: 'none' }}
-            role="list"
-        >
-            <CategoryTab
-                active={activeCategories.length === 0} // No active categories
-                href="/locations"
-                name="All"
-            />
+        return (
+            <div
+                className="-mx-4.5 flex items-center gap-2 overflow-x-scroll px-4.5 pb-1"
+                style={{ scrollbarWidth: 'none' }}
+                role="list"
+            >
+                <CategoryTab
+                    active={activeCategories.length === 0} // No active categories
+                    href="/locations"
+                    name="All"
+                />
 
-            <Separator orientation="vertical" className="mx-1 h-6!" />
+                <Separator orientation="vertical" className="mx-1 h-6!" />
 
-            {categories.map(({ key, name }) => {
-                const active = activeCategories.includes(key)
+                {categories.map(({ key, name }) => {
+                    const active = activeCategories.includes(key)
 
-                // Build search params for the tab link
-                const params = new URLSearchParams([['sort', sort]]) // Preserve sort param
-                const newActiveCategories = active
-                    ? activeCategories.filter((c) => c !== key) // Remove if active
-                    : [...activeCategories, key] // Otherwise append
-                if (newActiveCategories.length > 0)
-                    params.set('categories', newActiveCategories.join(' '))
+                    // Build search params for the tab link
+                    const params = new URLSearchParams([['sort', sort]]) // Preserve sort param
+                    const newActiveCategories = active
+                        ? activeCategories.filter((c) => c !== key) // Remove if active
+                        : [...activeCategories, key] // Otherwise append
+                    if (newActiveCategories.length > 0)
+                        params.set('categories', newActiveCategories.join(' '))
 
-                return (
-                    <CategoryTab
-                        key={key}
-                        active={active}
-                        href={`/locations?${params.toString()}`}
-                        name={name}
-                    />
-                )
-            })}
-        </div>
-    )
+                    return (
+                        <CategoryTab
+                            key={key}
+                            active={active}
+                            href={`/locations?${params.toString()}`}
+                            name={name}
+                        />
+                    )
+                })}
+            </div>
+        )
+    } catch (error) {
+        return <CategoryTabsError message={getAppErrorDescription(toAppError(error))} />
+    }
 }
 
 const CategoryTabsSkeleton = ({ itemsCount = 3 }: { itemsCount?: number }) => {
