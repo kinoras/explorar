@@ -2,24 +2,32 @@ import { CategoryTile, CategoryTileSkeleton } from '@/components/custom/category
 
 import { getCategoriesByRegion } from '@/services/category'
 
+import { getAppErrorDescription, toAppError } from '@/lib/errors'
+
 import type { Region } from '@/types/region'
 
-const Categories = async ({ region }: { region: Region }) => {
-    const categories = await getCategoriesByRegion(region)
+import CategoriesError from './categories-error'
 
-    return (
-        <>
-            {categories.map(({ key, name, image }) => (
-                <CategoryTile
-                    key={key}
-                    identifier={key}
-                    // Data fields below
-                    name={name}
-                    image={image}
-                />
-            ))}
-        </>
-    )
+const Categories = async ({ region }: { region: Region }) => {
+    try {
+        const categories = await getCategoriesByRegion(region)
+
+        return (
+            <>
+                {categories.map(({ key, name, image }) => (
+                    <CategoryTile
+                        key={key}
+                        identifier={key}
+                        // Data fields below
+                        name={name}
+                        image={image}
+                    />
+                ))}
+            </>
+        )
+    } catch (error) {
+        return <CategoriesError message={getAppErrorDescription(toAppError(error))} />
+    }
 }
 
 const CategoriesSkeleton = ({ itemsCount }: { itemsCount: number }) => {
