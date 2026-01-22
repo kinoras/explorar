@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
+from .place import place_router
+
+
 router = APIRouter()
-
-
-@router.get("/")
-def root():
-    return {"message": "Hello, World!"}
+router.include_router(place_router, prefix="/places", tags=["place"])

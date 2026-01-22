@@ -4,7 +4,7 @@ from pymongo.asynchronous.database import AsyncDatabase
 from beanie import init_beanie
 
 from app.core.config import settings
-
+from app.models.place import Place
 
 _client: Optional[AsyncMongoClient] = None
 
@@ -39,7 +39,7 @@ async def init_mongo() -> None:
         # Initialize Beanie
         await init_beanie(
             database=client.get_database(settings.MONGO_DATABASE),
-            document_models=[],
+            document_models=[Place],
         )
     except Exception as e:
         raise Exception("Unable to initialize MongoDB/Beanie", e)
