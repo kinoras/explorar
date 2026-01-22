@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Explore HK MO API"
     API_V1_STR: str = "/api/v1"
 
+    # MongoDB
+    MONGO_CONNECTION_STRING: str = "mongodb+srv://user:pass@localhost:27017"
+    MONGO_DATABASE: str = "explore"
+
     # CORS
     CORS_ORIGINS: Annotated[List[str], NoDecode] = []
 
