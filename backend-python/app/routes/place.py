@@ -4,11 +4,12 @@ from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException, Query
 
 from app.core.exceptions import (
+    NotFoundExceptionModel,
     UnprocessableEntityExceptionModel,
     InternalServerErrorExceptionModel,
 )
 from app.models.const import Region, Category, SortOrder
-from app.models.place.api import PlacesPublic
+from app.models.place.api import PlacePublic, PlacesPublic
 from app.models.place.db import Place
 
 place_router = APIRouter()
@@ -34,8 +35,8 @@ def _parse_categories(input: str) -> Optional[List[Category]]:
 
 @place_router.get(
     "",
+    response_model=PlacesPublic,
     responses={
-        200: {"model": PlacesPublic},
         422: {"model": UnprocessableEntityExceptionModel},
         500: {"model": InternalServerErrorExceptionModel},
     },
@@ -47,7 +48,7 @@ async def get_places(
     order_dir: SortOrder = Query(default=SortOrder.ASCENDING, alias="orderDir"),
     limit: int = Query(default=10, ge=1, le=50),
     cursor: Optional[PydanticObjectId] = Query(default=None, description="Starting id"),
-):
+) -> PlacesPublic:
     # Parse categories
     categories = _parse_categories(categories) if categories else None
 
@@ -65,3 +66,31 @@ async def get_places(
         places=[place.model_dump() for place in places],
         nextCursor=next_cursor,
     )
+
+
+@place_router.get(
+    "/{id}",
+    response_model=PlacePublic,
+    responses={
+        404: {"model": NotFoundExceptionModel},
+        422: {"model": UnprocessableEntityExceptionModel},
+        500: {"model": InternalServerErrorExceptionModel},
+    },
+)
+async def get_place_by_id(
+    id: PydanticObjectId,
+) -> PlacePublic:
+    # Fetch place
+    place = await Place.get(id)
+
+    # Handle not found
+    if not place:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "message": "Place not found",
+                "description": f"Place with id '{id}' does not exist",
+            },
+        )
+
+    return PlacePublic(**place.model_dump())
