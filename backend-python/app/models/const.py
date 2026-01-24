@@ -13,3 +13,8 @@ class Category(str, Enum):
 class Region(str, Enum):
     HONG_KONG = "hong-kong"
     MACAU = "macau"
+
+
+class SortOrder(str, Enum):
+    ASCENDING = "asc"
+    DESCENDING = "desc"

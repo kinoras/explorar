@@ -4,4 +4,4 @@ from .place import place_router
 
 
 router = APIRouter()
-router.include_router(place_router, prefix="/places", tags=["place"])
+router.include_router(place_router, prefix="/places", tags=["Places"])
