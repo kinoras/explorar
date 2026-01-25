@@ -1,7 +1,11 @@
-from typing import List, Optional
+from typing import List, Optional, TypeAlias
+from beanie import PydanticObjectId
 from pydantic import BaseModel, Field
 
 from ..const import Category, Region
+
+
+PlaceId: TypeAlias = PydanticObjectId
 
 
 class Description(BaseModel):
