@@ -1,18 +1,17 @@
 from typing import List, Literal, Optional
-
-from beanie import PydanticObjectId
 from fastapi import APIRouter, HTTPException, Query
 
+from app.core.common import PlaceId, Region, Category, SortOrder
 from app.core.exceptions import (
     NotFoundExceptionModel,
     UnprocessableEntityExceptionModel,
     InternalServerErrorExceptionModel,
 )
-from app.models.const import Region, Category, SortOrder
-from app.models.place.api import PlacePublic, PlacesPublic
-from app.models.place.db import Place
 
-place_router = APIRouter()
+from .documents import Place
+from .schemas import PlacePublic, PlacesPublic
+
+places_router = APIRouter()
 
 
 def _parse_categories(input: str) -> Optional[List[Category]]:
@@ -28,13 +27,14 @@ def _parse_categories(input: str) -> Optional[List[Category]]:
             status_code=422,
             detail={
                 "message": "Validation error",
-                "description": f"categories: Input should be a comma-separated list of valid categories",
+                "description": "categories: Input should be a comma-separated list of valid categories",
             },
         )
 
 
-@place_router.get(
+@places_router.get(
     "",
+    operation_id="get_places",
     response_model=PlacesPublic,
     responses={
         422: {"model": UnprocessableEntityExceptionModel},
@@ -47,7 +47,7 @@ async def get_places(
     order_by: Literal["id", "ranking", "rating"] = Query(default="id", alias="orderBy"),
     order_dir: SortOrder = Query(default=SortOrder.ASCENDING, alias="orderDir"),
     limit: int = Query(default=10, ge=1, le=50),
-    cursor: Optional[PydanticObjectId] = Query(default=None, description="Starting id"),
+    cursor: Optional[PlaceId] = Query(default=None, description="Starting id"),
 ) -> PlacesPublic:
     # Parse categories
     categories = _parse_categories(categories) if categories else None
@@ -68,8 +68,9 @@ async def get_places(
     )
 
 
-@place_router.get(
+@places_router.get(
     "/{id}",
+    operation_id="get_place_by_id",
     response_model=PlacePublic,
     responses={
         404: {"model": NotFoundExceptionModel},
@@ -78,7 +79,7 @@ async def get_places(
     },
 )
 async def get_place_by_id(
-    id: PydanticObjectId,
+    id: PlaceId,
 ) -> PlacePublic:
     # Fetch place
     place = await Place.get(id)

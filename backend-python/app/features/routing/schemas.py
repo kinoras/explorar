@@ -1,15 +1,45 @@
 from typing import List, Optional
+from enum import Enum
 from pydantic import BaseModel, field_validator
 from datetime import datetime, date, timedelta
-from beanie import PydanticObjectId
 
-from .shared import TravelMode, DriveRoute, TransitRoute, WalkRoute
+from app.core.common import PlaceId
+
+
+class TravelMode(str, Enum):
+    WALK = "walk"
+    DRIVE = "drive"
+    TRANSIT = "transit"
+
+
+class RouteBase(BaseModel):
+    origin: PlaceId
+    destination: PlaceId
+    mode: TravelMode
+    distance: int  # Unit: meters
+    duration: int  # Unit: seconds
+    polyline: str  # Encoded polyline string
+
+
+class WalkRoute(RouteBase):
+    mode: TravelMode = TravelMode.WALK
+
+
+class DriveRoute(RouteBase):
+    mode: TravelMode = TravelMode.DRIVE
+
+
+class TransitRoute(RouteBase):
+    mode: TravelMode = TravelMode.TRANSIT
+
+
+##### Public Schemas #####
 
 
 class RoutesRequest(BaseModel):
     date: date
     mode: Optional[TravelMode] = TravelMode.TRANSIT
-    places: List[PydanticObjectId]
+    places: List[PlaceId]
 
     @field_validator("date", mode="before")
     def parse_date(cls, v):

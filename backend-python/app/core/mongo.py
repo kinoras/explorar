@@ -4,7 +4,7 @@ from pymongo.asynchronous.database import AsyncDatabase
 from beanie import init_beanie
 
 from app.core.config import settings
-from app.models.place.db import Place
+from app.features.places import Place
 
 _client: Optional[AsyncMongoClient] = None
 

@@ -11,7 +11,9 @@ from app.core.exceptions import (
     unhandled_exception_handler,
 )
 from app.core.mongo import close_mongo, init_mongo
-from app.routes import router
+from app.features.categories import categories_router
+from app.features.places import places_router
+from app.features.routing import routing_router
 
 
 @asynccontextmanager
@@ -44,4 +46,6 @@ app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(Exception, unhandled_exception_handler)
 
 # Routers
-app.include_router(router)
+app.include_router(categories_router, prefix="/categories", tags=["Categories"])
+app.include_router(places_router, prefix="/places", tags=["Places"])
+app.include_router(routing_router, prefix="/routes", tags=["Routes"])

@@ -1,19 +1,41 @@
 from typing import List, Optional, Tuple
-
-from pydantic import Field
+from pydantic import BaseModel, Field
 from beanie import Document, PydanticObjectId
 from pymongo import ASCENDING, DESCENDING
 
-from ..const import Region, Category, SortOrder
-from .shared import PlaceBase, Connection
+from app.core.common import Region, Category, SortOrder
+
+from .schemas import PlaceBase
+
+
+class Connection(BaseModel):
+    type: str
+    id: str
+
+
+##### Public Schemas #####
 
 
 class Place(Document, PlaceBase):
+    # Internal data
+    connections: List[Connection] = Field(default_factory=list)
+
     class Settings:
         name = "places"
 
-    # Internal data
-    connections: List[Connection] = Field(default_factory=list)
+    @classmethod
+    async def get_many(
+        cls,
+        ids: List[PydanticObjectId],
+        preserve_order: bool = False,
+    ) -> List["Place"]:
+        # Retrieve places
+        places = await cls.find({"_id": {"$in": ids}}).to_list()
+        if not preserve_order:
+            return places
+        # Preserve order
+        places_dict = {p.id: p for p in places}  # Index by ID
+        return [places_dict[id] for id in ids if id in places_dict]  # Filter missing
 
     @classmethod
     async def query(
@@ -25,7 +47,6 @@ class Place(Document, PlaceBase):
         limit: int = 10,
         cursor: Optional[PydanticObjectId] = None,
     ) -> Tuple[List["Place"], Optional[PydanticObjectId]]:
-
         # 0. Field mapping
         mongo_field = "_id" if sort_field == "id" else sort_field  # Mongo: id -> _id
 

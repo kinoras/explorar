@@ -1,27 +1,13 @@
-from fastapi import APIRouter, HTTPException
+from typing import List
+from fastapi import HTTPException
 
-from app.core.exceptions import (
-    NotFoundExceptionModel,
-    UnprocessableEntityExceptionModel,
-    InternalServerErrorExceptionModel,
-)
-from app.models.route.api import RoutesRequest, RoutesResponse
-from app.models.place.db import Place
-
-route_router = APIRouter()
+from ..places import Place
+from .schemas import RoutesRequest
 
 
-@route_router.post(
-    "/compute",
-    responses={
-        404: {"model": NotFoundExceptionModel},
-        422: {"model": UnprocessableEntityExceptionModel},
-        500: {"model": InternalServerErrorExceptionModel},
-    },
-)
-async def compute_routes(body: RoutesRequest) -> RoutesResponse:
+async def places_dep(body: RoutesRequest) -> List[Place]:
     # Retrieve places
-    places = await Place.find({"_id": {"$in": body.places}}).to_list()
+    places = await Place.get_many(body.places, preserve_order=True)
 
     # Check if all places exist
     if len(places) != len(body.places):
@@ -45,6 +31,4 @@ async def compute_routes(body: RoutesRequest) -> RoutesResponse:
             },
         )
 
-    # TODO: Compute routes using Google Maps Routes API
-
-    return RoutesResponse(routes=[])  # Placeholder response
+    return places

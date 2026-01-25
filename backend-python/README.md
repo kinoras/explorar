@@ -19,6 +19,8 @@ This project uses [uv](https://docs.astral.sh/uv/) as the package manager.
 Set the following environment variable:
 
 - `CORS_ORIGINS` – Comma-separated list of allowed CORS origins
+- `MONGO_CONNECTION_STRING` – MongoDB connection string
+- `MONGO_DATABASE` – MongoDB database name
 
 ### Commands
 

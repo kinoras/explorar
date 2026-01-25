@@ -1,20 +1,22 @@
 from typing import Optional
-
 from fastapi import APIRouter, Query
 
+from app.core.common import Region
 from app.core.exceptions import (
     UnprocessableEntityExceptionModel,
     InternalServerErrorExceptionModel,
 )
-from app.models.const import Region
-from app.models.place.db import Place
-from app.models.category.api import CategoriesPublic, CategoryPublic
 
-category_router = APIRouter()
+from ..places import Place
+from .schemas import CategoriesPublic, CategoryPublic
 
 
-@category_router.get(
+categories_router = APIRouter()
+
+
+@categories_router.get(
     "",
+    operation_id="get_categories",
     response_model=CategoriesPublic,
     responses={
         422: {"model": UnprocessableEntityExceptionModel},

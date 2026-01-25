@@ -1,7 +1,10 @@
 from typing import List
 from pydantic import BaseModel
 
-from ..const import Category
+from app.core.common import Category
+
+
+##### Public Schemas #####
 
 
 class CategoryPublic(BaseModel):

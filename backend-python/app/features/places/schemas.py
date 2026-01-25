@@ -1,11 +1,7 @@
-from typing import List, Optional, TypeAlias
-from beanie import PydanticObjectId
+from typing import List, Optional
 from pydantic import BaseModel, Field
 
-from ..const import Category, Region
-
-
-PlaceId: TypeAlias = PydanticObjectId
+from app.core.common import Category, PlaceId, Region
 
 
 class Description(BaseModel):
@@ -31,11 +27,6 @@ class Hours(BaseModel):
     exceptions: Optional[dict] = None
 
 
-class Connection(BaseModel):
-    type: str
-    id: str
-
-
 class PlaceBase(BaseModel):
     # Info
     name: str
@@ -55,3 +46,16 @@ class PlaceBase(BaseModel):
     # Contact
     phone: Optional[str] = None
     website: Optional[str] = None
+
+
+##### Public Schemas #####
+
+
+class PlacePublic(PlaceBase):
+    # Object ID
+    id: PlaceId
+
+
+class PlacesPublic(BaseModel):
+    places: List[PlacePublic]
+    nextCursor: Optional[PlaceId] = None

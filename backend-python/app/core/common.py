@@ -1,4 +1,6 @@
+from typing import TypeAlias
 from enum import Enum
+from beanie import PydanticObjectId
 
 
 class Category(str, Enum):
@@ -18,3 +20,6 @@ class Region(str, Enum):
 class SortOrder(str, Enum):
     ASCENDING = "asc"
     DESCENDING = "desc"
+
+
+PlaceId: TypeAlias = PydanticObjectId
