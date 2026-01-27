@@ -1,6 +1,7 @@
 from typing import Annotated, Any, List
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+from datetime import timezone, timedelta
 
 
 def parse_csv(v: Any) -> List[str]:
@@ -27,6 +28,9 @@ class Settings(BaseSettings):
     MONGO_CONNECTION_STRING: str = "mongodb+srv://user:pass@localhost:27017"
     MONGO_DATABASE: str = "explore"
 
+    # Google Maps
+    GOOGLE_MAPS_API_KEY: str
+
     # CORS
     CORS_ORIGINS: Annotated[List[str], NoDecode] = []
 
@@ -37,6 +41,9 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             return [x for x in v.split(",")]
         return []
+
+    # Environment
+    TIMEZONE: timezone = timezone(offset=timedelta(hours=8))  # UTC+8
 
 
 settings = Settings()

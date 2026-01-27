@@ -1,7 +1,7 @@
 from typing import List, Optional
 from enum import Enum
 from pydantic import BaseModel, field_validator
-from datetime import datetime, date, timedelta
+from datetime import datetime, date as _date, timedelta
 
 from app.core.common import PlaceId
 
@@ -33,11 +33,14 @@ class TransitRoute(RouteBase):
     mode: TravelMode = TravelMode.TRANSIT
 
 
+type Route = WalkRoute | DriveRoute | TransitRoute
+
+
 ##### Public Schemas #####
 
 
 class RoutesRequest(BaseModel):
-    date: date
+    date: _date
     mode: Optional[TravelMode] = TravelMode.TRANSIT
     places: List[PlaceId]
 
@@ -50,8 +53,8 @@ class RoutesRequest(BaseModel):
             except ValueError:
                 raise ValueError("Date must be in format 'YYYY-MM-DD'")
         # Date range validation: D-7 to D+100
-        if isinstance(v, date):
-            today = date.today()
+        if isinstance(v, _date):
+            today = _date.today()
             if v < (today - timedelta(days=7)) or v > (today + timedelta(days=100)):
                 raise ValueError("Date must be between D-7 and D+100 from today")
         # Validation passed
@@ -65,4 +68,4 @@ class RoutesRequest(BaseModel):
 
 
 class RoutesResponse(BaseModel):
-    routes: List[DriveRoute | TransitRoute | WalkRoute]
+    routes: List[Route]

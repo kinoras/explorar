@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from app.core.exceptions import (
     NotFoundExceptionModel,
@@ -9,6 +9,7 @@ from app.core.exceptions import (
 from ..places import Place
 from .deps import places_dep
 from .schemas import RoutesRequest, RoutesResponse
+from .service import RouteService
 
 routing_router = APIRouter()
 
@@ -24,6 +25,16 @@ routing_router = APIRouter()
 )
 async def compute_routes(
     body: RoutesRequest,
-    places: list[Place] = Depends(places_dep),
+    places: list[Place] = Depends(places_dep),  # Prepare places
 ) -> RoutesResponse:
-    return RoutesResponse(routes=[])  # Placeholder response
+    try:
+        routes = await RouteService.compute(places, body.date, body.mode)
+        return RoutesResponse(routes=routes)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": "Failed to compute routes",
+                "description": str(e),
+            },
+        )

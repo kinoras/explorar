@@ -21,6 +21,7 @@ Set the following environment variable:
 - `CORS_ORIGINS` – Comma-separated list of allowed CORS origins
 - `MONGO_CONNECTION_STRING` – MongoDB connection string
 - `MONGO_DATABASE` – MongoDB database name
+- `GOOGLE_MAPS_API_KEY` – Google Maps API key
 
 ### Commands
 
