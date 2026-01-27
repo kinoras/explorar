@@ -23,11 +23,14 @@ MODE_MAP = {
     TravelMode.WALK: routing_v2.RouteTravelMode.WALK,
     TravelMode.DRIVE: routing_v2.RouteTravelMode.DRIVE,
 }
+INVERSE_MODE_MAP = {v: k for k, v in MODE_MAP.items()}
+
 
 FIELD_MASK = [
     "routes.legs.distanceMeters",
     "routes.legs.duration",
     "routes.legs.polyline.encodedPolyline",
+    "routes.legs.steps.travelMode",
 ]
 
 
@@ -101,7 +104,7 @@ class RouteService:
         field_mask = ",".join(FIELD_MASK)
         routing_preference = (
             routing_v2.RoutingPreference.TRAFFIC_AWARE
-            if segment.mode == TravelMode.DRIVE  # DRIVING: Traffic-aware
+            if travel_mode == routing_v2.RouteTravelMode.DRIVE  # DRIVING: Traffic-aware
             else routing_v2.RoutingPreference.ROUTING_PREFERENCE_UNSPECIFIED
         )
 
@@ -149,11 +152,17 @@ class RouteService:
                 "polyline": leg.polyline.encoded_polyline,
             }
 
-            if segment.mode == TravelMode.WALK:
+            mode = segment.mode
+
+            # Override segment mode if all steps share the same travel mode
+            if len({step.travel_mode for step in leg.steps}) == 1:
+                mode = INVERSE_MODE_MAP.get(leg.steps[0].travel_mode, segment.mode)
+
+            if mode == TravelMode.WALK:
                 results.append(WalkRoute(**base_args))
-            elif segment.mode == TravelMode.DRIVE:
+            elif mode == TravelMode.DRIVE:
                 results.append(DriveRoute(**base_args))
-            elif segment.mode == TravelMode.TRANSIT:
+            elif mode == TravelMode.TRANSIT:
                 results.append(TransitRoute(**base_args))
 
         return results
