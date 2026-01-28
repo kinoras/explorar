@@ -1,4 +1,4 @@
-import type { RouteLegDto } from '@/integrations/client'
+import type { Route as RouteResult, TravelMode } from '@/integrations/client'
 
 import { defaultTransitMethod } from '@/lib/config'
 import { transitMethods } from '@/lib/const'
@@ -21,8 +21,8 @@ const validateTransitMethod = (methodString: string): methodString is TransitMet
  * @param mode - Travel mode as a string
  * @returns Corresponding transit method
  */
-export const travelModeToTransitMethod = (mode: string): TransitMethod =>
-    mode === 'Drive' ? 'driving' : mode === 'Walk' ? 'walking' : 'transit' // Default to 'transit'
+export const travelModeToTransitMethod = (mode: TravelMode): TransitMethod =>
+    mode === 'drive' ? 'driving' : mode === 'walk' ? 'walking' : 'transit' // Default to 'transit'
 
 /**
  * Converts a TransitMethod to a travel mode string.
@@ -30,8 +30,8 @@ export const travelModeToTransitMethod = (mode: string): TransitMethod =>
  * @param method - Transit method
  * @returns - Corresponding travel mode as a string
  */
-export const transitMethodToTravelMode = (method: TransitMethod): string =>
-    method === 'driving' ? 'Drive' : method === 'walking' ? 'Walk' : 'Transit' // Default to 'Transit'
+export const transitMethodToTravelMode = (method: TransitMethod): TravelMode =>
+    method === 'driving' ? 'drive' : method === 'walking' ? 'walk' : 'transit' // Default to 'transit'
 
 /**
  * Converts a string to Location Sort Option, defaulting if invalid.
@@ -43,23 +43,15 @@ export const stringToTransitMethod = (optionString: string): TransitMethod => {
     return validateTransitMethod(optionString) ? optionString : defaultTransitMethod
 }
 
-/**
- * Converts a RouteLegDto to a Route object.
- *
- * @param leg - Route leg data transfer object
- * @returns Converted Route object
- */
-export const routeLegToRoute = (leg: RouteLegDto): Route => ({
-    locations: {
-        origin: leg.fromPlaceId?.toString() ?? '', // This should never be missing...
-        destination: leg.toPlaceId?.toString() ?? '' // and so should this
-    },
-    method: travelModeToTransitMethod(
-        leg.steps?.every((step) => step.stepTravelMode === 'Walk')
-            ? 'Walk' // All walking steps (to handle transit legs with only walking)
-            : (leg.travelMode ?? '') // Otherwise use leg travel mode
-    ),
-    distance: leg.distance ?? -1,
-    duration: leg.duration ?? -1,
-    polyline: leg.polyline ?? undefined
-})
+export const processRoutesResult = (route: RouteResult): Route => {
+    return {
+        locations: {
+            origin: route.origin,
+            destination: route.destination
+        },
+        method: travelModeToTransitMethod(route.mode!),
+        distance: route.distance,
+        duration: route.duration,
+        polyline: route.polyline
+    }
+}

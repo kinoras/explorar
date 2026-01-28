@@ -6,6 +6,8 @@ import { categories } from '@/lib/const'
 import type { Category, CategoryKey } from '@/types/category'
 import type { Region } from '@/types/region'
 
+import { regionMap } from './region'
+
 /**
  * Checks if a given string is a valid CategoryKey (appears in `categories`).
  *
@@ -46,10 +48,11 @@ export const stringToCategory = (keyString: string): Category => {
  */
 export const getCategoriesByRegion = async (region: Region): Promise<Category[]> => {
     // Fetch categories (keys) of the specified region
-    const regionCategories = (await getCategories({ query: { region } })).data ?? []
+    const regionCategories =
+        (await getCategories({ query: { region: regionMap[region] } })).data?.categories ?? []
 
     // Return the categories as Category objects
     return regionCategories
-        .filter(validateCategoryKey) // Ensure valid category keys
-        .map((keyString) => stringToCategory(keyString)) // Convert to Category objects
+        .filter(({ category }) => validateCategoryKey(category)) // Ensure valid category keys
+        .map(({ category, count }) => ({ ...stringToCategory(category), count })) // Convert to Category objects
 }

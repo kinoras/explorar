@@ -1,4 +1,4 @@
-import { postRoutesDay } from '@/integrations/client'
+import { computeRoutes as _computeRoutes } from '@/integrations/client'
 import {
     isPostRoutesInvalidDateFormatError,
     isPostRoutesNotInSameRegionError,
@@ -13,7 +13,7 @@ import { hasErrorMessage, isPresent } from '@/lib/utils'
 import type { LocationID } from '@/types/location'
 import type { Route, TransitMethod } from '@/types/route'
 
-import { routeLegToRoute, transitMethodToTravelMode } from './route-utils'
+import { processRoutesResult, transitMethodToTravelMode } from './route-utils'
 
 /**
  * Compute routes for a given day
@@ -29,11 +29,11 @@ export const computeRoutes = async (
     locations: LocationID[]
 ): Promise<Route[]> => {
     // Fetch route data from the API
-    const { data: route, error } = await postRoutesDay({
+    const { data: route, error } = await _computeRoutes({
         body: {
             date,
             mode: transitMethodToTravelMode(method),
-            placeIds: locations.map(Number)
+            places: locations
         }
     })
 
@@ -57,7 +57,7 @@ export const computeRoutes = async (
         throw new AppError('UNKNOWN', errorMessage)
     }
 
-    return (route?.legs ?? [])
-        .map(routeLegToRoute) // Convert to Route objects
+    return (route?.routes ?? [])
+        .map(processRoutesResult) // Convert to Route objects
         .filter(isPresent) // Filter out undefined entries
 }

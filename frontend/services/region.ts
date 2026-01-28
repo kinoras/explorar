@@ -1,7 +1,14 @@
+import type { Region as ClientRegion } from '@/integrations/client'
+
 import { defaultRegion } from '@/lib/config'
 import { supportedRegions } from '@/lib/const'
 
 import type { Region } from '@/types/region'
+
+export const regionMap: Record<Region, ClientRegion> = {
+    hk: 'hong-kong',
+    mo: 'macau'
+} as const
 
 /**
  * Validates if a string is a supported region.

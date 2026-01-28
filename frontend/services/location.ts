@@ -1,5 +1,5 @@
 import { getPlaces } from '@/integrations/client'
-import { getPlacesById } from '@/integrations/client'
+import { getPlaceById } from '@/integrations/client'
 import { isGetPlacesByIdNotFoundError, isGetPlacesInvalidCursorError } from '@/integrations/errors'
 
 import { AppError } from '@/lib/errors'
@@ -10,8 +10,11 @@ import type { Location, LocationID, LocationSortOption, LocationsPage } from '@/
 import type { Region } from '@/types/region'
 
 import { placeToLocation } from './location-utils'
+import { regionMap } from './region'
 
-const sortQueryMap = {
+type LocationSortQuery = { orderBy: 'ranking' | 'rating'; orderDir: 'asc' | 'desc' }
+
+const sortQueryMap: Record<LocationSortOption, LocationSortQuery> = {
     ranking: { orderBy: 'ranking', orderDir: 'asc' },
     rating: { orderBy: 'rating', orderDir: 'desc' }
 }
@@ -31,15 +34,11 @@ export const getLocationsByRegion = async (
     categories?: CategoryKey[],
     startCursor?: LocationID
 ): Promise<LocationsPage> => {
-    const cursor = startCursor
-        ? parseInt(startCursor) || undefined // Handle invalid cursor
-        : undefined
-
     // Fetch locations of the specified region
     const { data, error } = await getPlaces({
         query: {
-            region,
-            cursor,
+            region: regionMap[region],
+            cursor: startCursor,
             categories: categories?.join(','),
             ...sortQueryMap[sort]
         }
@@ -73,7 +72,7 @@ export const getLocationsByRegion = async (
  */
 export const getLocationById = async (id: LocationID): Promise<Location | undefined> => {
     // Fetch place with the specified ID
-    const { data: place, error } = await getPlacesById({ path: { id: parseInt(id) } })
+    const { data: place, error } = await getPlaceById({ path: { id } })
 
     if (error) {
         const errorMessage = hasErrorMessage(error) ? error.message : String(error)

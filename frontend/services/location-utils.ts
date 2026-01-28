@@ -1,4 +1,4 @@
-import type { Place } from '@/integrations/client'
+import type { PlacePublic } from '@/integrations/client'
 
 import { defaultLocationSortOption } from '@/lib/config'
 import { locationSortOptions } from '@/lib/const'
@@ -29,27 +29,24 @@ export const stringToLocationSortOption = (optionString: string): LocationSortOp
 }
 
 /**
- * Converts a Place object into a Location object.
+ * Converts a PlacePublic object into a Location object.
  *
- * @param place - The Place object to parse
+ * @param place - The PlacePublic object to parse
  * @returns The resolved Location object
  */
-export const placeToLocation = (place: Place): Location => {
+export const placeToLocation = (place: PlacePublic): Location => {
     return {
         id: place.id?.toString() ?? '', // In theory should always be present
-        name: place.name ?? 'Mysterious Place',
-        category: stringToCategory(place.category ?? ''),
+        name: place.name,
+        category: stringToCategory(place.category),
         description: place.description?.content,
         images: place.images ?? [],
         rating: isPresent(place.rating)
             ? { value: place.rating, formatted: Number(place.rating).toFixed(1) }
             : undefined,
         position: {
-            address: place.location?.address ?? 'Somewhere on Earth',
-            coordinates:
-                isPresent(place.location?.latitude) && isPresent(place.location?.longitude)
-                    ? [place.location.latitude, place.location.longitude]
-                    : undefined
+            address: place.location.address,
+            coordinates: [place.location.latitude, place.location.longitude]
         },
         contacts: {
             phone: place.phone ?? undefined,
