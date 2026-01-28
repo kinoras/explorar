@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Literal, Optional
 from enum import Enum
 from pydantic import BaseModel, field_validator
 from datetime import datetime, date as _date, timedelta
@@ -22,15 +22,15 @@ class RouteBase(BaseModel):
 
 
 class WalkRoute(RouteBase):
-    mode: TravelMode = TravelMode.WALK
+    mode: Literal[TravelMode.WALK] = TravelMode.WALK
 
 
 class DriveRoute(RouteBase):
-    mode: TravelMode = TravelMode.DRIVE
+    mode: Literal[TravelMode.DRIVE] = TravelMode.DRIVE
 
 
 class TransitRoute(RouteBase):
-    mode: TravelMode = TravelMode.TRANSIT
+    mode: Literal[TravelMode.TRANSIT] = TravelMode.TRANSIT
 
 
 type Route = WalkRoute | DriveRoute | TransitRoute
