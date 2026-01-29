@@ -14,7 +14,7 @@ def parse_csv(v: Any) -> List[str]:
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env", ".env.local"),
         env_ignore_empty=True,
         extra="ignore",
         case_sensitive=True,
@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     # Project
     PROJECT_NAME: str = "Explore HK MO API"
     API_V1_STR: str = "/api/v1"
+    ENVIRONMENT: str = "development"
 
     # MongoDB
     MONGO_CONNECTION_STRING: str = "mongodb+srv://user:pass@localhost:27017"
