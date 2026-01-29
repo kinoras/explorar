@@ -1,5 +1,8 @@
 from typing import List
+from collections import defaultdict
 from fastapi import HTTPException
+
+from app.core.exceptions import ErrorCode, ErrorModel
 
 from ..places import Place
 from .schemas import RoutesRequest
@@ -12,23 +15,35 @@ async def places_dep(body: RoutesRequest) -> List[Place]:
     # Check if all places exist
     if len(places) != len(body.places):
         found_ids = {p.id for p in places}
-        missing_str = ",".join([f"'{id}'" for id in body.places if id not in found_ids])
+        missing_ids = [str(id) for id in body.places if id not in found_ids]
         raise HTTPException(
             status_code=404,
-            detail={
-                "message": "Place not found",
-                "description": f"places: Places {missing_str} could not be found",
-            },
+            detail=ErrorModel(
+                status=404,
+                code=ErrorCode.ROUTES_PLACES_NOTFOUND,
+                message="Some places not found",
+                details={
+                    "resource": "places",
+                    "id": ",".join(missing_ids),
+                },
+            ),
         )
 
     # Check if all places are in the same region
     if len({p.region for p in places}) > 1:
+        regional_places = defaultdict(list[str])
+        [regional_places[p.region].append(str(p.id)) for p in places]
         raise HTTPException(
             status_code=422,
-            detail={
-                "message": "Places are in different regions",
-                "description": "places: All places must be in the same region, either all in Hong Kong or all in Macau",
-            },
+            detail=ErrorModel(
+                status=422,
+                code=ErrorCode.ROUTES_PLACES_FORMAT,
+                message="Places are not in the same region",
+                details={
+                    "places.hk": ",".join(regional_places["hong-kong"]),
+                    "places.mo": ",".join(regional_places["macau"]),
+                },
+            ),
         )
 
     return places

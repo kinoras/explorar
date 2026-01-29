@@ -1,10 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.core.exceptions import (
-    NotFoundExceptionModel,
-    UnprocessableEntityExceptionModel,
-    InternalServerErrorExceptionModel,
-)
+from app.core.exceptions import ErrorCode, error_models
 
 from ..places import Place
 from .deps import places_dep
@@ -17,11 +13,7 @@ routing_router = APIRouter()
 @routing_router.post(
     "/compute",
     operation_id="compute_routes",
-    responses={
-        404: {"model": NotFoundExceptionModel},
-        422: {"model": UnprocessableEntityExceptionModel},
-        500: {"model": InternalServerErrorExceptionModel},
-    },
+    responses=error_models([404, 422, 500]),
 )
 async def compute_routes(
     body: RoutesRequest,
@@ -32,9 +24,10 @@ async def compute_routes(
         return RoutesResponse(routes=routes)
     except Exception as e:
         raise HTTPException(
-            status_code=500,
+            status_code=422,
             detail={
+                "code": ErrorCode.ROUTES_COMPUTE_FAILED,
                 "message": "Failed to compute routes",
-                "description": str(e),
+                "details": {"reason": str(e)},
             },
         )

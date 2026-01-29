@@ -1,9 +1,8 @@
-from typing import TypeAlias
-from enum import Enum
+from enum import StrEnum
 from beanie import PydanticObjectId
 
 
-class Category(str, Enum):
+class Category(StrEnum):
     ENTERTAINMENT = "entertainment"
     HERITAGE = "heritage"
     LANDMARKS = "landmarks"
@@ -12,14 +11,25 @@ class Category(str, Enum):
     SHOPPING = "shopping"
 
 
-class Region(str, Enum):
+class Region(StrEnum):
     HONG_KONG = "hong-kong"
     MACAU = "macau"
 
 
-class SortOrder(str, Enum):
+class SortOrder(StrEnum):
     ASCENDING = "asc"
     DESCENDING = "desc"
 
+    @classmethod
+    def _missing_(cls, value):
+        # Case-insensitive matching
+        value = value.lower()
+        for member in cls:
+            if member.value == value:
+                return member
 
-PlaceId: TypeAlias = PydanticObjectId
+        # Default to ASCENDING
+        return cls.ASCENDING
+
+
+type PlaceId = PydanticObjectId

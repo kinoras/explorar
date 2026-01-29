@@ -2,11 +2,7 @@ from typing import List, Literal, Optional
 from fastapi import APIRouter, HTTPException, Query
 
 from app.core.common import PlaceId, Region, Category, SortOrder
-from app.core.exceptions import (
-    NotFoundExceptionModel,
-    UnprocessableEntityExceptionModel,
-    InternalServerErrorExceptionModel,
-)
+from app.core.exceptions import ErrorCode, ErrorModel, error_models
 
 from .documents import Place
 from .schemas import PlacePublic, PlacesPublic
@@ -25,10 +21,12 @@ def _parse_categories(input: str) -> Optional[List[Category]]:
     except ValueError:
         raise HTTPException(
             status_code=422,
-            detail={
-                "message": "Validation error",
-                "description": "categories: Input should be a comma-separated list of valid categories",
-            },
+            detail=ErrorModel(
+                status=422,
+                code=ErrorCode.PLACES_CATEGORY_INVALID,
+                message="Invalid categories",
+                details={"categories": "Input should be csv string of categories"},
+            ),
         )
 
 
@@ -36,10 +34,7 @@ def _parse_categories(input: str) -> Optional[List[Category]]:
     "",
     operation_id="get_places",
     response_model=PlacesPublic,
-    responses={
-        422: {"model": UnprocessableEntityExceptionModel},
-        500: {"model": InternalServerErrorExceptionModel},
-    },
+    responses=error_models([422, 500]),
 )
 async def get_places(
     region: Optional[Region] = Query(default=None),
@@ -72,11 +67,7 @@ async def get_places(
     "/{id}",
     operation_id="get_place_by_id",
     response_model=PlacePublic,
-    responses={
-        404: {"model": NotFoundExceptionModel},
-        422: {"model": UnprocessableEntityExceptionModel},
-        500: {"model": InternalServerErrorExceptionModel},
-    },
+    responses=error_models([404, 422, 500]),
 )
 async def get_place_by_id(
     id: PlaceId,
@@ -88,10 +79,12 @@ async def get_place_by_id(
     if not place:
         raise HTTPException(
             status_code=404,
-            detail={
-                "message": "Place not found",
-                "description": f"Place with id '{id}' does not exist",
-            },
+            detail=ErrorModel(
+                status=404,
+                code=ErrorCode.PLACE_ID_NOTFOUND,
+                message="Place not found",
+                details={"placeId": id},
+            ),
         )
 
     return PlacePublic(**place.model_dump())

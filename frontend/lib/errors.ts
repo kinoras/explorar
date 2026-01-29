@@ -4,6 +4,7 @@ export type AppErrorCode =
     // 404
     | 'LOCATION_NOT_FOUND'
     // 422
+    | 'INVALID_REGION'
     | 'INVALID_DATE_FORMAT'
     | 'INVALID_DATE_RANGE'
     | 'INVALID_LOCATION_CURSOR'
@@ -58,7 +59,9 @@ export const getAppErrorDescription = (error: AppError): string => {
         case 'INVALID_DATE_FORMAT':
             return 'The provided date format is invalid.'
         case 'INVALID_DATE_RANGE':
-            return 'Cannot search for dates in the past.'
+            return 'Cannot search dates before 7 days ago or beyond 100 days from today.'
+        case 'INVALID_REGION':
+            return 'The specified region is invalid.'
         case 'INVALID_LOCATION_CURSOR':
             return 'The location cursor provided is invalid.'
         case 'INVALID_LOCATION_PAIRS':

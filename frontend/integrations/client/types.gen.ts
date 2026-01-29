@@ -54,8 +54,8 @@ export type Description = {
  * DriveRoute
  */
 export type DriveRoute = {
-    origin: PydanticObjectId
-    destination: PydanticObjectId
+    origin: PlaceId
+    destination: PlaceId
     /**
      * Mode
      */
@@ -72,6 +72,48 @@ export type DriveRoute = {
      * Polyline
      */
     polyline: string
+}
+
+/**
+ * ErrorCode
+ */
+export type ErrorCode =
+    | 'categories.region.invalid'
+    | 'places.region.invalid'
+    | 'places.category.invalid'
+    | 'places.orderBy.invalid'
+    | 'places.orderDir.invalid'
+    | 'places.limit.format'
+    | 'places.cursor.format'
+    | 'place.id.format'
+    | 'place.id.notFound'
+    | 'routes.date.range'
+    | 'routes.date.format'
+    | 'routes.method.invalid'
+    | 'routes.places.format'
+    | 'routes.places.notFound'
+    | 'routes.compute.failed'
+    | 'server.internal.general'
+    | 'unknown'
+
+export type ErrorDetails = {
+    [key: string]: string
+}
+
+/**
+ * ErrorModel
+ */
+export type ErrorModel = {
+    /**
+     * Status
+     */
+    status: number
+    code?: ErrorCode
+    /**
+     * Message
+     */
+    message: string
+    details?: ErrorDetails | null
 }
 
 /**
@@ -95,28 +137,6 @@ export type Hours = {
 }
 
 /**
- * InternalServerErrorExceptionModel
- */
-export type InternalServerErrorExceptionModel = {
-    /**
-     * Code
-     */
-    code?: number
-    /**
-     * Status
-     */
-    status?: 'error'
-    /**
-     * Message
-     */
-    message: string
-    /**
-     * Description
-     */
-    description?: string | null
-}
-
-/**
  * Location
  */
 export type Location = {
@@ -134,27 +154,7 @@ export type Location = {
     longitude: number
 }
 
-/**
- * NotFoundExceptionModel
- */
-export type NotFoundExceptionModel = {
-    /**
-     * Code
-     */
-    code?: number
-    /**
-     * Status
-     */
-    status?: 'error'
-    /**
-     * Message
-     */
-    message: string
-    /**
-     * Description
-     */
-    description?: string | null
-}
+export type PlaceId = string
 
 /**
  * PlacePublic
@@ -189,7 +189,7 @@ export type PlacePublic = {
      * Website
      */
     website?: string | null
-    id: PydanticObjectId
+    id: PlaceId
 }
 
 /**
@@ -200,10 +200,8 @@ export type PlacesPublic = {
      * Places
      */
     places: Array<PlacePublic>
-    nextCursor?: PydanticObjectId | null
+    nextCursor?: PlaceId | null
 }
-
-export type PydanticObjectId = string
 
 /**
  * Region
@@ -242,7 +240,7 @@ export type RoutesRequest = {
     /**
      * Places
      */
-    places: Array<PydanticObjectId>
+    places: Array<PlaceId>
 }
 
 /**
@@ -264,8 +262,8 @@ export type SortOrder = 'asc' | 'desc'
  * TransitRoute
  */
 export type TransitRoute = {
-    origin: PydanticObjectId
-    destination: PydanticObjectId
+    origin: PlaceId
+    destination: PlaceId
     /**
      * Mode
      */
@@ -290,33 +288,11 @@ export type TransitRoute = {
 export type TravelMode = 'walk' | 'drive' | 'transit'
 
 /**
- * UnprocessableEntityExceptionModel
- */
-export type UnprocessableEntityExceptionModel = {
-    /**
-     * Code
-     */
-    code?: number
-    /**
-     * Status
-     */
-    status?: 'error'
-    /**
-     * Message
-     */
-    message: string
-    /**
-     * Description
-     */
-    description?: string | null
-}
-
-/**
  * WalkRoute
  */
 export type WalkRoute = {
-    origin: PydanticObjectId
-    destination: PydanticObjectId
+    origin: PlaceId
+    destination: PlaceId
     /**
      * Mode
      */
@@ -353,11 +329,11 @@ export type GetCategoriesErrors = {
     /**
      * Unprocessable Entity
      */
-    422: UnprocessableEntityExceptionModel
+    422: ErrorModel
     /**
      * Internal Server Error
      */
-    500: InternalServerErrorExceptionModel
+    500: ErrorModel
 }
 
 export type GetCategoriesError = GetCategoriesErrors[keyof GetCategoriesErrors]
@@ -399,7 +375,7 @@ export type GetPlacesData = {
          *
          * Starting id
          */
-        cursor?: PydanticObjectId | null
+        cursor?: PlaceId | null
     }
     url: '/places'
 }
@@ -408,11 +384,11 @@ export type GetPlacesErrors = {
     /**
      * Unprocessable Entity
      */
-    422: UnprocessableEntityExceptionModel
+    422: ErrorModel
     /**
      * Internal Server Error
      */
-    500: InternalServerErrorExceptionModel
+    500: ErrorModel
 }
 
 export type GetPlacesError = GetPlacesErrors[keyof GetPlacesErrors]
@@ -429,7 +405,7 @@ export type GetPlacesResponse = GetPlacesResponses[keyof GetPlacesResponses]
 export type GetPlaceByIdData = {
     body?: never
     path: {
-        id: PydanticObjectId
+        id: PlaceId
     }
     query?: never
     url: '/places/{id}'
@@ -439,15 +415,15 @@ export type GetPlaceByIdErrors = {
     /**
      * Not Found
      */
-    404: NotFoundExceptionModel
+    404: ErrorModel
     /**
      * Unprocessable Entity
      */
-    422: UnprocessableEntityExceptionModel
+    422: ErrorModel
     /**
      * Internal Server Error
      */
-    500: InternalServerErrorExceptionModel
+    500: ErrorModel
 }
 
 export type GetPlaceByIdError = GetPlaceByIdErrors[keyof GetPlaceByIdErrors]
@@ -472,15 +448,15 @@ export type ComputeRoutesErrors = {
     /**
      * Not Found
      */
-    404: NotFoundExceptionModel
+    404: ErrorModel
     /**
      * Unprocessable Entity
      */
-    422: UnprocessableEntityExceptionModel
+    422: ErrorModel
     /**
      * Internal Server Error
      */
-    500: InternalServerErrorExceptionModel
+    500: ErrorModel
 }
 
 export type ComputeRoutesError = ComputeRoutesErrors[keyof ComputeRoutesErrors]

@@ -1,14 +1,8 @@
 import { computeRoutes as _computeRoutes } from '@/integrations/client'
-import {
-    isPostRoutesInvalidDateFormatError,
-    isPostRoutesNotInSameRegionError,
-    isPostRoutesOnlyOnePlaceError,
-    isPostRoutesPlaceNotFoundError,
-    isPostRoutesSearchingPastDatesError
-} from '@/integrations/errors'
+import { getErrorCode, getErrorDetails, getErrorMessage } from '@/integrations/errors'
 
 import { AppError } from '@/lib/errors'
-import { hasErrorMessage, isPresent } from '@/lib/utils'
+import { isPresent } from '@/lib/utils'
 
 import type { LocationID } from '@/types/location'
 import type { Route, TransitMethod } from '@/types/route'
@@ -38,18 +32,21 @@ export const computeRoutes = async (
     })
 
     if (error) {
-        const errorMessage = hasErrorMessage(error) ? error.message : String(error)
+        const errorCode = getErrorCode(error)
+        const errorMessage = getErrorMessage(error) ?? String(error)
+        const errorDetails = getErrorDetails(error)
 
         // Domain-specific error handling
-        if (isPostRoutesInvalidDateFormatError(error))
+        if (errorCode === 'routes.date.format')
             throw new AppError('INVALID_DATE_FORMAT', errorMessage)
-        if (isPostRoutesSearchingPastDatesError(error))
+        if (errorCode === 'routes.date.range')
             throw new AppError('INVALID_DATE_RANGE', errorMessage)
-        if (isPostRoutesNotInSameRegionError(error))
+        if (errorCode === 'routes.places.format' && errorDetails?.['places.hk'])
+            // Locations not in the same region
             throw new AppError('INVALID_LOCATION_PAIRS', errorMessage)
-        if (isPostRoutesPlaceNotFoundError(error))
+        if (errorCode === 'routes.places.notFound')
             throw new AppError('LOCATION_NOT_FOUND', errorMessage)
-        if (isPostRoutesOnlyOnePlaceError(error))
+        if (errorCode === 'routes.places.format')
             // No need to handle, empty response is enough
             return []
 

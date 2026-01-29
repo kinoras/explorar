@@ -1,9 +1,8 @@
 import { getPlaces } from '@/integrations/client'
 import { getPlaceById } from '@/integrations/client'
-import { isGetPlacesByIdNotFoundError, isGetPlacesInvalidCursorError } from '@/integrations/errors'
+import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
 import { AppError } from '@/lib/errors'
-import { hasErrorMessage } from '@/lib/utils'
 
 import type { CategoryKey } from '@/types/category'
 import type { Location, LocationID, LocationSortOption, LocationsPage } from '@/types/location'
@@ -45,10 +44,11 @@ export const getLocationsByRegion = async (
     })
 
     if (error) {
-        const errorMessage = hasErrorMessage(error) ? error.message : String(error)
+        const errorCode = getErrorCode(error)
+        const errorMessage = getErrorMessage(error) ?? String(error)
 
         // Domain-specific error handling
-        if (isGetPlacesInvalidCursorError(error))
+        if (errorCode === 'places.cursor.format')
             throw new AppError('INVALID_LOCATION_CURSOR', errorMessage)
 
         // General error
@@ -75,10 +75,11 @@ export const getLocationById = async (id: LocationID): Promise<Location | undefi
     const { data: place, error } = await getPlaceById({ path: { id } })
 
     if (error) {
-        const errorMessage = hasErrorMessage(error) ? error.message : String(error)
+        const errorCode = getErrorCode(error)
+        const errorMessage = getErrorMessage(error) ?? String(error)
 
         // Domain-specific error handling
-        if (isGetPlacesByIdNotFoundError(error))
+        if (errorCode === 'place.id.notFound')
             throw new AppError('LOCATION_NOT_FOUND', errorMessage)
 
         // General error

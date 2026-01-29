@@ -1,7 +1,9 @@
 import { getCategories } from '@/integrations/client'
+import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
 import { defaultCategoryKey } from '@/lib/config'
 import { categories } from '@/lib/const'
+import { AppError } from '@/lib/errors'
 
 import type { Category, CategoryKey } from '@/types/category'
 import type { Region } from '@/types/region'
@@ -48,11 +50,22 @@ export const stringToCategory = (keyString: string): Category => {
  */
 export const getCategoriesByRegion = async (region: Region): Promise<Category[]> => {
     // Fetch categories (keys) of the specified region
-    const regionCategories =
-        (await getCategories({ query: { region: regionMap[region] } })).data?.categories ?? []
+    const { data, error } = await getCategories({ query: { region: regionMap[region] } })
+
+    if (error) {
+        const errorCode = getErrorCode(error)
+        const errorMessage = getErrorMessage(error) ?? String(error)
+
+        // Domain-specific error handling
+        if (errorCode === 'categories.region.invalid')
+            throw new AppError('INVALID_REGION', errorMessage)
+
+        // General error
+        throw new AppError('UNKNOWN', errorMessage)
+    }
 
     // Return the categories as Category objects
-    return regionCategories
+    return (data?.categories ?? [])
         .filter(({ category }) => validateCategoryKey(category)) // Ensure valid category keys
         .map(({ category, count }) => ({ ...stringToCategory(category), count })) // Convert to Category objects
 }

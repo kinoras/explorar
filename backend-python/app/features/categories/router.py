@@ -2,10 +2,7 @@ from typing import Optional
 from fastapi import APIRouter, Query
 
 from app.core.common import Region
-from app.core.exceptions import (
-    UnprocessableEntityExceptionModel,
-    InternalServerErrorExceptionModel,
-)
+from app.core.exceptions import error_models
 
 from ..places import Place
 from .schemas import CategoriesPublic, CategoryPublic
@@ -18,10 +15,7 @@ categories_router = APIRouter()
     "",
     operation_id="get_categories",
     response_model=CategoriesPublic,
-    responses={
-        422: {"model": UnprocessableEntityExceptionModel},
-        500: {"model": InternalServerErrorExceptionModel},
-    },
+    responses=error_models([422, 500]),
 )
 async def get_categories(
     region: Optional[Region] = Query(None, description="Region"),
