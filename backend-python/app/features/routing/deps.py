@@ -32,7 +32,8 @@ async def places_dep(body: RoutesRequest) -> List[Place]:
     # Check if all places are in the same region
     if len({p.region for p in places}) > 1:
         regional_places = defaultdict(list[str])
-        [regional_places[p.region].append(str(p.id)) for p in places]
+        for p in places:
+            regional_places[p.region].append(str(p.id))
         raise HTTPException(
             status_code=422,
             detail=ErrorModel(

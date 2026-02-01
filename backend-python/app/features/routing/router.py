@@ -4,7 +4,7 @@ from app.core.exceptions import ErrorCode, error_models
 
 from ..places import Place
 from .deps import places_dep
-from .schemas import RoutesRequest, RoutesResponse
+from .schemas import RoutesRequest, RoutesResponse, TravelMode
 from .service import RouteService
 
 routing_router = APIRouter()
@@ -20,7 +20,11 @@ async def compute_routes(
     places: list[Place] = Depends(places_dep),  # Prepare places
 ) -> RoutesResponse:
     try:
-        routes = await RouteService.compute(places, body.date, body.mode)
+        routes = await RouteService.compute(
+            places=places,
+            date=body.date,
+            mode=body.mode or TravelMode.TRANSIT,  # Default to transit mode
+        )
         return RoutesResponse(routes=routes)
     except Exception as e:
         raise HTTPException(

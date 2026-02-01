@@ -42,7 +42,7 @@ async def init_mongo() -> None:
             document_models=[Place],
         )
     except Exception as e:
-        raise Exception("Unable to initialize MongoDB/Beanie", e)
+        raise Exception("Unable to initialize MongoDB/Beanie") from e
 
 
 async def close_mongo() -> None:

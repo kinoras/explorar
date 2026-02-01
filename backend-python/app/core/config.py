@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     @classmethod
     def parse_cors_origins(cls, v) -> List[str]:
         if isinstance(v, str):
-            return [x for x in v.split(",")]
+            return [x.strip() for x in v.split(",") if x.strip()]
         return []
 
     # Environment

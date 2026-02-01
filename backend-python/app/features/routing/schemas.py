@@ -45,6 +45,7 @@ class RoutesRequest(BaseModel):
     places: List[PlaceId]
 
     @field_validator("date", mode="before")
+    @classmethod
     def parse_date(cls, v):
         # String (YYYY-MM-DD) to date conversion
         if isinstance(v, str):
@@ -61,6 +62,7 @@ class RoutesRequest(BaseModel):
         return v
 
     @field_validator("places")
+    @classmethod
     def validate_places(cls, v):
         if not v:
             raise ValueError("Places list cannot be empty")

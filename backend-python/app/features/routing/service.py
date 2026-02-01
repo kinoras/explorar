@@ -1,5 +1,5 @@
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime, date as _date, time, timedelta
 
 from google.api_core.client_options import ClientOptions
@@ -15,7 +15,9 @@ from .schemas import TravelMode, Route, DriveRoute, TransitRoute, WalkRoute
 class Segment(BaseModel):
     places: List[Place]
     mode: TravelMode = TravelMode.DRIVE  # Default: DRIVE
-    departure: datetime = datetime.now(tz=settings.TIMEZONE)  # Default: now
+    departure: datetime = Field(
+        default_factory=lambda: datetime.now(tz=settings.TIMEZONE)  # Default: now
+    )
 
 
 MODE_MAP = {
@@ -47,9 +49,10 @@ class RouteService:
             stop (datetime): stop of the interval.
             num (int): Number of datetimes to generate.
         Returns:
-            List[datetime]: Evenly spaced datetimes between start and stop (both inclusive).
+            List[datetime]: Evenly spaced datetimes between start and stop (both inclusive).\\
+                            If num < 2, returns the midpoint between start and stop.
         """
-        if num == 1:
+        if num < 2:
             return [start + (stop - start) / 2]
         step = (stop - start) / (num - 1)
         return [start + i * step for i in range(num)]
@@ -237,9 +240,9 @@ class RouteService:
             try:
                 segment_routes = await cls.compute_segment(segment)
                 routes.extend(segment_routes)
-
-            # Propagate errors as runtime errors
-            except (RuntimeError, ValueError) as e:
-                raise RuntimeError(str(e))
+            except RuntimeError:  # Re-raise as is
+                raise
+            except ValueError as e:  # Wrap non-runtime errors
+                raise RuntimeError(str(e)) from e
 
         return routes

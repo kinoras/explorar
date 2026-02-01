@@ -83,7 +83,7 @@ async def get_place_by_id(
                 status=404,
                 code=ErrorCode.PLACE_ID_NOTFOUND,
                 message="Place not found",
-                details={"placeId": id},
+                details={"placeId": str(id)},
             ),
         )
 
