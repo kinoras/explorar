@@ -2,14 +2,18 @@
 import type { Client, Options as Options2, TDataShape } from './client'
 import { client } from './client.gen'
 import type {
+    ComputeRoutesData,
+    ComputeRoutesErrors,
+    ComputeRoutesResponses,
     GetCategoriesData,
+    GetCategoriesErrors,
     GetCategoriesResponses,
-    GetPlacesByIdData,
-    GetPlacesByIdResponses,
+    GetPlaceByIdData,
+    GetPlaceByIdErrors,
+    GetPlaceByIdResponses,
     GetPlacesData,
-    GetPlacesResponses,
-    PostRoutesDayData,
-    PostRoutesDayResponses
+    GetPlacesErrors,
+    GetPlacesResponses
 } from './types.gen'
 
 export type Options<
@@ -29,38 +33,50 @@ export type Options<
     meta?: Record<string, unknown>
 }
 
+/**
+ * Get Categories
+ */
 export const getCategories = <ThrowOnError extends boolean = false>(
     options?: Options<GetCategoriesData, ThrowOnError>
 ) =>
-    (options?.client ?? client).get<GetCategoriesResponses, unknown, ThrowOnError>({
+    (options?.client ?? client).get<GetCategoriesResponses, GetCategoriesErrors, ThrowOnError>({
         url: '/categories',
         ...options
     })
 
+/**
+ * Get Places
+ */
 export const getPlaces = <ThrowOnError extends boolean = false>(
     options?: Options<GetPlacesData, ThrowOnError>
 ) =>
-    (options?.client ?? client).get<GetPlacesResponses, unknown, ThrowOnError>({
+    (options?.client ?? client).get<GetPlacesResponses, GetPlacesErrors, ThrowOnError>({
         url: '/places',
         ...options
     })
 
-export const getPlacesById = <ThrowOnError extends boolean = false>(
-    options: Options<GetPlacesByIdData, ThrowOnError>
+/**
+ * Get Place By Id
+ */
+export const getPlaceById = <ThrowOnError extends boolean = false>(
+    options: Options<GetPlaceByIdData, ThrowOnError>
 ) =>
-    (options.client ?? client).get<GetPlacesByIdResponses, unknown, ThrowOnError>({
+    (options.client ?? client).get<GetPlaceByIdResponses, GetPlaceByIdErrors, ThrowOnError>({
         url: '/places/{id}',
         ...options
     })
 
-export const postRoutesDay = <ThrowOnError extends boolean = false>(
-    options?: Options<PostRoutesDayData, ThrowOnError>
+/**
+ * Compute Routes
+ */
+export const computeRoutes = <ThrowOnError extends boolean = false>(
+    options: Options<ComputeRoutesData, ThrowOnError>
 ) =>
-    (options?.client ?? client).post<PostRoutesDayResponses, unknown, ThrowOnError>({
-        url: '/routes/day',
+    (options.client ?? client).post<ComputeRoutesResponses, ComputeRoutesErrors, ThrowOnError>({
+        url: '/routes/compute',
         ...options,
         headers: {
             'Content-Type': 'application/json',
-            ...options?.headers
+            ...options.headers
         }
     })

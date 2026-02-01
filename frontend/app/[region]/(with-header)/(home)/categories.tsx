@@ -14,13 +14,14 @@ const Categories = async ({ region }: { region: Region }) => {
 
         return (
             <>
-                {categories.map(({ key, name, image }) => (
+                {categories.map(({ key, name, image, count }) => (
                     <CategoryTile
                         key={key}
                         identifier={key}
                         // Data fields below
                         name={name}
                         image={image}
+                        count={count}
                     />
                 ))}
             </>

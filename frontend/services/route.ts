@@ -1,19 +1,13 @@
-import { postRoutesDay } from '@/integrations/client'
-import {
-    isPostRoutesInvalidDateFormatError,
-    isPostRoutesNotInSameRegionError,
-    isPostRoutesOnlyOnePlaceError,
-    isPostRoutesPlaceNotFoundError,
-    isPostRoutesSearchingPastDatesError
-} from '@/integrations/errors'
+import { computeRoutes as _computeRoutes } from '@/integrations/client'
+import { getErrorCode, getErrorDetails, getErrorMessage } from '@/integrations/errors'
 
 import { AppError } from '@/lib/errors'
-import { hasErrorMessage, isPresent } from '@/lib/utils'
+import { isPresent } from '@/lib/utils'
 
 import type { LocationID } from '@/types/location'
 import type { Route, TransitMethod } from '@/types/route'
 
-import { routeLegToRoute, transitMethodToTravelMode } from './route-utils'
+import { processRoutesResult, transitMethodToTravelMode } from './route-utils'
 
 /**
  * Compute routes for a given day
@@ -29,35 +23,38 @@ export const computeRoutes = async (
     locations: LocationID[]
 ): Promise<Route[]> => {
     // Fetch route data from the API
-    const { data: route, error } = await postRoutesDay({
+    const { data: route, error } = await _computeRoutes({
         body: {
             date,
             mode: transitMethodToTravelMode(method),
-            placeIds: locations.map(Number)
+            places: locations
         }
     })
 
     if (error) {
-        const errorMessage = hasErrorMessage(error) ? error.message : String(error)
+        const errorCode = getErrorCode(error)
+        const errorMessage = getErrorMessage(error) ?? String(error)
+        const errorDetails = getErrorDetails(error)
 
         // Domain-specific error handling
-        if (isPostRoutesInvalidDateFormatError(error))
+        if (errorCode === 'routes.date.format')
             throw new AppError('INVALID_DATE_FORMAT', errorMessage)
-        if (isPostRoutesSearchingPastDatesError(error))
+        if (errorCode === 'routes.date.range')
             throw new AppError('INVALID_DATE_RANGE', errorMessage)
-        if (isPostRoutesNotInSameRegionError(error))
-            throw new AppError('INVALID_LOCATION_PAIRS', errorMessage)
-        if (isPostRoutesPlaceNotFoundError(error))
+        if (errorCode === 'routes.places.notFound')
             throw new AppError('LOCATION_NOT_FOUND', errorMessage)
-        if (isPostRoutesOnlyOnePlaceError(error))
-            // No need to handle, empty response is enough
+        if (errorCode === 'routes.places.regions')
+            // Locations not in the same region
+            throw new AppError('INVALID_LOCATION_PAIRS', errorMessage)
+        if (errorCode === 'routes.places.format')
+            // Empty list: No need to handle, empty response is enough
             return []
 
         // General error
         throw new AppError('UNKNOWN', errorMessage)
     }
 
-    return (route?.legs ?? [])
-        .map(routeLegToRoute) // Convert to Route objects
+    return (route?.routes ?? [])
+        .map(processRoutesResult) // Convert to Route objects
         .filter(isPresent) // Filter out undefined entries
 }
