@@ -30,6 +30,7 @@ class ErrorCode(StrEnum):
     ROUTES_DATE_FORMAT = "routes.date.format"
     ROUTES_METHOD_INVALID = "routes.method.invalid"
     ROUTES_PLACES_FORMAT = "routes.places.format"
+    ROUTES_PLACES_REGIONS = "routes.places.regions"
     ROUTES_PLACES_NOTFOUND = "routes.places.notFound"
     ROUTES_COMPUTE_FAILED = "routes.compute.failed"
 

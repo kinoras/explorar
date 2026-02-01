@@ -38,7 +38,7 @@ async def places_dep(body: RoutesRequest) -> List[Place]:
             status_code=422,
             detail=ErrorModel(
                 status=422,
-                code=ErrorCode.ROUTES_PLACES_FORMAT,
+                code=ErrorCode.ROUTES_PLACES_REGIONS,
                 message="Places are not in the same region",
                 details={
                     "places.hk": ",".join(regional_places["hong-kong"]),

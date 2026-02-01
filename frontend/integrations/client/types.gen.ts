@@ -91,6 +91,7 @@ export type ErrorCode =
     | 'routes.date.format'
     | 'routes.method.invalid'
     | 'routes.places.format'
+    | 'routes.places.regions'
     | 'routes.places.notFound'
     | 'routes.compute.failed'
     | 'server.internal.general'

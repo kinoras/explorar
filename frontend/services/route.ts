@@ -41,13 +41,13 @@ export const computeRoutes = async (
             throw new AppError('INVALID_DATE_FORMAT', errorMessage)
         if (errorCode === 'routes.date.range')
             throw new AppError('INVALID_DATE_RANGE', errorMessage)
-        if (errorCode === 'routes.places.format' && errorDetails?.['places.hk'])
-            // Locations not in the same region
-            throw new AppError('INVALID_LOCATION_PAIRS', errorMessage)
         if (errorCode === 'routes.places.notFound')
             throw new AppError('LOCATION_NOT_FOUND', errorMessage)
+        if (errorCode === 'routes.places.regions')
+            // Locations not in the same region
+            throw new AppError('INVALID_LOCATION_PAIRS', errorMessage)
         if (errorCode === 'routes.places.format')
-            // No need to handle, empty response is enough
+            // Empty list: No need to handle, empty response is enough
             return []
 
         // General error
