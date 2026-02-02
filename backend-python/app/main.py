@@ -10,7 +10,7 @@ from app.core.exceptions import (
     http_exception_handler,
     unhandled_exception_handler,
 )
-from app.core.mongo import close_mongo, init_mongo
+from app.core.mongo import db
 from app.features.categories import categories_router
 from app.features.places import places_router
 from app.features.routing import routing_router
@@ -19,10 +19,10 @@ from app.features.routing import routing_router
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     # Startup
-    await init_mongo()
+    await db.connect()
     yield
     # Shutdown
-    await close_mongo()
+    await db.close()
 
 
 app = FastAPI(
