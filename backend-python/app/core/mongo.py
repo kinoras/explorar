@@ -49,7 +49,7 @@ class MongoManager:
         Close the singleton client on shutdown.
         """
         if self.client is not None:
-            self.client.close()
+            await self.client.close()
             self.client = None
 
 

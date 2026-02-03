@@ -1,13 +1,19 @@
 import pytest
 from asgi_lifespan import LifespanManager
 from httpx import AsyncClient, ASGITransport
-from mongomock_motor import AsyncMongoMockClient
+from mongomock_motor import AsyncMongoMockClient as MongoMockMotorClient
 
 from app.main import app
 from app.core import mongo
 from app.features.places import Place
 
 from tests.data import get_dummy_places
+
+
+# Wrapper to provide the async close method in test environment
+class AsyncMongoMockClient(MongoMockMotorClient):
+    async def close(self):
+        pass
 
 
 @pytest.fixture(scope="session")
