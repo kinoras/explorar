@@ -90,6 +90,44 @@ class RouteService:
         )
 
     @classmethod
+    def create_segments(
+        cls,
+        places: List[Place],
+        date: _date,
+        mode: TravelMode,
+    ) -> List[Segment]:
+        segments: List[Segment] = []
+
+        if mode == TravelMode.TRANSIT:  # No intermediates, 2 places per segment
+            chunk_size = 2
+        else:  # (DRIVE/WALK) Up to 10 places per segment
+            chunk_size = 10
+
+        idx = 0
+        while idx < len(places) - 1:
+            place_chunk = places[idx : idx + chunk_size]  # Place slice
+            segments.append(Segment(places=place_chunk, mode=mode))
+            idx += chunk_size - 1  # Overlap last place as first of next segment
+
+        departure_times = cls.linspace_datetime(
+            start=datetime.combine(date, time(9, 0), tzinfo=settings.TIMEZONE),  # 9:00
+            stop=datetime.combine(date, time(18, 0), tzinfo=settings.TIMEZONE),  # 18:00
+            num=(len(segments)),
+        )
+
+        for segment, departure in zip(segments, departure_times):
+            if mode == TravelMode.TRANSIT:  # Use assigned time
+                segment.departure = departure
+            else:  # (DRIVE/WALK) Shift departure times into the future
+                segment.departure = cls.shift_datetime_to_future(
+                    dt=departure,
+                    step=timedelta(days=7),  # Weekly increments
+                    offset=timedelta(minutes=5),  # 5-minute buffer
+                )
+
+        return segments
+
+    @classmethod
     async def compute_segment(cls, segment: Segment) -> List[Route]:
         # ================================
         #  Prepare Request
@@ -187,55 +225,11 @@ class RouteService:
         Raises:
             RuntimeError: If route computation fails.
         """
-        # ================================
-        #  Form route segments
-        # ================================
+        # Form route segments
+        segments = cls.create_segments(places=places, date=date, mode=mode)
 
-        segments: List[Segment] = []
-
-        # TRANSIT: No intermediates, 2 places per segment
-        if mode == TravelMode.TRANSIT:
-            chunk_size = 2
-
-        # DRIVE/WALK: Up to 10 places per segment
-        else:
-            chunk_size = 10
-
-        idx = 0
-        while idx < len(places) - 1:
-            place_chunk = places[idx : idx + chunk_size]  # Place slice
-            segments.append(Segment(places=place_chunk, mode=mode))
-            idx += chunk_size - 1  # Overlap last place as first of next segment
-
-        # ================================
-        #  Assign departure times
-        # ================================
-
-        departure_times = cls.linspace_datetime(
-            start=datetime.combine(date, time(9, 0), tzinfo=settings.TIMEZONE),  # 9:00
-            stop=datetime.combine(date, time(18, 0), tzinfo=settings.TIMEZONE),  # 18:00
-            num=len(segments),
-        )
-
-        for idx, segment in enumerate(segments):
-            # TRANSIT: Use assigned time
-            if mode == TravelMode.TRANSIT:
-                segment.departure = departure_times[idx]
-
-            # DRIVE/WALK: Shift departure times into the future
-            else:
-                segment.departure = cls.shift_datetime_to_future(
-                    dt=departure_times[idx],
-                    step=timedelta(days=7),  # Weekly increments
-                    offset=timedelta(minutes=5),  # 5-minute buffer
-                )
-
-        # ================================
-        #  Compute routes for segments
-        # ================================
-
+        # Compute routes for segments
         routes = []
-
         for segment in segments:
             try:
                 segment_routes = await cls.compute_segment(segment)

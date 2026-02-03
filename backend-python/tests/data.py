@@ -1,0 +1,98 @@
+from app.features.places import Place
+from app.features.places.schemas import Description, Location
+from app.core.common import Category, Region
+
+
+def get_dummy_places():
+    return [
+        Place(
+            name="The Peak",
+            description=Description(content="Highest point on HK Island", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.LANDMARKS,
+            location=Location(address="The Peak", latitude=22.2759, longitude=114.1455),
+            rating=4.7,
+            ranking=1,
+        ),
+        Place(
+            name="Hong Kong Disneyland",
+            description=Description(content="Theme park in Penny's Bay", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.ENTERTAINMENT,
+            location=Location(address="Lantau", latitude=22.3130, longitude=114.0413),
+            rating=4.5,
+            ranking=2,
+        ),
+        Place(
+            name="Ocean Park",
+            description=Description(content="Marine mammal park", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.ENTERTAINMENT,
+            location=Location(address="Aberdeen", latitude=22.2467, longitude=114.1757),
+            rating=4.3,
+            ranking=3,
+        ),
+        Place(
+            name="Big Buddha",
+            description=Description(content="Large bronze statue", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.HERITAGE,
+            location=Location(address="Lantau", latitude=22.2540, longitude=113.9051),
+            rating=4.6,
+            ranking=4,
+        ),
+        Place(
+            name="Ruins of St. Paul's",
+            description=Description(content="Ruins of an old church", source="ai"),
+            region=Region.MACAU,
+            category=Category.HERITAGE,
+            location=Location(address="Macau", latitude=22.1976, longitude=113.5421),
+            rating=4.8,
+            ranking=5,
+        ),
+        Place(
+            name="Senado Square",
+            description=Description(content="Paved town square", source="ai"),
+            region=Region.MACAU,
+            category=Category.LANDMARKS,
+            location=Location(address="Macau", latitude=22.1935, longitude=113.5397),
+            rating=4.4,
+            ranking=6,
+        ),
+        Place(
+            name="Venetian Macau",
+            description=Description(content="Hotel and casino resort", source="ai"),
+            region=Region.MACAU,
+            category=Category.ENTERTAINMENT,
+            location=Location(address="Cotai", latitude=22.1468, longitude=113.5639),
+            rating=4.5,
+            ranking=7,
+        ),
+        Place(
+            name="Temple Street Night Market",
+            description=Description(content="Popular street market", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.SHOPPING,
+            location=Location(address="Jordan", latitude=22.3087, longitude=114.1704),
+            rating=4.1,
+            ranking=8,
+        ),
+        Place(
+            name="Dragon's Back",
+            description=Description(content="Ridge trail", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.NATURE,
+            location=Location(address="Shek O", latitude=22.2343, longitude=114.2415),
+            rating=4.7,
+            ranking=9,
+        ),
+        Place(
+            name="Hong Kong Museum of History",
+            description=Description(content="Preserves HK heritage", source="ai"),
+            region=Region.HONG_KONG,
+            category=Category.MUSEUMS,
+            location=Location(address="Kowloon", latitude=22.3013, longitude=114.1776),
+            rating=4.6,
+            ranking=10,
+        ),
+    ]
