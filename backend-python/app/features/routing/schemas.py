@@ -27,6 +27,7 @@ class WalkRoute(RouteBase):
 
 class DriveRoute(RouteBase):
     mode: Literal[TravelMode.DRIVE] = TravelMode.DRIVE
+    fare: Optional[float] = None
 
 
 class TransitRoute(RouteBase):

@@ -7,6 +7,7 @@ from google.maps import routing_v2
 from google.protobuf import timestamp_pb2
 
 from app.core.config import settings
+from app.integrations.fares import FARE_FIELDS, compute_fare
 
 from ..places import Place
 from .schemas import TravelMode, Route, DriveRoute, TransitRoute, WalkRoute
@@ -28,12 +29,13 @@ MODE_MAP = {
 INVERSE_MODE_MAP = {v: k for k, v in MODE_MAP.items()}
 
 
-FIELD_MASK = [
+SERVICE_FIELDS = [
     "routes.legs.distanceMeters",
     "routes.legs.duration",
     "routes.legs.polyline.encodedPolyline",
     "routes.legs.steps.travelMode",
 ]
+FIELD_MASK = list(set().union(SERVICE_FIELDS, FARE_FIELDS))
 
 
 class RouteService:
@@ -199,10 +201,13 @@ class RouteService:
             if len({step.travel_mode for step in leg.steps}) == 1:
                 mode = INVERSE_MODE_MAP.get(leg.steps[0].travel_mode, segment.mode)
 
+            # Compute fare if applicable
+            fare = compute_fare(segment.places[idx].region, leg)
+
             if mode == TravelMode.WALK:
                 results.append(WalkRoute(**base_args))
             elif mode == TravelMode.DRIVE:
-                results.append(DriveRoute(**base_args))
+                results.append(DriveRoute(**base_args, fare=fare))
             elif mode == TravelMode.TRANSIT:
                 results.append(TransitRoute(**base_args))
 
