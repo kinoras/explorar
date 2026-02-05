@@ -32,6 +32,7 @@ class DriveRoute(RouteBase):
 
 class TransitRoute(RouteBase):
     mode: Literal[TravelMode.TRANSIT] = TravelMode.TRANSIT
+    fare: Optional[float] = None
 
 
 type Route = WalkRoute | DriveRoute | TransitRoute

@@ -4,23 +4,32 @@ from google.maps.routing_v2 import RouteLeg, RouteTravelMode
 
 from app.core.common import Region
 
-from .macau import FARE_FIELDS_MO, MacauTaxiFareEstimator
+from .macau import FARE_FIELDS_MO, MacauTaxiFareEstimator, MacauTransitFareEstimator
 
-FARE_FIELDS_REGISTRY = [
-    "routes.legs.steps.travelMode",
-]
-FARE_FIELDS = set().union(FARE_FIELDS_REGISTRY, FARE_FIELDS_MO)
+
+FARE_FIELDS = set().union(["routes.legs.steps.travelMode"], FARE_FIELDS_MO)
 
 
 def compute_fare(region: Region, leg: RouteLeg) -> Optional[float]:
-    steps = list(leg.steps or [])
+    steps = {step.travel_mode for step in leg.steps or []}
     if not steps:
         return None
 
-    # All DRIVE steps: Estimate taxi fare
-    if all(step.travel_mode == RouteTravelMode.DRIVE for step in steps):
+    # WALK only: Completely free
+    if steps == {RouteTravelMode.WALK}:
+        return 0.0
+
+    # DRIVE only: Estimate taxi fare
+    if steps == {RouteTravelMode.DRIVE}:
         if region == Region.MACAU:
             return MacauTaxiFareEstimator.compute(leg)
+        if region == Region.HONG_KONG:
+            return None  # Not implemented yet
+
+    # TRANSIT & WALK: Estimate transit fare
+    if steps == {RouteTravelMode.TRANSIT, RouteTravelMode.WALK}:
+        if region == Region.MACAU:
+            return MacauTransitFareEstimator.compute(leg)
         if region == Region.HONG_KONG:
             return None  # Not implemented yet
 

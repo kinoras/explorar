@@ -209,7 +209,7 @@ class RouteService:
             elif mode == TravelMode.DRIVE:
                 results.append(DriveRoute(**base_args, fare=fare))
             elif mode == TravelMode.TRANSIT:
-                results.append(TransitRoute(**base_args))
+                results.append(TransitRoute(**base_args, fare=fare))
 
         return results
 
