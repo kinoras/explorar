@@ -41,13 +41,9 @@ LRT_FARE_RULES = [(3, 6.0), (6, 8.0), (9, 10.0), (12, 12.0)]
 ##### Helper Functions #####
 
 
-def _in_area(point: Coordinate, area: str | list[str]) -> bool:
-    """Check if a point is located within certain area(s) of Macau"""
-    return (
-        in_geofence(point, MACAU_GEOFENCE_POLYLINES[area])
-        if isinstance(area, str)
-        else any(in_geofence(point, MACAU_GEOFENCE_POLYLINES[a]) for a in area)
-    )
+def _in_areas(point: Coordinate, *areas: str) -> bool:
+    """Check if a point is located within certain areas of Macau"""
+    return any(in_geofence(point, MACAU_GEOFENCE_POLYLINES[a]) for a in areas)
 
 
 def _compare_station_names(name1: str, name2: str) -> bool:
@@ -100,13 +96,13 @@ class MacauTaxiFareEstimator:
     @staticmethod
     def _compute_surcharges(pickup: Coordinate, dropoff: Coordinate) -> float:
         surcharge = 0.0
-        if _in_area(pickup, "TAIPA") and _in_area(dropoff, "COLOANE"):
+        if _in_areas(pickup, "TAIPA", "UM") and _in_areas(dropoff, "COLOANE"):
             surcharge += SURCHARGE_TAIPA_COLOANE
-        elif _in_area(pickup, "MACAU") and _in_area(dropoff, "COLOANE"):
+        elif _in_areas(pickup, "MACAU") and _in_areas(dropoff, "COLOANE"):
             surcharge += SURCHARGE_MACAU_COLOANE
-        if _in_area(pickup, ["HZMB", "AIRPORT", "TAIPAFERRY", "HENGQIN"]):
+        if _in_areas(pickup, "HZMB", "AIRPORT", "TAIPAFERRY", "HENGQIN"):
             surcharge += SURCHARGE_PORTS
-        if _in_area(pickup, "UM"):
+        if _in_areas(pickup, "UM"):
             surcharge += SURCHARGE_UM
         return surcharge
 
@@ -148,7 +144,7 @@ class MacauTransitFareEstimator:
 
                 fare += cls._compute_lrt_fare(origin, destination, stops)
 
-        return fare or None
+        return fare
 
     @staticmethod
     def _compute_bus_fare() -> float:
