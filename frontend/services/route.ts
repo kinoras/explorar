@@ -1,5 +1,5 @@
 import { computeRoutes as _computeRoutes } from '@/integrations/client'
-import { getErrorCode, getErrorDetails, getErrorMessage } from '@/integrations/errors'
+import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
 import { AppError } from '@/lib/errors'
 import { isPresent } from '@/lib/utils'
