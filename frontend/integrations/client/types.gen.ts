@@ -72,6 +72,10 @@ export type DriveRoute = {
      * Polyline
      */
     polyline: string
+    /**
+     * Fare
+     */
+    fare?: number | null
 }
 
 /**
@@ -281,6 +285,10 @@ export type TransitRoute = {
      * Polyline
      */
     polyline: string
+    /**
+     * Fare
+     */
+    fare?: number | null
 }
 
 /**

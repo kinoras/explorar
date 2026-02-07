@@ -67,6 +67,7 @@ const RouteLayout = ({
                             <RouteSegment
                                 duration={route.duration}
                                 distance={route.distance}
+                                fare={route.fare}
                                 method={route.method}
                                 origin={coordinates.current}
                                 destination={coordinates.next}

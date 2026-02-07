@@ -34,7 +34,6 @@ export const computeRoutes = async (
     if (error) {
         const errorCode = getErrorCode(error)
         const errorMessage = getErrorMessage(error) ?? String(error)
-        const errorDetails = getErrorDetails(error)
 
         // Domain-specific error handling
         if (errorCode === 'routes.date.format')

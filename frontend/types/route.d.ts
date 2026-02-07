@@ -19,6 +19,8 @@ export type Route = {
     distance: number
     /** Duration of the route (in seconds) */
     duration: number
+    /** Fare price (in the local currency) */
+    fare?: number
     /** Encoded polyline representing the route */
     polyline?: string
 }

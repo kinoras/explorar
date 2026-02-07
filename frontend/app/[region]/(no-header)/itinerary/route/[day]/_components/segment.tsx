@@ -5,22 +5,25 @@ import {
     faArrowsTurnToDots,
     faBusSimple,
     faCar,
+    faDollarSign,
     faPersonWalking
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { Skeleton } from '@/components/ui/skeleton'
 
+import { useRegion } from '@/lib/context'
 import { cn } from '@/lib/utils'
 
 import type { Coordinates } from '@/types/location'
+import type { Region } from '@/types/region'
 import type { TransitMethod } from '@/types/route'
 
 import { RouteDirectionButton, RouteDirectionButtonSkeleton } from './direction-button'
 
 const IconLabel = ({ icon, content }: { icon: IconDefinition; content?: ReactNode }) => (
-    <p className="flex items-center gap-1 text-xs text-neutral-500">
-        <FontAwesomeIcon icon={icon} className="size-2.75!" />
+    <p className="flex items-center gap-1.25 text-xs text-neutral-500">
+        <FontAwesomeIcon icon={icon} className="h-2.75! w-fit!" />
         <span className="line-clamp-1">{content}</span>
     </p>
 )
@@ -35,7 +38,7 @@ const methodIcons: Record<TransitMethod, IconDefinition> = {
 const formatHours = (hr: number) => (hr <= 1 ? `${hr} hour` : `${hr} hours`)
 const formatMinutes = (min: number) => (min <= 1 ? `${min} minute` : `${min} minutes`)
 
-const formatDuration = (seconds: number) => {
+const formatDuration = (seconds: number): string => {
     const hours = Math.floor(seconds / 3600)
     const minutes = Math.round((seconds % 3600) / 60)
 
@@ -46,9 +49,18 @@ const formatDuration = (seconds: number) => {
           : `${formatHours(hours)} ${formatMinutes(minutes)}`
 }
 
-const formatDistance = (meters: number) => {
+const formatDistance = (meters: number): string => {
     if (meters >= 1000) return `${parseFloat((meters / 1000).toFixed(1))} km` // Kilometers
     return `${meters} m` // Meters
+}
+
+const formatFare = (region: Region, value: number): string => {
+    switch (region) {
+        case 'hk':
+            return `HK$ ${value.toFixed(1)}`
+        case 'mo':
+            return `MOP ${value.toFixed(1)}`
+    }
 }
 
 const blockStyles = {
@@ -60,6 +72,7 @@ const blockStyles = {
 const RouteSegment = ({
     duration,
     distance,
+    fare,
     method,
     origin,
     destination,
@@ -68,10 +81,12 @@ const RouteSegment = ({
 }: ComponentProps<'li'> & {
     duration: number
     distance: number
+    fare?: number
     method: TransitMethod
     origin?: Coordinates
     destination?: Coordinates
 }) => {
+    const { region } = useRegion()
     return (
         <li className={cn(blockStyles.root, className)} {...props}>
             <div className={blockStyles.marker}>
@@ -79,7 +94,10 @@ const RouteSegment = ({
             </div>
             <div className={blockStyles.content}>
                 <span className="text-sm font-medium">{formatDuration(duration)}</span>
-                <IconLabel icon={faArrowsTurnToDots} content={formatDistance(distance)} />
+                <div className="flex gap-1.25 *:not-last:after:content-['·']">
+                    <IconLabel icon={faArrowsTurnToDots} content={formatDistance(distance)} />
+                    {fare && <IconLabel icon={faDollarSign} content={formatFare(region, fare)} />}
+                </div>
             </div>
             {origin && destination && (
                 <RouteDirectionButton origin={origin} destination={destination} method={method} />

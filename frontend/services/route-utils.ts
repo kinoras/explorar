@@ -2,6 +2,7 @@ import type { Route as RouteResult, TravelMode } from '@/integrations/client'
 
 import { defaultTransitMethod } from '@/lib/config'
 import { transitMethods } from '@/lib/const'
+import { isPresent } from '@/lib/utils'
 
 import type { Route, TransitMethod } from '@/types/route'
 
@@ -52,6 +53,8 @@ export const processRoutesResult = (route: RouteResult): Route => {
         method: travelModeToTransitMethod(route.mode!),
         distance: route.distance,
         duration: route.duration,
-        polyline: route.polyline
+        polyline: route.polyline,
+        // Optional fields
+        fare: 'fare' in route && isPresent(route.fare) ? route.fare : undefined
     }
 }
