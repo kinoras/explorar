@@ -1,10 +1,10 @@
-import type { Route as RouteResult, TravelMode } from '@/integrations/client'
+import type { Route as RouteResult, TravelMode, Vehicle } from '@/integrations/client'
 
 import { defaultTransitMethod } from '@/lib/config'
 import { transitMethods } from '@/lib/const'
 import { isPresent } from '@/lib/utils'
 
-import type { Route, TransitMethod } from '@/types/route'
+import type { Route, TransitMethod, TransitOption } from '@/types/route'
 
 /**
  * Validates if a string is a valid transit method.
@@ -44,6 +44,17 @@ export const stringToTransitMethod = (optionString: string): TransitMethod => {
     return validateTransitMethod(optionString) ? optionString : defaultTransitMethod
 }
 
+/**
+ * Converts a vehicle type to a TransitOption.
+ *
+ * @param vehicle - Transit vehicle type
+ * @returns Corresponding transit option
+ */
+const vehicleToTransitOption = (vehicle: Vehicle): TransitOption | undefined => {
+    if (vehicle === 'mixed') return undefined
+    return vehicle === 'bus' ? 'bus' : vehicle === 'ferry' ? 'ferry' : 'rail'
+}
+
 export const processRoutesResult = (route: RouteResult): Route => {
     return {
         locations: {
@@ -55,6 +66,10 @@ export const processRoutesResult = (route: RouteResult): Route => {
         duration: route.duration,
         polyline: route.polyline,
         // Optional fields
-        fare: 'fare' in route && isPresent(route.fare) ? route.fare : undefined
+        fare: 'fare' in route && isPresent(route.fare) ? route.fare : undefined,
+        option:
+            'vehicle' in route && isPresent(route.vehicle)
+                ? vehicleToTransitOption(route.vehicle)
+                : undefined
     }
 }

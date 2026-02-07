@@ -6,7 +6,9 @@ import {
     faBusSimple,
     faCar,
     faDollarSign,
-    faPersonWalking
+    faFerry,
+    faPersonWalking,
+    faTrainSubway
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -17,7 +19,7 @@ import { cn } from '@/lib/utils'
 
 import type { Coordinates } from '@/types/location'
 import type { Region } from '@/types/region'
-import type { TransitMethod } from '@/types/route'
+import type { TransitMethod, TransitOption } from '@/types/route'
 
 import { RouteDirectionButton, RouteDirectionButtonSkeleton } from './direction-button'
 
@@ -28,7 +30,10 @@ const IconLabel = ({ icon, content }: { icon: IconDefinition; content?: ReactNod
     </p>
 )
 
-const methodIcons: Record<TransitMethod, IconDefinition> = {
+const methodIcons: Record<TransitMethod | TransitOption, IconDefinition> = {
+    bus: faBusSimple,
+    rail: faTrainSubway,
+    ferry: faFerry,
     transit: faBusSimple,
     driving: faCar,
     walking: faPersonWalking
@@ -74,6 +79,7 @@ const RouteSegment = ({
     distance,
     fare,
     method,
+    option,
     origin,
     destination,
     className,
@@ -83,6 +89,7 @@ const RouteSegment = ({
     distance: number
     fare?: number
     method: TransitMethod
+    option?: TransitOption
     origin?: Coordinates
     destination?: Coordinates
 }) => {
@@ -90,7 +97,10 @@ const RouteSegment = ({
     return (
         <li className={cn(blockStyles.root, className)} {...props}>
             <div className={blockStyles.marker}>
-                <FontAwesomeIcon icon={methodIcons[method]} className="text-theme size-3" />
+                <FontAwesomeIcon
+                    icon={methodIcons[option ?? method]}
+                    className="text-theme size-3"
+                />
             </div>
             <div className={blockStyles.content}>
                 <span className="text-sm font-medium">{formatDuration(duration)}</span>

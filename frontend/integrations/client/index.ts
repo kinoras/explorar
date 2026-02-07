@@ -44,5 +44,6 @@ export type {
     SortOrder,
     TransitRoute,
     TravelMode,
+    Vehicle,
     WalkRoute
 } from './types.gen'

@@ -289,12 +289,18 @@ export type TransitRoute = {
      * Fare
      */
     fare?: number | null
+    vehicle?: Vehicle | null
 }
 
 /**
  * TravelMode
  */
 export type TravelMode = 'walk' | 'drive' | 'transit'
+
+/**
+ * Vehicle
+ */
+export type Vehicle = 'bus' | 'tram' | 'metro' | 'ferry' | 'mixed'
 
 /**
  * WalkRoute
