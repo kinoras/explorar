@@ -23,10 +23,14 @@ import type { TransitMethod, TransitOption } from '@/types/route'
 
 import { RouteDirectionButton, RouteDirectionButtonSkeleton } from './direction-button'
 
-const IconLabel = ({ icon, content }: { icon: IconDefinition; content?: ReactNode }) => (
-    <p className="flex items-center gap-1.25 text-xs text-neutral-500">
-        <FontAwesomeIcon icon={icon} className="h-2.75! w-fit!" />
-        <span className="line-clamp-1">{content}</span>
+const IconLabel = ({
+    icon,
+    className,
+    children
+}: ComponentProps<'span'> & { icon: IconDefinition }) => (
+    <p className="flex items-center gap-1 text-xs text-neutral-500">
+        <FontAwesomeIcon icon={icon} className={className} />
+        <span className="line-clamp-1">{children}</span>
     </p>
 )
 
@@ -104,9 +108,13 @@ const RouteSegment = ({
             </div>
             <div className={blockStyles.content}>
                 <span className="text-sm font-medium">{formatDuration(duration)}</span>
-                <div className="flex gap-1.25 *:not-last:after:content-['·']">
-                    <IconLabel icon={faArrowsTurnToDots} content={formatDistance(distance)} />
-                    {fare && <IconLabel icon={faDollarSign} content={formatFare(region, fare)} />}
+                <div className="flex gap-1 *:not-last:after:content-['·']">
+                    <IconLabel icon={faArrowsTurnToDots}>{formatDistance(distance)}</IconLabel>
+                    {fare && (
+                        <IconLabel icon={faDollarSign} className="-mx-0.5!">
+                            {formatFare(region, fare)}
+                        </IconLabel>
+                    )}
                 </div>
             </div>
             {origin && destination && (
