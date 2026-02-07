@@ -1,10 +1,10 @@
 import pytest
 from datetime import datetime, date, time
 from types import SimpleNamespace
-from google.maps.routing_v2 import RouteTravelMode
+from google.maps.routing_v2 import RouteTravelMode, TransitVehicle
 
 from app.core.config import settings
-from app.features.routing.schemas import DriveRoute, TravelMode
+from app.features.routing.schemas import DriveRoute, TravelMode, Vehicle
 from app.features.routing.service import RouteService, Segment
 
 
@@ -66,6 +66,39 @@ def test_create_segments(test_places):
     assert segments[0].places == places[:10]
     assert segments[1].places == places[9:]
     assert all(s.departure >= now for s in segments)
+
+
+@pytest.mark.parametrize(
+    ("steps", "expected"),  # step = list[vehicle_type]
+    [
+        (["BUS"], Vehicle.BUS),
+        (["SUBWAY"], Vehicle.METRO),
+        (["TRAM"], Vehicle.TRAM),
+        (["FERRY"], Vehicle.FERRY),
+        ([], None),  # Empty steps
+        (["WALK"], None),  # Non-transit step only
+        (["CABLE_CAR"], None),  # Unsupported vehicle
+        (["BUS", "TRAM"], Vehicle.MIXED),  # Mixed vehicles
+    ],
+)
+def test_extract_vehicle_mapping(steps, expected):
+    # Helper to build a step with given vehicle type
+    def _build_step(type):
+        if type == "WALK":
+            mode = RouteTravelMode.WALK
+            type_ = TransitVehicle.TransitVehicleType.TRANSIT_VEHICLE_TYPE_UNSPECIFIED
+        else:
+            mode = RouteTravelMode.TRANSIT
+            type_ = TransitVehicle.TransitVehicleType[type]
+        return SimpleNamespace(
+            travel_mode=mode,
+            transit_details=SimpleNamespace(
+                transit_line=SimpleNamespace(vehicle=SimpleNamespace(type_=type_))
+            ),
+        )
+
+    # Verify correctness
+    assert RouteService.extract_vehicle([_build_step(s) for s in steps]) == expected
 
 
 @pytest.mark.asyncio

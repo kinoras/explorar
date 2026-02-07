@@ -1,5 +1,5 @@
 import { computeRoutes as _computeRoutes } from '@/integrations/client'
-import { getErrorCode, getErrorDetails, getErrorMessage } from '@/integrations/errors'
+import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
 import { AppError } from '@/lib/errors'
 import { isPresent } from '@/lib/utils'
@@ -34,7 +34,6 @@ export const computeRoutes = async (
     if (error) {
         const errorCode = getErrorCode(error)
         const errorMessage = getErrorMessage(error) ?? String(error)
-        const errorDetails = getErrorDetails(error)
 
         // Domain-specific error handling
         if (errorCode === 'routes.date.format')

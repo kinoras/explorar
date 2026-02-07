@@ -7,17 +7,10 @@ from google.maps import routing_v2
 from google.protobuf import timestamp_pb2
 
 from app.core.config import settings
+from app.integrations.fares import FARE_FIELDS, compute_fare
 
 from ..places import Place
-from .schemas import TravelMode, Route, DriveRoute, TransitRoute, WalkRoute
-
-
-class Segment(BaseModel):
-    places: List[Place]
-    mode: TravelMode = TravelMode.DRIVE  # Default: DRIVE
-    departure: datetime = Field(
-        default_factory=lambda: datetime.now(tz=settings.TIMEZONE)  # Default: now
-    )
+from .schemas import TravelMode, Vehicle, Route, DriveRoute, TransitRoute, WalkRoute
 
 
 MODE_MAP = {
@@ -27,13 +20,29 @@ MODE_MAP = {
 }
 INVERSE_MODE_MAP = {v: k for k, v in MODE_MAP.items()}
 
+VEHICLE_MAP = {
+    routing_v2.TransitVehicle.TransitVehicleType.BUS: Vehicle.BUS,
+    routing_v2.TransitVehicle.TransitVehicleType.TRAM: Vehicle.TRAM,
+    routing_v2.TransitVehicle.TransitVehicleType.SUBWAY: Vehicle.METRO,
+    routing_v2.TransitVehicle.TransitVehicleType.FERRY: Vehicle.FERRY,
+}
 
-FIELD_MASK = [
+SERVICE_FIELDS = [
     "routes.legs.distanceMeters",
     "routes.legs.duration",
     "routes.legs.polyline.encodedPolyline",
     "routes.legs.steps.travelMode",
+    "routes.legs.steps.transitDetails.transitLine.vehicle.type",
 ]
+FIELD_MASK = list(set().union(SERVICE_FIELDS, FARE_FIELDS))
+
+
+class Segment(BaseModel):
+    places: List[Place]
+    mode: TravelMode = TravelMode.DRIVE  # Default: DRIVE
+    departure: datetime = Field(
+        default_factory=lambda: datetime.now(tz=settings.TIMEZONE)  # Default: now
+    )
 
 
 class RouteService:
@@ -127,6 +136,21 @@ class RouteService:
 
         return segments
 
+    @staticmethod
+    def extract_vehicle(steps: List[routing_v2.RouteLegStep]) -> Vehicle | None:
+        # Extract unique vehicle types from transit steps
+        vehicles = {
+            step.transit_details.transit_line.vehicle.type_
+            for step in steps
+            if step.travel_mode == routing_v2.RouteTravelMode.TRANSIT
+        }
+
+        if len(vehicles) == 0:
+            return None
+        if len(vehicles) >= 2:
+            return Vehicle.MIXED
+        return VEHICLE_MAP.get(vehicles.pop(), None)
+
     @classmethod
     async def compute_segment(cls, segment: Segment) -> List[Route]:
         # ================================
@@ -199,12 +223,18 @@ class RouteService:
             if len({step.travel_mode for step in leg.steps}) == 1:
                 mode = INVERSE_MODE_MAP.get(leg.steps[0].travel_mode, segment.mode)
 
+            # Compute fare if applicable
+            fare = compute_fare(segment.places[idx].region, leg)
+
+            # Extract vehicle type
+            vehicle = cls.extract_vehicle(list(leg.steps or []))
+
             if mode == TravelMode.WALK:
                 results.append(WalkRoute(**base_args))
             elif mode == TravelMode.DRIVE:
-                results.append(DriveRoute(**base_args))
+                results.append(DriveRoute(**base_args, fare=fare))
             elif mode == TravelMode.TRANSIT:
-                results.append(TransitRoute(**base_args))
+                results.append(TransitRoute(**base_args, fare=fare, vehicle=vehicle))
 
         return results
 

@@ -12,6 +12,14 @@ class TravelMode(str, Enum):
     TRANSIT = "transit"
 
 
+class Vehicle(str, Enum):
+    BUS = "bus"
+    TRAM = "tram"
+    METRO = "metro"
+    FERRY = "ferry"
+    MIXED = "mixed"
+
+
 class RouteBase(BaseModel):
     origin: PlaceId
     destination: PlaceId
@@ -27,10 +35,13 @@ class WalkRoute(RouteBase):
 
 class DriveRoute(RouteBase):
     mode: Literal[TravelMode.DRIVE] = TravelMode.DRIVE
+    fare: Optional[float] = None
 
 
 class TransitRoute(RouteBase):
     mode: Literal[TravelMode.TRANSIT] = TravelMode.TRANSIT
+    fare: Optional[float] = None
+    vehicle: Optional[Vehicle] = None
 
 
 type Route = WalkRoute | DriveRoute | TransitRoute
