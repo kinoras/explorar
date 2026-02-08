@@ -14,6 +14,7 @@ from app.core.mongo import db
 from app.features.categories import categories_router
 from app.features.places import places_router
 from app.features.routing import routing_router
+from app.features.itinerary import itinerary_router
 
 
 @asynccontextmanager
@@ -51,3 +52,4 @@ app.add_exception_handler(Exception, unhandled_exception_handler)
 app.include_router(categories_router, prefix="/categories", tags=["Categories"])
 app.include_router(places_router, prefix="/places", tags=["Places"])
 app.include_router(routing_router, prefix="/routes", tags=["Routes"])
+app.include_router(itinerary_router, prefix="/itinerary", tags=["Itinerary"])
