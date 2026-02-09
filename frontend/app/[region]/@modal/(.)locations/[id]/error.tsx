@@ -17,7 +17,7 @@ const LocationModalError = ({ error }: { error: Error }) => {
                 description: 'Please try again later.'
             }
         })
-    }, [error, showToast])
+    }, [error])
 
     return (
         <ModalLayout>

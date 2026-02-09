@@ -49,7 +49,7 @@ const LocationsList = ({
                 }
             })
         }
-    }, [error, showToast, getAppErrorDescription])
+    }, [error])
 
     return (
         <>
