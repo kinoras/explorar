@@ -37,6 +37,9 @@ type ItineraryActions = {
 
     /** Move a location within the itinerary */
     moveLocation: (region: Region, location: LocationID, destDay: number, destIndex: number) => void
+
+    /** Overwrite the itinerary locations for a specific region */
+    setLocations: (region: Region, locations: LocationID[][]) => void
 }
 
 type ItineraryStore = ItineraryState & ItineraryActions
@@ -105,6 +108,17 @@ export const useItineraryStore = create<ItineraryStore>()(
                             destDay,
                             destIndex
                         )
+                    }
+                })),
+                
+            setLocations: (region, locations) =>
+                set((state) => ({
+                    itineraries: {
+                        ...state.itineraries,
+                        [region]: {
+                            ...state.itineraries[region],
+                            locations
+                        }
                     }
                 }))
         }),

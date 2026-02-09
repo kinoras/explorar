@@ -13,7 +13,10 @@ import type {
     GetPlaceByIdResponses,
     GetPlacesData,
     GetPlacesErrors,
-    GetPlacesResponses
+    GetPlacesResponses,
+    PlanItineraryData,
+    PlanItineraryErrors,
+    PlanItineraryResponses
 } from './types.gen'
 
 export type Options<
@@ -74,6 +77,21 @@ export const computeRoutes = <ThrowOnError extends boolean = false>(
 ) =>
     (options.client ?? client).post<ComputeRoutesResponses, ComputeRoutesErrors, ThrowOnError>({
         url: '/routes/compute',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
+    })
+
+/**
+ * Plan Itinerary
+ */
+export const planItinerary = <ThrowOnError extends boolean = false>(
+    options: Options<PlanItineraryData, ThrowOnError>
+) =>
+    (options.client ?? client).post<PlanItineraryResponses, PlanItineraryErrors, ThrowOnError>({
+        url: '/itinerary/plan',
         ...options,
         headers: {
             'Content-Type': 'application/json',
