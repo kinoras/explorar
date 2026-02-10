@@ -2,7 +2,7 @@ from typing import List
 from datetime import date as _date
 
 from ..places import Place
-from .assigner import RoundRobinAssigner
+from .assigner import ModelAssigner
 from .schemas import DayPlan
 
 
@@ -40,7 +40,8 @@ class ItineraryService:
         if not places:
             return plans
 
-        assignments = RoundRobinAssigner().assign(
+        # Assign with LLM
+        assignments = await ModelAssigner().assign(
             dates=[dates[idx] for idx in assignable_days],
             places=places,
         )
