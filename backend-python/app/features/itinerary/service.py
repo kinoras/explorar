@@ -7,8 +7,9 @@ from .schemas import DayPlan
 
 
 class ItineraryService:
-    @staticmethod
+    @classmethod
     async def plan(
+        cls,
         dates: List[_date],
         places: List[Place],
         skip_past_dates: bool = True,
@@ -27,30 +28,40 @@ class ItineraryService:
             for idx, date in enumerate(dates)
         ]
 
-        # Identify days available for assignment
-        today = _date.today()
-        assignable_days = []  # Indices
-        for idx, date in enumerate(dates):
-            if not skip_past_dates or date >= today:
-                assignable_days.append(idx)
-        if not assignable_days:
-            assignable_days.append(0)  # At least 1 day to assign
-
         # Skip assignment if no places
         if not places:
             return plans
 
+        # Identify days available for assignment
+        assignable_dates = cls._exclude_past_dates(dates) if skip_past_dates else dates
+
         # Assign with LLM
         assignments = await ModelAssigner().assign(
-            dates=[dates[idx] for idx in assignable_days],
+            dates=assignable_dates,
             places=places,
         )
 
-        for assignable_idx, place_ids in enumerate(assignments):
-            # Map index: assignable days -> actual days
-            day_idx = assignable_days[assignable_idx]
-            # Populate places to the plan
-            for place_id in place_ids:
-                plans[day_idx].places.append(place_id)
+        for date, assignment in zip(assignable_dates, assignments):
+            # Populate places to the mapped plan
+            plan = next((p for p in plans if p.date == date), plans[-1])
+            for pid in assignment:
+                plan.places.append(pid)
 
         return plans
+
+    ##### Helpers ######
+
+    @staticmethod
+    def _exclude_past_dates(dates: List[_date], nonempty: bool = True) -> List[_date]:
+        """Filter non-past dates.
+        Args:
+            dates (List[date]): List of dates to filter.
+            nonempty (bool): If True, ensures at least one date is returned.
+        Returns:
+            List[date]: Filtered list of dates.
+        """
+        today = _date.today()
+        assignable_dates = [date for date in dates if date >= today]
+        if not assignable_dates and nonempty:
+            assignable_dates.append(dates[-1])  # At least 1 date to assign
+        return assignable_dates
