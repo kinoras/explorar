@@ -1,8 +1,8 @@
 from typing import List
 from datetime import date as _date
 
-from app.features.places.documents import Place
-
+from ..places import Place
+from .assigner import RoundRobinAssigner
 from .schemas import DayPlan
 
 
@@ -36,9 +36,20 @@ class ItineraryService:
         if not assignable_days:
             assignable_days.append(0)  # At least 1 day to assign
 
-        # Distribute places using round-robin
-        for idx, place in enumerate(places):
-            day = assignable_days[idx % len(assignable_days)]
-            plans[day].places.append(place.id)
+        # Skip assignment if no places
+        if not places:
+            return plans
+
+        assignments = RoundRobinAssigner().assign(
+            dates=[dates[idx] for idx in assignable_days],
+            places=places,
+        )
+
+        for assignable_idx, place_ids in enumerate(assignments):
+            # Map index: assignable days -> actual days
+            day_idx = assignable_days[assignable_idx]
+            # Populate places to the plan
+            for place_id in place_ids:
+                plans[day_idx].places.append(place_id)
 
         return plans
