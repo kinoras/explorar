@@ -28,7 +28,7 @@ async def compute_routes(
         return RoutesResponse(routes=routes)
     except Exception as e:
         raise HTTPException(
-            status_code=422,
+            status_code=500,
             detail={
                 "code": ErrorCode.ROUTES_COMPUTE_FAILED,
                 "message": "Failed to compute routes",

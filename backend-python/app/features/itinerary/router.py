@@ -30,7 +30,7 @@ async def plan_itinerary(
         return ItineraryResponse(plan=plan)
     except Exception as e:
         raise HTTPException(
-            status_code=422,
+            status_code=500,
             detail={
                 "code": ErrorCode.ITINERARY_PLAN_FAILED,
                 "message": "Failed to plan itinerary",
