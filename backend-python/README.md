@@ -22,6 +22,11 @@ Set the following environment variable:
 - `MONGO_CONNECTION_STRING` – MongoDB connection string
 - `MONGO_DATABASE` – MongoDB database name
 - `GOOGLE_MAPS_API_KEY` – Google Maps API key
+- `MODEL_PROVIDER` – LLM provider: choose between `openai` and `gemini`
+- `OPENAI_API_KEY` – OpenAI API key (if using ChatGPT)
+- `OPENAI_MODEL` – OpenAI model name
+- `GEMINI_API_KEY` – Gemini API key (if using Gemini)
+- `GEMINI_MODEL` – Gemini model name
 
 ### Commands
 

@@ -29,7 +29,7 @@ class ItineraryRequest(BaseModel):
             except ValueError:
                 raise ValueError("Date must be in format 'YYYY-MM-DD'")
         return v
-    
+
     @field_validator("places")
     @classmethod
     def validate_places(cls, v):
