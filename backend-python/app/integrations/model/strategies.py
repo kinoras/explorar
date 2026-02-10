@@ -60,14 +60,14 @@ class GeminiModelStrategy(ModelStrategy):
     async def generate(self, payload: ModelRequest) -> ModelResponse:
         # Prepare messages
         instructions: list[str] = []
-        contents: list[dict[str, str]] = []
+        contents: list[dict[str, Any]] = []
         for message in payload.messages:
             if message.role == "system":
                 instructions.append(message.content)
             elif message.role == "assistant":
-                contents.append({"role": "model", "content": message.content})
+                contents.append({"role": "model", "parts": [{"text": message.content}]})
             else:
-                contents.append({"role": "user", "content": message.content})
+                contents.append({"role": "user", "parts": [{"text": message.content}]})
 
         # Construct request config
         config: dict[str, Any] = {}

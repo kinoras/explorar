@@ -11,8 +11,8 @@ type ResponseSchema = dict[str, Any]
 # Universal chat message format
 @dataclass(frozen=True)
 class ModelMessage:
-    role: MessageRole = "user"
     content: str
+    role: MessageRole = "user"
 
 
 # Request contract consumed by strategies
