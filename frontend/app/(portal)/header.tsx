@@ -54,7 +54,7 @@ const PortalHeader = () => {
 
                 <Button asChild size="icon" variant="ghost" className="rounded-full shadow-none">
                     <Link
-                        href="https://github.com/ricky-lhy/explore-hk-mo"
+                        href="https://github.com/kinoras/explorar"
                         target="_blank"
                         rel="noreferrer"
                         aria-label="GitHub Repository"

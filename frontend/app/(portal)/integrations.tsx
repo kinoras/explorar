@@ -23,7 +23,7 @@ const integrations = [
     {
         id: 'gemini',
         title: 'Google Gemini',
-        description: 'Coming soon: AI-powered trip ideas and smart itineraries.',
+        description: 'AI-powered trip ideas and smart itineraries.',
         image: '/assets/portal/integrations-gemini.svg'
     }
 ]

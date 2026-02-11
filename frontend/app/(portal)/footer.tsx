@@ -25,7 +25,7 @@ const PortalFooter = () => {
             <div className="flex items-center gap-4 md:gap-6">
                 <p>&copy; {dayjs().year()}</p>
                 <Link
-                    href="https://github.com/ricky-lhy/explore-hk-mo"
+                    href="https://github.com/kinoras/explorar"
                     target="_blank"
                     rel="noreferrer"
                     className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
