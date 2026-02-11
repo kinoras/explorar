@@ -1,7 +1,20 @@
 import pytest
 from datetime import date
+from unittest.mock import AsyncMock
 
 from app.features.itinerary.assigner import ModelAssigner, RoundRobinAssigner
+from app.integrations.model.contracts import ModelResponse
+
+
+##### Helpers #####
+
+
+class DummyClient:
+    def __init__(self, responses):
+        self.generate = AsyncMock(side_effect=responses)
+
+
+##### ModelAssigner #####
 
 
 def test_build_payload(test_places):
@@ -58,3 +71,28 @@ def test_round_robin_assign(test_places):
 
     assignments = RoundRobinAssigner.assign(dates=dates, places=places)
     assert assignments == [[places[0].id, places[2].id], [places[1].id, places[3].id]]
+
+
+@pytest.mark.asyncio
+async def test_assign_retries(test_places):
+    # Prepare
+    dates = [date(2026, 1, 1), date(2026, 1, 2)]
+    places = test_places[:2]
+
+    # Dummy responses
+    success_response = ModelResponse(text='{"assignments": [[0], [1]]}', raw={})
+    error_response = ModelResponse(text='{"assignments": [[0], [0]]}', raw={})
+
+    # Test: retries then succeeds
+    success_client = DummyClient(responses=[error_response, success_response])
+    success_assigner = ModelAssigner(client=success_client)
+    success_result = await success_assigner.assign(dates=dates, places=places)
+    assert success_result == [[places[0].id], [places[1].id]]
+    assert success_client.generate.await_count == 2
+
+    # Test: retries exhausted then fails with last error
+    failed_client = DummyClient(responses=[error_response] * 3)
+    failed_assigner = ModelAssigner(client=failed_client)
+    with pytest.raises(RuntimeError, match="Duplicate place assignment"):
+        await failed_assigner.assign(dates=dates, places=places)
+    assert failed_client.generate.await_count == 3

@@ -30,6 +30,7 @@ class RoundRobinAssigner:
 
 
 class ModelAssigner:
+    MAX_RETRIES = 2
     RESPONSE_SCHEMA = {
         "type": "object",
         "additionalProperties": False,
@@ -51,10 +52,19 @@ class ModelAssigner:
         places: List[Place],
     ) -> List[List[PlaceId]]:
         payload = self._build_payload(dates, places)
-        response = await self._client.generate(payload)
-        assignments = self._parse_assignments(response.text, places)
-        self._validate_assignments(assignments, len(dates), len(places))
-        return assignments
+        expected_days = len(dates)
+        expected_places = len(places)
+
+        # Generate with retries
+        for attempt in range(self.MAX_RETRIES + 1):
+            response = await self._client.generate(payload)
+            try:
+                assignments = self._parse_assignments(response.text, places)
+                self._validate_assignments(assignments, expected_days, expected_places)
+                return assignments
+            except RuntimeError:
+                if attempt == self.MAX_RETRIES:
+                    raise
 
     ##### Request/response handling ######
 
