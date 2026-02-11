@@ -37,6 +37,24 @@ export type CategoryPublic = {
 }
 
 /**
+ * DayPlan
+ */
+export type DayPlan = {
+    /**
+     * Day
+     */
+    day: number
+    /**
+     * Date
+     */
+    date: string
+    /**
+     * Places
+     */
+    places: Array<PlaceId>
+}
+
+/**
  * Description
  */
 export type Description = {
@@ -98,6 +116,12 @@ export type ErrorCode =
     | 'routes.places.regions'
     | 'routes.places.notFound'
     | 'routes.compute.failed'
+    | 'itinerary.date.format'
+    | 'itinerary.duration.invalid'
+    | 'itinerary.places.format'
+    | 'itinerary.places.regions'
+    | 'itinerary.places.notFound'
+    | 'itinerary.plan.failed'
     | 'server.internal.general'
     | 'unknown'
 
@@ -139,6 +163,34 @@ export type Hours = {
     exceptions?: {
         [key: string]: unknown
     } | null
+}
+
+/**
+ * ItineraryRequest
+ */
+export type ItineraryRequest = {
+    /**
+     * Start Date
+     */
+    start_date: string
+    /**
+     * Duration
+     */
+    duration: number
+    /**
+     * Places
+     */
+    places: Array<PlaceId>
+}
+
+/**
+ * ItineraryResponse
+ */
+export type ItineraryResponse = {
+    /**
+     * Plan
+     */
+    plan: Array<DayPlan>
 }
 
 /**
@@ -484,3 +536,36 @@ export type ComputeRoutesResponses = {
 }
 
 export type ComputeRoutesResponse = ComputeRoutesResponses[keyof ComputeRoutesResponses]
+
+export type PlanItineraryData = {
+    body: ItineraryRequest
+    path?: never
+    query?: never
+    url: '/itinerary/plan'
+}
+
+export type PlanItineraryErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorModel
+    /**
+     * Unprocessable Entity
+     */
+    422: ErrorModel
+    /**
+     * Internal Server Error
+     */
+    500: ErrorModel
+}
+
+export type PlanItineraryError = PlanItineraryErrors[keyof PlanItineraryErrors]
+
+export type PlanItineraryResponses = {
+    /**
+     * Successful Response
+     */
+    200: ItineraryResponse
+}
+
+export type PlanItineraryResponse = PlanItineraryResponses[keyof PlanItineraryResponses]

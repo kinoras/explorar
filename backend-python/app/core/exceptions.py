@@ -34,6 +34,14 @@ class ErrorCode(StrEnum):
     ROUTES_PLACES_NOTFOUND = "routes.places.notFound"
     ROUTES_COMPUTE_FAILED = "routes.compute.failed"
 
+    # POST /itinerary/plan
+    ITINERARY_DATE_FORMAT = "itinerary.date.format"
+    ITINERARY_DURATION_INVALID = "itinerary.duration.invalid"
+    ITINERARY_PLACES_FORMAT = "itinerary.places.format"
+    ITINERARY_PLACES_REGIONS = "itinerary.places.regions"
+    ITINERARY_PLACES_NOTFOUND = "itinerary.places.notFound"
+    ITINERARY_PLAN_FAILED = "itinerary.plan.failed"
+
     # General
     SERVER_INTERNAL_GENERAL = "server.internal.general"
 
@@ -196,6 +204,15 @@ def _map_validation_error_code(
                 return ErrorCode.ROUTES_PLACES_FORMAT
             if loc[1] in ("mode", "method"):
                 return ErrorCode.ROUTES_METHOD_INVALID
+
+        # POST /itinerary/plan
+        if method == "POST" and path == "/itinerary/plan" and loc[0] == "body":
+            if loc[1] == "start_date":
+                return ErrorCode.ITINERARY_DATE_FORMAT
+            if loc[1] == "duration":
+                return ErrorCode.ITINERARY_DURATION_INVALID
+            if loc[1] == "places":
+                return ErrorCode.ITINERARY_PLACES_FORMAT
 
     # Fallback: Unknown
     return ErrorCode.UNKNOWN

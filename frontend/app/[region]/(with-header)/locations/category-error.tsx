@@ -15,7 +15,7 @@ const CategoryTabsError = ({ message }: { message: string }) => {
                 description: message
             }
         })
-    }, [message, showToast])
+    }, [message])
 
     return <CategoryTabsSkeleton />
 }

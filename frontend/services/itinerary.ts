@@ -1,4 +1,9 @@
 import dayjs from 'dayjs'
+import useSWRMutation from 'swr/mutation'
+
+import { showToast } from '@/services/toast'
+
+import { getAppErrorDescription, toAppError } from '@/lib/errors'
 
 import { useItineraryStore } from '@/store'
 import { isLocationInItinerary } from '@/store/utils'
@@ -8,6 +13,9 @@ import type { LocationID } from '@/types/location'
 import type { Region } from '@/types/region'
 
 import { dayjsToDate, stringToDate } from './date'
+import { planItinerary } from './itinerary-plan'
+
+type ItineraryPlanningArgs = Parameters<typeof planItinerary>
 
 /**
  * Hook to manage a specific location in the itinerary for a given region.
@@ -85,4 +93,62 @@ export const useItineraryList = (
         })),
         arrangeLocation: (location, day, index) => moveLocation(region, location, day, index)
     }
+}
+
+/**
+ * Hook to optimize the itinerary.
+ *
+ * @param region - The region to plan for
+ * @returns An object containing the planning function and loading state.
+ */
+export const useItineraryPlanning = (
+    region: Region
+): {
+    /** Function to plan the itinerary */
+    plan: () => Promise<void>
+    /** Indicates whether the planning is in progress */
+    loading: boolean
+} => {
+    const { itineraries, setLocations } = useItineraryStore()
+    const { start, locations: locations } = itineraries[region]
+
+    const onSuccess = (data: LocationID[][]) => {
+        setLocations(region, data)
+        showToast({
+            type: 'success',
+            message: {
+                title: 'Itinerary updated',
+                description: 'An optimised itinerary has been generated.'
+            }
+        })
+    }
+
+    const onError = (error: unknown) => {
+        showToast({
+            type: 'error',
+            message: {
+                title: 'Failed to generate itinerary',
+                description: getAppErrorDescription(toAppError(error))
+            }
+        })
+    }
+
+    const { trigger, isMutating } = useSWRMutation(
+        'plan-itinerary-' + region, // Key (Note: Using backticks causes type issues [why?])
+        (_, { arg }: { arg: ItineraryPlanningArgs }) => planItinerary(...arg), // Mutation function
+        { onSuccess, onError } // Options: Callbacks
+    )
+
+    const plan = async () => {
+        // Prevent duplicate requests
+        if (isMutating) return
+
+        await trigger([
+            start, // Start date
+            locations.length, // Duration
+            locations.flat() // Location IDs
+        ])
+    }
+
+    return { plan, loading: isMutating }
 }

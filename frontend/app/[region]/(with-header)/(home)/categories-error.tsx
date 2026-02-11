@@ -15,7 +15,7 @@ const CategoriesError = ({ message }: { message: string }) => {
                 description: message
             }
         })
-    }, [message, showToast])
+    }, [message])
 
     return <CategoriesSkeleton itemsCount={2} />
 }

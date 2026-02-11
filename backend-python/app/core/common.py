@@ -1,3 +1,4 @@
+from typing import Literal
 from enum import StrEnum
 from beanie import PydanticObjectId
 
@@ -33,3 +34,6 @@ class SortOrder(StrEnum):
 
 
 type PlaceId = PydanticObjectId
+
+
+type Model = Literal["openai", "gemini"]
