@@ -110,7 +110,7 @@ export const useItineraryStore = create<ItineraryStore>()(
                         )
                     }
                 })),
-                
+
             setLocations: (region, locations) =>
                 set((state) => ({
                     itineraries: {

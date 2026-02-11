@@ -30,6 +30,13 @@ class ItineraryRequest(BaseModel):
                 raise ValueError("Date must be in format 'YYYY-MM-DD'")
         return v
 
+    @field_validator("duration")
+    @classmethod
+    def validate_duration(cls, v):
+        if v <= 0:
+            raise ValueError("Duration must be a positive integer")
+        return v
+
     @field_validator("places")
     @classmethod
     def validate_places(cls, v):

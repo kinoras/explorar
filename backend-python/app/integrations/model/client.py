@@ -27,7 +27,9 @@ class ModelClient:
 
     @staticmethod
     def _create_default_strategy() -> ModelStrategy:
-        strategy = STRATEGIES.get(settings.MODEL_PROVIDER)
+        strategy = STRATEGIES.get(settings.MODEL_PROVIDER, None)
+        if strategy is None:
+            raise ValueError(f"Unsupported model: {settings.MODEL_PROVIDER!r}")
         return strategy()
 
     async def generate(self, payload: ModelRequest) -> ModelResponse:

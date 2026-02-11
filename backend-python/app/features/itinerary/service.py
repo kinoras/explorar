@@ -62,6 +62,8 @@ class ItineraryService:
         """
         today = _date.today()
         assignable_dates = [date for date in dates if date >= today]
+        if not dates:
+            return []  # No dates provided (also avoid index error in nonempty logic)
         if not assignable_dates and nonempty:
             assignable_dates.append(dates[-1])  # At least 1 date to assign
         return assignable_dates

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PageHeader } from '@/components/custom/page-header'
 import { Button } from '@/components/ui/button'
 
-import { useItineraryDuration, useItineraryPlanning } from '@/services/itinerary'
+import { useItineraryDuration, useItineraryList, useItineraryPlanning } from '@/services/itinerary'
 
 import { useRegion } from '@/lib/context'
 import { cn } from '@/lib/utils'
@@ -30,8 +30,11 @@ const ItineraryHeader = ({
     ...props
 }: ComponentProps<typeof PageHeader>) => {
     const { region } = useRegion()
+    const { itinerary } = useItineraryList(region)
     const { start, end, setDuration } = useItineraryDuration(region)
     const { plan, loading } = useItineraryPlanning(region)
+
+    const isItineraryEmpty = itinerary.every((day) => day.locations.length === 0)
 
     return (
         <PageHeader floating masking={240} {...props}>
@@ -39,7 +42,7 @@ const ItineraryHeader = ({
 
             <div className="flex flex-row gap-2">
                 {/* Generate itinerary */}
-                <HeaderActionButton onClick={plan} disabled={loading}>
+                <HeaderActionButton onClick={plan} disabled={loading || isItineraryEmpty}>
                     <FontAwesomeIcon icon={faArrowsRotate} className="size-4!" spin={loading} />
                 </HeaderActionButton>
 

@@ -42,7 +42,7 @@ export const planItinerary = async (
             throw new AppError('INVALID_LOCATION_PAIRS', errorMessage)
         if (errorCode === 'itinerary.places.format')
             // Empty list: No need to handle, empty response is enough
-            return []
+            return Array.from({ length: duration }, () => [])
 
         // General error
         throw new AppError('UNKNOWN', errorMessage)

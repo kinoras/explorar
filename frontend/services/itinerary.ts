@@ -134,7 +134,7 @@ export const useItineraryPlanning = (
     }
 
     const { trigger, isMutating } = useSWRMutation(
-        'plan-itinerary', // Key
+        'plan-itinerary-' + region, // Key (Note: Using backticks causes type issues [why?])
         (_, { arg }: { arg: ItineraryPlanningArgs }) => planItinerary(...arg), // Mutation function
         { onSuccess, onError } // Options: Callbacks
     )
@@ -142,7 +142,7 @@ export const useItineraryPlanning = (
     const plan = async () => {
         // Prevent duplicate requests
         if (isMutating) return
-        
+
         await trigger([
             start, // Start date
             locations.length, // Duration
