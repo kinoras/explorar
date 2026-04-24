@@ -10,16 +10,40 @@ from app.features.places import Place
 from tests.data import get_dummy_places
 
 
-# Wrapper to provide the async close method in test environment
+# Wrapper for Database that handles beanie's list_collection_names parameters
+class CompatibleAsyncDatabase:
+    def __init__(self, db):
+        self._db = db
+
+    def __getattr__(self, name):
+        return getattr(self._db, name)
+
+    def __getitem__(self, key):
+        return self._db[key]
+
+    async def list_collection_names(self, **kwargs):
+        # Strip out parameters that mongomock doesn't support
+        # beanie might pass authorizedCollections, nameOnly, etc.
+        return await self._db.list_collection_names()
+
+    async def command(self, *args, **kwargs):
+        return await self._db.command(*args, **kwargs)
+
+
+# Wrapper to provide async close method and fix beanie compatibility
 class AsyncMongoMockClient(MongoMockMotorClient):
     async def close(self):
         pass
+
+    def get_database(self, name=None, *args, **kwargs):
+        db = super().get_database(name, *args, **kwargs)
+        return CompatibleAsyncDatabase(db)
 
 
 @pytest.fixture(scope="session")
 async def test_app():
     """Setup the application with the test database configuration."""
-    # Override the MongoDB client with a mock client
+    # Override the MongoDB client with a compatible mock client
     mongo.AsyncMongoClient = AsyncMongoMockClient
 
     async with LifespanManager(app) as manager:
