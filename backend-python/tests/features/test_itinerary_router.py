@@ -1,12 +1,12 @@
-import pytest
-from httpx import AsyncClient
 from datetime import date, timedelta
 from unittest.mock import AsyncMock
 
-from app.core.exceptions import ErrorCode
-from app.features.itinerary.service import ItineraryService
-from app.features.itinerary.schemas import DayPlan
+import pytest
+from httpx import AsyncClient
 
+from app.core.exceptions import ErrorCode
+from app.features.itinerary.schemas import DayPlan
+from app.features.itinerary.service import ItineraryService
 
 ##### Regular Requests #####
 
@@ -37,7 +37,7 @@ async def test_plan_itinerary_success(client: AsyncClient, test_places, monkeypa
     assert data["plan"][0]["day"] == 1
 
     # Assignment completeness check
-    assert set([pid for day in data["plan"] for pid in day["places"]]) == set(ids[:3])
+    assert {pid for day in data["plan"] for pid in day["places"]} == set(ids[:3])
 
     # Function call
     plan_mock.assert_awaited_once()
@@ -56,8 +56,9 @@ async def test_plan_itinerary_exceptions(client: AsyncClient, test_places):
     hk_ids = [str(p.id) for p in test_places if p.region == "hong-kong"]
     mo_ids = [str(p.id) for p in test_places if p.region == "macau"]
     today = date.today()
+    today_str = today.isoformat()
 
-    async def _request(places=hk_ids, start_date=today.isoformat(), duration=1):
+    async def _request(places=hk_ids, start_date=today_str, duration=1):
         json = {"places": places, "start_date": start_date, "duration": duration}
         return await client.post("/itinerary/plan", json=json)
 

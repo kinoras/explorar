@@ -5,7 +5,7 @@ from ..places.schemas import Hours
 
 
 class ItineraryPrompt:
-    WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    WEEKDAYS = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
     @classmethod
     def instruction(cls) -> str:

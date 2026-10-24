@@ -26,7 +26,7 @@ async def compute_routes(
             mode=body.mode or TravelMode.TRANSIT,  # Default to transit mode
         )
         return RoutesResponse(routes=routes)
-    except Exception as e:
+    except RuntimeError as e:
         raise HTTPException(
             status_code=500,
             detail={
@@ -34,4 +34,4 @@ async def compute_routes(
                 "message": "Failed to compute routes",
                 "details": {"reason": str(e)},
             },
-        )
+        ) from e

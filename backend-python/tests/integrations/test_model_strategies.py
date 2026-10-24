@@ -1,10 +1,10 @@
-import pytest
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, Mock
 
-import app.integrations.model.strategies as strategies
-from app.integrations.model.contracts import ModelMessage, ModelRequest
+import pytest
 
+from app.integrations.model import strategies
+from app.integrations.model.contracts import ModelMessage, ModelRequest
 
 ##### Helpers #####
 

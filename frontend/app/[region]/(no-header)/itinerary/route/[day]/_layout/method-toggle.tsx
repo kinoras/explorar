@@ -37,7 +37,7 @@ const RouteMethodToggle = () => {
     return (
         <ToggleGroup
             type="single"
-            className="border-border gap-1 rounded-full border bg-white px-[3.5px] py-0.75"
+            className="gap-1 rounded-full border border-border bg-white px-[3.5px] py-0.75"
             value={method}
             onValueChange={handleToggleChange}
         >

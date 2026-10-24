@@ -35,3 +35,6 @@ dev = [
 
 [tool.uv]
 exclude-newer = "1 week"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Query", "fastapi.Depends"]

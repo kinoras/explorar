@@ -22,8 +22,8 @@ const LocationMeta = ({
 }) => (
     <div className={cn('flex flex-col gap-1.5 py-4 **:leading-tight', className)} {...props}>
         <h1 className="text-2xl font-bold tracking-tight">{name}</h1>
-        <p className="text-subtitle line-clamp-1 text-sm">{address}</p>
-        <p className="text-subtitle flex items-center gap-1 text-sm">
+        <p className="line-clamp-1 text-sm text-subtitle">{address}</p>
+        <p className="flex items-center gap-1 text-sm text-subtitle">
             <span className="tabular-nums">{ratingString}</span>
             <RatingStars rating={ratingNumber} className="mb-px [&_svg]:size-3.5!" />
             <span>·</span>

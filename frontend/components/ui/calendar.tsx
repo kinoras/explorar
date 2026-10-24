@@ -28,7 +28,7 @@ const Calendar = ({
         <DayPicker
             showOutsideDays={showOutsideDays}
             className={cn(
-                'bg-background group/calendar p-3 [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
+                'group/calendar bg-background p-3 [--cell-size:--spacing(8)] in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
                 String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
                 String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
                 className
@@ -167,9 +167,9 @@ const CalendarDayButton = ({
             data-range-end={modifiers.range_end}
             data-range-middle={modifiers.range_middle}
             className={cn(
-                'data-[range-middle=true]:bg-theme-accent data-[range-middle=true]:text-accent-foreground data-[range-middle=true]:rounded-none',
+                'data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-theme-accent data-[range-middle=true]:text-accent-foreground',
                 'group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-blue-400',
-                'dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal [&>span]:text-xs [&>span]:opacity-70',
+                'flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal dark:hover:text-accent-foreground [&>span]:text-xs [&>span]:opacity-70',
                 defaultClassNames.day,
                 className
             )}

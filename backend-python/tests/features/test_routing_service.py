@@ -1,6 +1,7 @@
-import pytest
-from datetime import datetime, date, time
+from datetime import date, datetime, time
 from types import SimpleNamespace
+
+import pytest
 from google.maps.routing_v2 import RouteTravelMode, TransitVehicle
 
 from app.core.config import settings

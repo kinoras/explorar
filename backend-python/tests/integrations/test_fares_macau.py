@@ -1,9 +1,9 @@
-import pytest
 from types import SimpleNamespace
+
+import pytest
 from google.maps.routing_v2 import TransitVehicle
 
 from app.integrations.fares import macau as macau_module
-
 
 ##### Constants #####
 

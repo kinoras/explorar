@@ -10,7 +10,7 @@ import { RouteMethodProvider } from './_hooks/context'
 const RoutePage = ({ params }: PageProps<'/[region]/itinerary/route/[day]'>) => {
     const { region, day } = use(params)
 
-    // Workaround to avoid intercepting routes
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- Avoid intercepting routes
     const handleBack = () => (window.location.href = `/${region}/itinerary`)
 
     return (

@@ -79,7 +79,7 @@ const RouteMap = ({
                 {segments.map((segment, index) => (
                     <MapPolyline
                         key={index}
-                        className="stroke-theme fill-none stroke-3"
+                        className="fill-none stroke-theme stroke-3"
                         positions={segment}
                     />
                 ))}

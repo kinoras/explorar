@@ -1,6 +1,7 @@
-from typing import List
+from datetime import date as _date
+from datetime import datetime
+
 from pydantic import BaseModel, field_validator
-from datetime import datetime, date as _date
 
 from app.core.common import PlaceId
 
@@ -8,7 +9,7 @@ from app.core.common import PlaceId
 class DayPlan(BaseModel):
     day: int
     date: _date
-    places: List[PlaceId]
+    places: list[PlaceId]
 
 
 ##### Public Schemas #####
@@ -17,7 +18,7 @@ class DayPlan(BaseModel):
 class ItineraryRequest(BaseModel):
     start_date: _date
     duration: int
-    places: List[PlaceId]
+    places: list[PlaceId]
 
     @field_validator("start_date", mode="before")
     @classmethod
@@ -46,4 +47,4 @@ class ItineraryRequest(BaseModel):
 
 
 class ItineraryResponse(BaseModel):
-    plan: List[DayPlan]
+    plan: list[DayPlan]

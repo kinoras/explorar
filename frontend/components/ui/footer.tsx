@@ -18,7 +18,7 @@ const Footer = ({
         <footer
             data-slot="footer"
             className={cn(
-                'border-border sticky bottom-0 z-10 bg-white',
+                'sticky bottom-0 z-10 border-border bg-white',
                 outline === 'border' && 'border-t',
                 outline === 'shadow' && 'shadow-[0_-4px_12px] shadow-black/10',
                 blur && 'backdrop-blur supports-backdrop-filter:bg-white/80',

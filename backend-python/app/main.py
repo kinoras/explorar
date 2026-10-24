@@ -6,15 +6,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.core.exceptions import (
-    validation_exception_handler,
     http_exception_handler,
     unhandled_exception_handler,
+    validation_exception_handler,
 )
 from app.core.mongo import db
 from app.features.categories import categories_router
+from app.features.itinerary import itinerary_router
 from app.features.places import places_router
 from app.features.routing import routing_router
-from app.features.itinerary import itinerary_router
 
 
 @asynccontextmanager

@@ -390,7 +390,7 @@ const MapLayersControl = ({
                     size="icon-sm"
                     aria-label="Select layers"
                     title="Select layers"
-                    className={cn('border-border absolute top-1 right-1 z-1000 border', className)}
+                    className={cn('absolute top-1 right-1 z-1000 border border-border', className)}
                     {...props}
                 >
                     <FontAwesomeIcon icon={faLayerGroup} />
@@ -517,7 +517,7 @@ const MapPopup = ({ className, ...props }: Omit<PopupProps, 'content'> & { ref?:
     return (
         <LeafletPopup
             className={cn(
-                'bg-popover text-popover-foreground animate-in fade-out-0 fade-in-0 zoom-out-95 zoom-in-95 slide-in-from-bottom-2 border-border z-50 w-72 rounded-md border p-4 font-sans shadow-md outline-hidden',
+                'z-50 w-72 animate-in rounded-md border border-border bg-popover p-4 font-sans text-popover-foreground shadow-md outline-hidden fade-in-0 fade-out-0 zoom-in-95 zoom-out-95 slide-in-from-bottom-2',
                 className
             )}
             {...props}
@@ -552,7 +552,7 @@ const MapTooltip = ({
     return (
         <LeafletTooltip
             className={cn(
-                'animate-in fade-in-0 zoom-in-95 fade-out-0 zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 w-fit text-xs text-balance transition-opacity',
+                'relative z-50 w-fit animate-in text-xs text-balance transition-opacity fade-in-0 fade-out-0 zoom-in-95 zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
                 className
             )}
             data-side={side}
@@ -564,7 +564,7 @@ const MapTooltip = ({
             {children}
             <div
                 className={cn(
-                    'bg-foreground fill-foreground absolute z-50 size-2.5 rotate-45 rounded-xs',
+                    'absolute z-50 size-2.5 rotate-45 rounded-xs bg-foreground fill-foreground',
                     ARROW_POSITION_CLASSES[side]
                 )}
             />
@@ -595,7 +595,7 @@ const MapZoomControl = ({ className, ...props }: ComponentProps<'div'>) => {
                 variant="secondary"
                 aria-label="Zoom in"
                 title="Zoom in"
-                className="border-border border"
+                className="border border-border"
                 disabled={zoomLevel >= map.getMaxZoom()}
                 onClick={() => map.zoomIn()}
             >
@@ -607,7 +607,7 @@ const MapZoomControl = ({ className, ...props }: ComponentProps<'div'>) => {
                 variant="secondary"
                 aria-label="Zoom out"
                 title="Zoom out"
-                className="border-border border"
+                className="border border-border"
                 disabled={zoomLevel <= map.getMinZoom()}
                 onClick={() => map.zoomOut()}
             >
@@ -620,8 +620,8 @@ const MapZoomControl = ({ className, ...props }: ComponentProps<'div'>) => {
 const MapLocatePulseIcon = () => {
     return (
         <div className="absolute -top-1 -right-1 flex size-3 rounded-full">
-            <div className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
-            <div className="bg-primary relative inline-flex size-3 rounded-full" />
+            <div className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75" />
+            <div className="relative inline-flex size-3 rounded-full bg-primary" />
         </div>
     )
 }
@@ -684,7 +684,7 @@ const MapLocateControl = ({
                           ? 'Stop location tracking'
                           : 'Start location tracking'
                 }
-                className={cn('border-border absolute right-1 bottom-1 z-1000 border', className)}
+                className={cn('absolute right-1 bottom-1 z-1000 border border-border', className)}
                 {...props}
             >
                 {isLocating ? (
@@ -821,7 +821,7 @@ const MapDrawShapeButton = <T extends Draw.Feature>({
             size="icon-sm"
             aria-label={`Draw ${drawMode}`}
             title={`Draw ${drawMode}`}
-            className={cn('border-border border', className)}
+            className={cn('border border-border', className)}
             variant={isActive ? 'default' : 'secondary'}
             disabled={activeMode === 'edit' || activeMode === 'delete'}
             onClick={handleClick}
@@ -1023,7 +1023,7 @@ const MapDrawActionButton = <T extends EditToolbar.Edit | EditToolbar.Delete>({
             variant={isActive ? 'default' : 'secondary'}
             disabled={!hasFeatures}
             onClick={handleClick}
-            className={cn('border-border border', className)}
+            className={cn('border border-border', className)}
             {...props}
         />
     )
@@ -1133,7 +1133,7 @@ const MapDrawUndo = ({ className, ...props }: ComponentProps<'button'>) => {
             title={`Undo ${activeMode}`}
             onClick={handleUndo}
             disabled={!isActive}
-            className={cn('border-border border', className)}
+            className={cn('border border-border', className)}
             {...props}
         >
             <FontAwesomeIcon icon={faRotateLeft} />
@@ -1150,7 +1150,7 @@ const useMapDrawHandleIcon = () => {
         html: renderToString(
             <FontAwesomeIcon
                 icon={farCircle}
-                className="text-primary size-4 transition-transform hover:scale-110"
+                className="size-4 text-primary transition-transform hover:scale-110"
             />
         )
     })

@@ -15,7 +15,7 @@ const ItineraryRouteButton = ({ className, ...props }: ComponentProps<typeof Nav
 )
 
 const ItineraryRouteButtonSkeleton = ({ className, ...props }: ComponentProps<'div'>) => (
-    <Skeleton className={cn('bg-accent size-10 rounded-full', className)} {...props} />
+    <Skeleton className={cn('size-10 rounded-full bg-accent', className)} {...props} />
 )
 
 export { ItineraryRouteButton, ItineraryRouteButtonSkeleton }

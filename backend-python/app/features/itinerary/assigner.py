@@ -1,25 +1,25 @@
 import json
-import jsonschema
 import re
-from typing import List, Optional
 from datetime import date as _date
+from typing import Any, ClassVar
+
+import jsonschema
 
 from app.core.common import PlaceId
 from app.integrations.model import ModelClient, ModelMessage, ModelRequest
 
 from ..places import Place
-
 from .prompt import ItineraryPrompt
 
 
 class RoundRobinAssigner:
     @staticmethod
     def assign(
-        dates: List[_date],
-        places: List[Place],
-    ) -> List[List[PlaceId]]:
+        dates: list[_date],
+        places: list[Place],
+    ) -> list[list[PlaceId]]:
         # Empty assignments
-        assignments: List[List[PlaceId]] = [[] for _ in dates]
+        assignments: list[list[PlaceId]] = [[] for _ in dates]
 
         # Distribute places using round-robin
         for idx, place in enumerate(places):
@@ -31,7 +31,7 @@ class RoundRobinAssigner:
 
 class ModelAssigner:
     MAX_RETRIES = 2
-    RESPONSE_SCHEMA = {
+    RESPONSE_SCHEMA: ClassVar[dict[str, Any]] = {
         "type": "object",
         "additionalProperties": False,
         "required": ["assignments"],
@@ -43,14 +43,14 @@ class ModelAssigner:
         },
     }
 
-    def __init__(self, client: Optional[ModelClient] = None):
+    def __init__(self, client: ModelClient | None = None):
         self._client = client or ModelClient()
 
     async def assign(
         self,
-        dates: List[_date],
-        places: List[Place],
-    ) -> List[List[PlaceId]]:
+        dates: list[_date],
+        places: list[Place],
+    ) -> list[list[PlaceId]]:
         payload = self._build_payload(dates, places)
         expected_days = len(dates)
         expected_places = len(places)
@@ -69,7 +69,7 @@ class ModelAssigner:
     ##### Request/response handling ######
 
     @staticmethod
-    def _build_payload(dates: List[_date], places: List[Place]) -> ModelRequest:
+    def _build_payload(dates: list[_date], places: list[Place]) -> ModelRequest:
         """Construct model request payload with dates and places."""
         return ModelRequest(
             messages=[
@@ -80,7 +80,7 @@ class ModelAssigner:
         )
 
     @classmethod
-    def _parse_assignments(cls, text: str, places: List[Place]) -> List[List[PlaceId]]:
+    def _parse_assignments(cls, text: str, places: list[Place]) -> list[list[PlaceId]]:
         """Parse model response text into place ID assignments."""
         try:
             data = cls._parse_json(text, cls.RESPONSE_SCHEMA)
@@ -90,7 +90,7 @@ class ModelAssigner:
 
     @staticmethod
     def _validate_assignments(
-        assignments: List[List[PlaceId]],
+        assignments: list[list[PlaceId]],
         expected_days: int,
         expected_places: int,
     ) -> None:
@@ -128,9 +128,5 @@ class ModelAssigner:
             raise RuntimeError(f"Model response is not valid JSON: {e.msg}") from e
         except jsonschema.ValidationError as e:
             raise RuntimeError(f"Model response schema mismatch: {e.message}") from e
-
-        # Verify JSON structure
-        if not isinstance(data, dict):
-            raise RuntimeError("Model response JSON is not an object")
 
         return data

@@ -17,7 +17,7 @@ const LocationMap = ({ coordinates }: { coordinates: [number, number] }) => {
                     <MapTileLayer />
                     <MapZoomControl className="top-2 left-2" />
                     <MapMarker position={coordinates} />
-                    <span className="text-subtitle absolute right-2 bottom-1.5 z-5000">
+                    <span className="absolute right-2 bottom-1.5 z-5000 text-subtitle">
                         Move the map with two fingers
                     </span>
                 </Map>

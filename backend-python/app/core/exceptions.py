@@ -1,12 +1,13 @@
-from typing import Any, Iterable, Optional
-from pydantic import BaseModel
+from collections.abc import Iterable, Mapping
 from enum import StrEnum
-from json import dumps
-
 from http import HTTPStatus
+from json import dumps
+from typing import Any
+
 from fastapi import HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 
 class ErrorCode(StrEnum):
@@ -67,7 +68,7 @@ class ErrorModel(BaseModel):
     status: int
     code: ErrorCode = ErrorCode.UNKNOWN
     message: str
-    details: Optional[ErrorDetails] = None
+    details: ErrorDetails | None = None
 
 
 class ErrorResponse(JSONResponse):
@@ -76,7 +77,7 @@ class ErrorResponse(JSONResponse):
         status: int,
         code: ErrorCode,
         message: str,
-        details: Optional[ErrorDetails] = None,
+        details: ErrorDetails | None = None,
     ):
         super().__init__(
             status_code=status,
@@ -158,7 +159,7 @@ async def unhandled_exception_handler(_: Request, __: Exception):
 
 def _map_validation_error_code(
     request: Request,
-    errors: list[dict[str, Any]] = [],
+    errors: Iterable[Mapping[str, Any]],
 ) -> ErrorCode:
     # Determine request context
     method = request.method.upper()
@@ -174,7 +175,7 @@ def _map_validation_error_code(
             continue
 
         # GET /categories
-        if method == "GET" and path == "/categories" and loc[0] == "query":
+        if method == "GET" and path == "/categories" and loc[0] == "query":  # noqa: SIM102
             if loc[1] == "region":
                 return ErrorCode.CATEGORIES_REGION_INVALID
 
@@ -190,7 +191,7 @@ def _map_validation_error_code(
                 return ErrorCode.PLACES_CURSOR_FORMAT
 
         # GET /places/[id]
-        if method == "GET" and path.startswith("/places/") and loc[0] == "path":
+        if method == "GET" and path.startswith("/places/") and loc[0] == "path":  # noqa: SIM102
             if loc[1] == "id":
                 return ErrorCode.PLACE_ID_FORMAT
 
@@ -237,7 +238,7 @@ def _parse_validation_error_details(errors: list[dict[str, Any]]) -> ErrorDetail
     return details
 
 
-def _parse_details(details: Any) -> Optional[dict[str, str]]:
+def _parse_details(details: Any) -> dict[str, str] | None:
     # Dictionary: Convert all keys and values to strings
     if isinstance(details, dict):
         return {str(key): str(value) for key, value in details.items()}

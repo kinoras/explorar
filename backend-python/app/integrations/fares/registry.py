@@ -1,16 +1,13 @@
-from typing import Optional
-
 from google.maps.routing_v2 import RouteLeg, RouteTravelMode
 
 from app.core.common import Region
 
 from .macau import FARE_FIELDS_MO, MacauTaxiFareEstimator, MacauTransitFareEstimator
 
-
 FARE_FIELDS = set().union(["routes.legs.steps.travelMode"], FARE_FIELDS_MO)
 
 
-def compute_fare(region: Region, leg: RouteLeg) -> Optional[float]:
+def compute_fare(region: Region, leg: RouteLeg) -> float | None:
     steps = {step.travel_mode for step in leg.steps or []}
     if not steps:
         return None

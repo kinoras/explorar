@@ -1,13 +1,12 @@
 import pytest
 
-from app.integrations.model.client import ModelClient, STRATEGIES, settings
+from app.integrations.model.client import STRATEGIES, ModelClient, settings
 from app.integrations.model.contracts import (
     ModelMessage,
     ModelRequest,
     ModelResponse,
     ModelStrategy,
 )
-
 
 ##### Helpers #####
 

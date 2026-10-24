@@ -1,4 +1,3 @@
-from typing import List
 from datetime import date as _date
 
 from ..places import Place
@@ -10,10 +9,10 @@ class ItineraryService:
     @classmethod
     async def plan(
         cls,
-        dates: List[_date],
-        places: List[Place],
+        dates: list[_date],
+        places: list[Place],
         skip_past_dates: bool = True,
-    ) -> List[DayPlan]:
+    ) -> list[DayPlan]:
         """Plan an itinerary by distributing places across the provided dates.
         Args:
             dates (List[date]): List of dates for the trip.
@@ -52,7 +51,7 @@ class ItineraryService:
     ##### Helpers ######
 
     @staticmethod
-    def _exclude_past_dates(dates: List[_date], nonempty: bool = True) -> List[_date]:
+    def _exclude_past_dates(dates: list[_date], nonempty: bool = True) -> list[_date]:
         """Filter non-past dates.
         Args:
             dates (List[date]): List of dates to filter.

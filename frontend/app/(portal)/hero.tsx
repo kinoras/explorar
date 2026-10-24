@@ -78,7 +78,7 @@ const PortalHero = () => {
                             <p className="text-base md:text-lg lg:text-xl">{description}</p>
                             <Button
                                 className={cn(
-                                    'text-theme! text-lg font-bold hover:font-extrabold md:text-lg lg:text-xl', // Font
+                                    'text-lg font-bold text-theme! hover:font-extrabold md:text-lg lg:text-xl', // Font
                                     '-mb-1 -ml-2 gap-1.5 px-2! hover:gap-2' // Spacing
                                 )}
                                 variant="ghost"

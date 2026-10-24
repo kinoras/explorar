@@ -1,7 +1,8 @@
-from typing import List, Literal, Optional
+from typing import Literal
+
 from fastapi import APIRouter, HTTPException, Query
 
-from app.core.common import PlaceId, Region, Category, SortOrder
+from app.core.common import Category, PlaceId, Region, SortOrder
 from app.core.exceptions import ErrorCode, ErrorModel, error_models
 
 from .documents import Place
@@ -10,7 +11,7 @@ from .schemas import PlacePublic, PlacesPublic
 places_router = APIRouter()
 
 
-def _parse_categories(input: str) -> Optional[List[Category]]:
+def _parse_categories(input: str) -> list[Category] | None:
     """
     Parse a comma-separated string into a list of Category enums.
     Raise HTTPException 422 if any category is invalid.
@@ -37,12 +38,12 @@ def _parse_categories(input: str) -> Optional[List[Category]]:
     responses=error_models([422, 500]),
 )
 async def get_places(
-    region: Optional[Region] = Query(default=None),
-    categories: Optional[str] = Query(default=None, description="Comma-separated list"),
+    region: Region | None = Query(default=None),
+    categories: str | None = Query(default=None, description="Comma-separated list"),
     order_by: Literal["id", "ranking", "rating"] = Query(default="id", alias="orderBy"),
     order_dir: SortOrder = Query(default=SortOrder.ASCENDING, alias="orderDir"),
     limit: int = Query(default=10, ge=1, le=50),
-    cursor: Optional[PlaceId] = Query(default=None, description="Starting id"),
+    cursor: PlaceId | None = Query(default=None, description="Starting id"),
 ) -> PlacesPublic:
     # Parse categories
     categories = _parse_categories(categories) if categories else None
