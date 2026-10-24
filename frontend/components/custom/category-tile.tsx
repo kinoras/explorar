@@ -28,7 +28,7 @@ const CategoryTile = ({
             <div
                 className={cn(
                     'absolute inset-0 z-10', // Positioning
-                    'from-theme/50 to-theme/75 bg-linear-to-b text-white *:leading-tight', // Appearance
+                    'bg-linear-to-b from-theme/50 to-theme/75 text-white *:leading-tight', // Appearance
                     'flex flex-col justify-end gap-px p-3' // Layout
                 )}
             >

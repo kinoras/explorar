@@ -28,9 +28,9 @@ const PortalSectionContent = ({ className, ...props }: ComponentProps<'div'>) =>
 const PortalSectionItem = ({ className, ...props }: ComponentProps<'article'>) => (
     <article
         className={cn(
-            'bg-accent/80 rounded-2xl', // Appearance
+            'rounded-2xl bg-accent/80', // Appearance
             '-mx-px flex flex-col items-start gap-1.25 p-5.5', // Layout
-            '[&_svg]:text-theme [&_svg]:mb-1.5 [&_svg]:-ml-px [&_svg]:text-xl', // Icon
+            '[&_svg]:mb-1.5 [&_svg]:-ml-px [&_svg]:text-xl [&_svg]:text-theme', // Icon
             '[&_h3]:text-lg [&_h3]:font-bold [&_h3]:tracking-tight [&_h3]:md:text-xl', // Title
             className
         )}

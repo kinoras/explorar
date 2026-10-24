@@ -1,6 +1,7 @@
+from collections import Counter
+
 import pytest
 from httpx import AsyncClient
-from collections import Counter
 
 from app.core.exceptions import ErrorCode
 from app.features.places import Place

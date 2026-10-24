@@ -1,8 +1,6 @@
-from typing import List
 from pydantic import BaseModel
 
 from app.core.common import Category
-
 
 ##### Public Schemas #####
 
@@ -13,4 +11,4 @@ class CategoryPublic(BaseModel):
 
 
 class CategoriesPublic(BaseModel):
-    categories: List[CategoryPublic]
+    categories: list[CategoryPublic]

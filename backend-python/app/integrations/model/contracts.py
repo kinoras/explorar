@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Literal
 
-
 type MessageRole = Literal["system", "user", "assistant"]
 type ResponseMimeType = Literal["application/json", "text/plain"]
 type ResponseSchema = dict[str, Any]

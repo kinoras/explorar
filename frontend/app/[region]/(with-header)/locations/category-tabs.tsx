@@ -8,7 +8,7 @@ import { getCategoriesByRegion } from '@/services/category'
 import { getAppErrorDescription, toAppError } from '@/lib/errors'
 import { cn } from '@/lib/utils'
 
-import type { CategoryKey } from '@/types/category'
+import type { Category, CategoryKey } from '@/types/category'
 import type { LocationSortOption } from '@/types/location'
 import type { Region } from '@/types/region'
 
@@ -20,7 +20,7 @@ const CategoryTab = ({ active, href, name }: { active: boolean; href: string; na
         variant={active ? 'theme' : 'outline'}
         className={cn(
             'rounded-full shadow-none duration-100 ease-linear',
-            active && 'border-theme border' // Also show border when active
+            active && 'border border-theme' // Also show border when active
         )}
         role="listitem"
         asChild
@@ -41,48 +41,49 @@ const CategoryTabs = async ({
     /** The current sort option */
     sort: LocationSortOption
 }) => {
+    let categories: Category[]
     try {
-        const categories = await getCategoriesByRegion(region)
-
-        return (
-            <div
-                className="-mx-4.5 flex items-center gap-2 overflow-x-scroll px-4.5 pb-1"
-                style={{ scrollbarWidth: 'none' }}
-                role="list"
-            >
-                <CategoryTab
-                    active={activeCategories.length === 0} // No active categories
-                    href="/locations"
-                    name="All"
-                />
-
-                <Separator orientation="vertical" className="mx-1 h-6!" />
-
-                {categories.map(({ key, name }) => {
-                    const active = activeCategories.includes(key)
-
-                    // Build search params for the tab link
-                    const params = new URLSearchParams([['sort', sort]]) // Preserve sort param
-                    const newActiveCategories = active
-                        ? activeCategories.filter((c) => c !== key) // Remove if active
-                        : [...activeCategories, key] // Otherwise append
-                    if (newActiveCategories.length > 0)
-                        params.set('categories', newActiveCategories.join(' '))
-
-                    return (
-                        <CategoryTab
-                            key={key}
-                            active={active}
-                            href={`/locations?${params.toString()}`}
-                            name={name}
-                        />
-                    )
-                })}
-            </div>
-        )
+        categories = await getCategoriesByRegion(region)
     } catch (error) {
         return <CategoryTabsError message={getAppErrorDescription(toAppError(error))} />
     }
+
+    return (
+        <div
+            className="-mx-4.5 flex items-center gap-2 overflow-x-scroll px-4.5 pb-1"
+            style={{ scrollbarWidth: 'none' }}
+            role="list"
+        >
+            <CategoryTab
+                active={activeCategories.length === 0} // No active categories
+                href="/locations"
+                name="All"
+            />
+
+            <Separator orientation="vertical" className="mx-1 h-6!" />
+
+            {categories.map(({ key, name }) => {
+                const active = activeCategories.includes(key)
+
+                // Build search params for the tab link
+                const params = new URLSearchParams([['sort', sort]]) // Preserve sort param
+                const newActiveCategories = active
+                    ? activeCategories.filter((c) => c !== key) // Remove if active
+                    : [...activeCategories, key] // Otherwise append
+                if (newActiveCategories.length > 0)
+                    params.set('categories', newActiveCategories.join(' '))
+
+                return (
+                    <CategoryTab
+                        key={key}
+                        active={active}
+                        href={`/locations?${params.toString()}`}
+                        name={name}
+                    />
+                )
+            })}
+        </div>
+    )
 }
 
 const CategoryTabsSkeleton = ({ itemsCount = 3 }: { itemsCount?: number }) => {

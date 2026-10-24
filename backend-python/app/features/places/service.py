@@ -1,4 +1,3 @@
-from typing import List
 from collections import defaultdict
 
 from app.core.common import PlaceId, Region
@@ -7,12 +6,12 @@ from .documents import Place
 
 
 class PlaceNotFoundError(Exception):
-    def __init__(self, missing_ids: List[str]):
+    def __init__(self, missing_ids: list[str]):
         self.missing_ids = missing_ids
 
 
 class PlaceRegionError(Exception):
-    def __init__(self, regions_map: dict[Region, List[str]]):
+    def __init__(self, regions_map: dict[Region, list[str]]):
         self.regions_map = regions_map
 
 
@@ -23,9 +22,9 @@ class PlaceService:
 
     @staticmethod
     async def get_validated(
-        ids: List[PlaceId],
+        ids: list[PlaceId],
         same_region: bool = True,
-    ) -> List[Place]:
+    ) -> list[Place]:
         """Retrieves places by ID and ensures they meet consistency rules.
         Args:
             ids (List[PlaceId]): List of Place IDs to retrieve.

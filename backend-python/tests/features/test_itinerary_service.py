@@ -1,10 +1,10 @@
-import pytest
 from datetime import date, timedelta
 from unittest.mock import AsyncMock
 
+import pytest
+
 from app.features.itinerary.assigner import ModelAssigner
 from app.features.itinerary.service import ItineraryService
-
 
 ##### Date Aliases #####
 

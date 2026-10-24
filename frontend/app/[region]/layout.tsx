@@ -26,7 +26,7 @@ const RegionLayout = async ({ children, modal, sheet, params }: LayoutProps<'/[r
     return (
         <html lang="en">
             <body className={cn(sans.variable, mono.variable, cjk.variable, 'bg-neutral-50')}>
-                <div id="root" className="bg-background w-full max-w-lg">
+                <div id="root" className="w-full max-w-lg bg-background">
                     <AppProvider region={region}>
                         {modal}
                         {sheet}

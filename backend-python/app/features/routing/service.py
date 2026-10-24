@@ -1,17 +1,17 @@
-from typing import List
-from pydantic import BaseModel, Field
-from datetime import datetime, date as _date, time, timedelta
+from datetime import date as _date
+from datetime import datetime, time, timedelta
 
 from google.api_core.client_options import ClientOptions
+from google.api_core.exceptions import GoogleAPIError
 from google.maps import routing_v2
 from google.protobuf import timestamp_pb2
+from pydantic import BaseModel, Field
 
 from app.core.config import settings
 from app.integrations.fares import FARE_FIELDS, compute_fare
 
 from ..places import Place
-from .schemas import TravelMode, Vehicle, Route, DriveRoute, TransitRoute, WalkRoute
-
+from .schemas import DriveRoute, Route, TransitRoute, TravelMode, Vehicle, WalkRoute
 
 MODE_MAP = {
     TravelMode.TRANSIT: routing_v2.RouteTravelMode.TRANSIT,
@@ -38,7 +38,7 @@ FIELD_MASK = list(set().union(SERVICE_FIELDS, FARE_FIELDS))
 
 
 class Segment(BaseModel):
-    places: List[Place]
+    places: list[Place]
     mode: TravelMode = TravelMode.DRIVE  # Default: DRIVE
     departure: datetime = Field(
         default_factory=lambda: datetime.now(tz=settings.TIMEZONE)  # Default: now
@@ -51,7 +51,7 @@ class RouteService:
         start: datetime,
         stop: datetime,
         num: int,
-    ) -> List[datetime]:
+    ) -> list[datetime]:
         """Generate evenly spaced datetimes over an interval.
         Args:
             start (datetime): Start of the interval.
@@ -101,11 +101,11 @@ class RouteService:
     @classmethod
     def create_segments(
         cls,
-        places: List[Place],
+        places: list[Place],
         date: _date,
         mode: TravelMode,
-    ) -> List[Segment]:
-        segments: List[Segment] = []
+    ) -> list[Segment]:
+        segments: list[Segment] = []
 
         if mode == TravelMode.TRANSIT:  # No intermediates, 2 places per segment
             chunk_size = 2
@@ -137,7 +137,7 @@ class RouteService:
         return segments
 
     @staticmethod
-    def extract_vehicle(steps: List[routing_v2.RouteLegStep]) -> Vehicle | None:
+    def extract_vehicle(steps: list[routing_v2.RouteLegStep]) -> Vehicle | None:
         # Extract unique vehicle types from transit steps
         vehicles = {
             step.transit_details.transit_line.vehicle.type_
@@ -152,7 +152,7 @@ class RouteService:
         return VEHICLE_MAP.get(vehicles.pop(), None)
 
     @classmethod
-    async def compute_segment(cls, segment: Segment) -> List[Route]:
+    async def compute_segment(cls, segment: Segment) -> list[Route]:
         # ================================
         #  Prepare Request
         # ================================
@@ -192,8 +192,8 @@ class RouteService:
                 ),
                 metadata=[("x-goog-fieldmask", field_mask)],
             )
-        except Exception as e:
-            raise RuntimeError(f"Routes API Error: {str(e)}")
+        except GoogleAPIError as e:
+            raise RuntimeError(f"Routes API Error: {e!s}") from e
 
         # ================================
         #  Parse Response
@@ -241,10 +241,10 @@ class RouteService:
     @classmethod
     async def compute(
         cls,
-        places: List[Place],
+        places: list[Place],
         date: _date,
         mode: TravelMode,
-    ) -> List[Route]:
+    ) -> list[Route]:
         """Compute routes for a list of places on a given date and travel mode.
         Args:
             places (List[Place]): List of waypoint places.

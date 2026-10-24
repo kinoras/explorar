@@ -103,7 +103,7 @@ const RouteSegment = ({
             <div className={blockStyles.marker}>
                 <FontAwesomeIcon
                     icon={methodIcons[option ?? method]}
-                    className="text-theme size-3"
+                    className="size-3 text-theme"
                 />
             </div>
             <div className={blockStyles.content}>

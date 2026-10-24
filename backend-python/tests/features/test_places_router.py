@@ -3,7 +3,6 @@ from httpx import AsyncClient
 
 from app.core.exceptions import ErrorCode
 
-
 ##### Regular Requests #####
 
 

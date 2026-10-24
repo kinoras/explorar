@@ -1,12 +1,12 @@
-import pytest
-from httpx import AsyncClient
 from datetime import date, timedelta
 from unittest.mock import AsyncMock
+
+import pytest
+from httpx import AsyncClient
 
 from app.core.exceptions import ErrorCode
 from app.features.routing.schemas import TransitRoute, TravelMode
 from app.features.routing.service import RouteService
-
 
 ##### Regular Requests #####
 
@@ -63,8 +63,9 @@ async def test_compute_routes_exceptions(client: AsyncClient, test_places):
     hk_ids = [str(p.id) for p in test_places if p.region == "hong-kong"]
     mo_ids = [str(p.id) for p in test_places if p.region == "macau"]
     today = date.today()
+    today_str = today.isoformat()
 
-    async def _request(places=hk_ids, date=today.isoformat(), mode=TravelMode.TRANSIT):
+    async def _request(places=hk_ids, date=today_str, mode=TravelMode.TRANSIT):
         json = {"places": places, "date": date, "mode": mode}
         return await client.post("/routes/compute", json=json)
 

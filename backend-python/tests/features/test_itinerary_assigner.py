@@ -1,10 +1,10 @@
-import pytest
 from datetime import date
 from unittest.mock import AsyncMock
 
+import pytest
+
 from app.features.itinerary.assigner import ModelAssigner, RoundRobinAssigner
 from app.integrations.model.contracts import ModelResponse
-
 
 ##### Helpers #####
 

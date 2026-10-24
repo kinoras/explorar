@@ -28,7 +28,7 @@ const PortalFooter = () => {
                     href="https://github.com/kinoras/explorar"
                     target="_blank"
                     rel="noreferrer"
-                    className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
+                    className="inline-flex items-center gap-1 transition-colors hover:text-foreground"
                 >
                     <FontAwesomeIcon icon={faGithub} />
                     <span>View Source</span>

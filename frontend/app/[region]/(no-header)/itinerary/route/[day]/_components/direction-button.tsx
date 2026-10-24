@@ -37,7 +37,7 @@ const RouteDirectionButton = ({
 }) => (
     <NaviButton
         variant="secondary"
-        className={cn('bg-theme-accent text-theme size-9.5 shadow-none', className)}
+        className={cn('size-9.5 bg-theme-accent text-theme shadow-none', className)}
         asChild
         {...props}
     >

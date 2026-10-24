@@ -1,12 +1,11 @@
 import pytest
 from asgi_lifespan import LifespanManager
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 from mongomock_motor import AsyncMongoMockClient as MongoMockMotorClient
 
-from app.main import app
 from app.core import mongo
 from app.features.places import Place
-
+from app.main import app
 from tests.data import get_dummy_places
 
 

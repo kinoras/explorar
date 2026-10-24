@@ -18,12 +18,7 @@ export type CategoriesPublic = {
  * Category
  */
 export type Category =
-    | 'entertainment'
-    | 'heritage'
-    | 'landmarks'
-    | 'museums'
-    | 'nature'
-    | 'shopping'
+    'entertainment' | 'heritage' | 'landmarks' | 'museums' | 'nature' | 'shopping'
 
 /**
  * CategoryPublic

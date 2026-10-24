@@ -1,4 +1,4 @@
-from app.integrations.fares.data import MACAU_LRT_STATIONS, MACAU_LRT_DISTANCE_TABLE
+from app.integrations.fares.data import MACAU_LRT_DISTANCE_TABLE, MACAU_LRT_STATIONS
 
 
 def test_lrt_distance_table_format():

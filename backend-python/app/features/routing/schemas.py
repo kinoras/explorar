@@ -1,7 +1,9 @@
-from typing import List, Literal, Optional
+from datetime import date as _date
+from datetime import datetime, timedelta
 from enum import Enum
+from typing import Literal
+
 from pydantic import BaseModel, field_validator
-from datetime import datetime, date as _date, timedelta
 
 from app.core.common import PlaceId
 
@@ -35,13 +37,13 @@ class WalkRoute(RouteBase):
 
 class DriveRoute(RouteBase):
     mode: Literal[TravelMode.DRIVE] = TravelMode.DRIVE
-    fare: Optional[float] = None
+    fare: float | None = None
 
 
 class TransitRoute(RouteBase):
     mode: Literal[TravelMode.TRANSIT] = TravelMode.TRANSIT
-    fare: Optional[float] = None
-    vehicle: Optional[Vehicle] = None
+    fare: float | None = None
+    vehicle: Vehicle | None = None
 
 
 type Route = WalkRoute | DriveRoute | TransitRoute
@@ -52,8 +54,8 @@ type Route = WalkRoute | DriveRoute | TransitRoute
 
 class RoutesRequest(BaseModel):
     date: _date
-    mode: Optional[TravelMode] = TravelMode.TRANSIT
-    places: List[PlaceId]
+    mode: TravelMode | None = TravelMode.TRANSIT
+    places: list[PlaceId]
 
     @field_validator("date", mode="before")
     @classmethod
@@ -81,4 +83,4 @@ class RoutesRequest(BaseModel):
 
 
 class RoutesResponse(BaseModel):
-    routes: List[Route]
+    routes: list[Route]

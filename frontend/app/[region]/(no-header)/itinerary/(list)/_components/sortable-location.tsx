@@ -46,7 +46,7 @@ const SortableItineraryLocationOverlay = ({
             className={cn(
                 'flex',
                 'relative after:absolute after:-inset-2.25 after:z-[-1]', // Background positioning
-                'after:border-border after:rounded-[20px] after:border after:bg-white' // Background styles
+                'after:rounded-[20px] after:border after:border-border after:bg-white' // Background styles
             )}
         >
             <ItineraryLocation identifier={identifier} className="flex-1" {...props} />

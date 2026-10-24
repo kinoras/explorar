@@ -1,7 +1,6 @@
-from typing import Optional
+from beanie import init_beanie
 from pymongo import AsyncMongoClient
 from pymongo.asynchronous.database import AsyncDatabase
-from beanie import init_beanie
 
 from app.core.config import settings
 from app.features.places import Place
@@ -11,7 +10,7 @@ class MongoManager:
     def __init__(self, uri: str, database: str):
         self.uri = uri
         self.database = database
-        self.client: Optional[AsyncMongoClient] = None
+        self.client: AsyncMongoClient | None = None
 
     def get_client(self) -> AsyncMongoClient:
         """
@@ -42,7 +41,7 @@ class MongoManager:
                 document_models=[Place],
             )
         except Exception as e:
-            raise Exception("Unable to initialize MongoDB/Beanie") from e
+            raise RuntimeError("Unable to initialize MongoDB/Beanie") from e
 
     async def close(self) -> None:
         """

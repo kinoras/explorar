@@ -1,12 +1,13 @@
 from datetime import timedelta
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.core.exceptions import ErrorCode, error_models
 
 from ..places import Place
+from .deps import places_dep
 from .schemas import ItineraryRequest, ItineraryResponse
 from .service import ItineraryService
-from .deps import places_dep
 
 itinerary_router = APIRouter()
 
@@ -28,7 +29,7 @@ async def plan_itinerary(
             skip_past_dates=True,
         )
         return ItineraryResponse(plan=plan)
-    except Exception as e:
+    except RuntimeError as e:
         raise HTTPException(
             status_code=500,
             detail={
@@ -36,4 +37,4 @@ async def plan_itinerary(
                 "message": "Failed to plan itinerary",
                 "details": {"reason": str(e)},
             },
-        )
+        ) from e

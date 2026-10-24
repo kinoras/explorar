@@ -1,13 +1,12 @@
-from typing import List
 from fastapi import HTTPException
 
 from app.core.exceptions import ErrorCode, ErrorModel
 
-from ..places import Place, PlaceService, PlaceNotFoundError, PlaceRegionError
+from ..places import Place, PlaceNotFoundError, PlaceRegionError, PlaceService
 from .schemas import RoutesRequest
 
 
-async def places_dep(body: RoutesRequest) -> List[Place]:
+async def places_dep(body: RoutesRequest) -> list[Place]:
     try:
         return await PlaceService.get_validated(
             body.places,

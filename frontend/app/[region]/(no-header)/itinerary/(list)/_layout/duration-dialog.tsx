@@ -43,6 +43,7 @@ const DurationDialog = ({
     const { durationLimits, periodLimits } = itineraryConfigs
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync draft dates
         setDateRange({
             from: dayjs(start).toDate(),
             to: dayjs(end).toDate()

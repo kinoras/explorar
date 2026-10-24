@@ -1,11 +1,11 @@
 from .documents import Place
 from .router import places_router
-from .service import PlaceService, PlaceNotFoundError, PlaceRegionError
+from .service import PlaceNotFoundError, PlaceRegionError, PlaceService
 
 __all__ = [
     "Place",
-    "places_router",
-    "PlaceService",
     "PlaceNotFoundError",
     "PlaceRegionError",
+    "PlaceService",
+    "places_router",
 ]

@@ -1,4 +1,3 @@
-from typing import Optional
 from fastapi import APIRouter, Query
 
 from app.core.common import Region
@@ -6,7 +5,6 @@ from app.core.exceptions import error_models
 
 from ..places import Place
 from .schemas import CategoriesPublic, CategoryPublic
-
 
 categories_router = APIRouter()
 
@@ -18,7 +16,7 @@ categories_router = APIRouter()
     responses=error_models([422, 500]),
 )
 async def get_categories(
-    region: Optional[Region] = Query(None, description="Region"),
+    region: Region | None = Query(None, description="Region"),
 ) -> CategoriesPublic:
     # Aggregation pipeline
     pipeline = []

@@ -1,11 +1,8 @@
-from typing import Optional
-
 from app.core.common import Model
 from app.core.config import settings
 
 from .contracts import ModelRequest, ModelResponse, ModelStrategy
 from .strategies import GeminiModelStrategy, OpenAIModelStrategy
-
 
 STRATEGIES: dict[Model, type[ModelStrategy]] = {
     "openai": OpenAIModelStrategy,
@@ -14,7 +11,7 @@ STRATEGIES: dict[Model, type[ModelStrategy]] = {
 
 
 class ModelClient:
-    def __init__(self, strategy: Optional[ModelStrategy] = None):
+    def __init__(self, strategy: ModelStrategy | None = None):
         self._strategy = strategy or self._create_default_strategy()
 
     @property

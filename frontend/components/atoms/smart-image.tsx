@@ -17,6 +17,7 @@ const SmartImage = ({
     const [error, setError] = useState<boolean>(false)
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset on src change
         setError(false)
     }, [src])
 

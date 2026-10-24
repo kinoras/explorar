@@ -1,5 +1,6 @@
 import asyncio
-from typing import Any, Optional
+from typing import Any
+
 from google import genai
 from openai import AsyncOpenAI
 
@@ -11,7 +12,7 @@ from .contracts import ModelRequest, ModelResponse, ModelStrategy
 class OpenAIModelStrategy(ModelStrategy):
     """Concrete strategy for OpenAI Response API."""
 
-    def __init__(self, model: Optional[str] = None):
+    def __init__(self, model: str | None = None):
         self.client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
         self.model = model or settings.OPENAI_MODEL
 
@@ -53,7 +54,7 @@ class OpenAIModelStrategy(ModelStrategy):
 class GeminiModelStrategy(ModelStrategy):
     """Concrete strategy for Google Gemini API."""
 
-    def __init__(self, model: Optional[str] = None):
+    def __init__(self, model: str | None = None):
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
         self.model = model or settings.GEMINI_MODEL
 

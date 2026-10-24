@@ -53,7 +53,7 @@ const DialogContent = ({
             <DialogPrimitive.Content
                 data-slot="dialog-content"
                 className={cn(
-                    'bg-background border-border grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-3xl border p-6 shadow-lg duration-200 outline-none sm:max-w-lg',
+                    'grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-3xl border border-border bg-background p-6 shadow-lg duration-200 outline-none sm:max-w-lg',
                     'fixed top-[50%] left-[50%] z-50 translate-x-[-50%] translate-y-[-50%]', // Positioning
                     'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95', // Entering animation
                     'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95', // Exiting animation
@@ -66,12 +66,12 @@ const DialogContent = ({
                     <DialogPrimitive.Close
                         data-slot="dialog-close"
                         className={cn(
-                            'ring-offset-background absolute top-4 right-4 rounded-md opacity-70 transition-opacity hover:opacity-100',
+                            'absolute top-4 right-4 rounded-md opacity-70 ring-offset-background transition-opacity hover:opacity-100',
                             "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4", // Icon
                             'disabled:pointer-events-none', // Disabled variant
                             /* States */
                             'data-[state=open]:bg-accent data-[state=open]:text-muted-foreground', // Opening
-                            'focus:ring-ring focus:ring-2 focus:ring-offset-2 focus:outline-hidden' // Focus
+                            'focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden' // Focus
                         )}
                     >
                         <FontAwesomeIcon icon={faXmark} />
@@ -120,7 +120,7 @@ const DialogDescription = ({
     return (
         <DialogPrimitive.Description
             data-slot="dialog-description"
-            className={cn('text-muted-foreground text-sm', className)}
+            className={cn('text-sm text-muted-foreground', className)}
             {...props}
         />
     )

@@ -1,6 +1,6 @@
+from app.core.common import Category, Region
 from app.features.places import Place
 from app.features.places.schemas import Description, Location
-from app.core.common import Category, Region
 
 
 def get_dummy_places():

@@ -79,14 +79,14 @@
         @apply animate-none!;
     }
     .leaflet-popup-close-button {
-        @apply ring-offset-background focus:ring-ring bg-secondary rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:outline-hidden;
+        @apply rounded-xs bg-secondary opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:outline-hidden;
     }
     .leaflet-tooltip,
     .leaflet-draw-tooltip {
-        @apply bg-foreground! text-background! animate-none! rounded-md! border-none! p-0! px-3! py-1.5! shadow-none!;
+        @apply animate-none! rounded-md! border-none! bg-foreground! p-0! px-3! py-1.5! text-background! shadow-none!;
     }
     .leaflet-draw-tooltip:before {
-        @apply bg-foreground top-1/2! right-0.5! size-2.5 translate-x-1/2 -translate-y-1/2 rotate-45 rounded-xs border-none!;
+        @apply top-1/2! right-0.5! size-2.5 translate-x-1/2 -translate-y-1/2 rotate-45 rounded-xs border-none! bg-foreground;
     }
     .leaflet-error-draw-tooltip {
         @apply bg-destructive! text-white!;
@@ -105,7 +105,7 @@
         @apply hidden;
     }
     .leaflet-control-attribution {
-        @apply bg-muted! rounded-md px-1! py-0.5! text-[10px] leading-none! text-inherit!;
+        @apply rounded-md bg-muted! px-1! py-0.5! text-[10px] leading-none! text-inherit!;
     }
     .leaflet-draw-guide-dash {
         @apply rounded-full;
@@ -129,18 +129,18 @@
         &[data-selected-single='true'],
         &[data-range-start='true'],
         &[data-range-end='true'] {
-            @apply bg-theme text-primary-foreground border-theme-accent hover:bg-theme/80! hover:text-primary-foreground! rounded-full! border-3;
+            @apply rounded-full! border-3 border-theme-accent bg-theme text-primary-foreground hover:bg-theme/80! hover:text-primary-foreground!;
         }
         &:last-child[data-selected='true'] {
             > button[data-range-middle='true'],
             > button[data-range-start='true'][data-range-end='false'] {
-                @apply after:from-theme-accent after:absolute after:inset-y-0 after:-right-3 after:w-3 after:bg-linear-to-r;
+                @apply after:absolute after:inset-y-0 after:-right-3 after:w-3 after:bg-linear-to-r after:from-theme-accent;
             }
         }
         &:first-child[data-selected='true'] {
             > button[data-range-middle='true'],
             > button[data-range-end='true'][data-range-start='false'] {
-                @apply before:from-theme-accent before:absolute before:inset-y-0 before:-left-3 before:w-3 before:bg-linear-to-l;
+                @apply before:absolute before:inset-y-0 before:-left-3 before:w-3 before:bg-linear-to-l before:from-theme-accent;
             }
         }
     }
@@ -171,7 +171,7 @@
     ol.toaster {
         /* Toast body */
         [data-sonner-toast] {
-            @apply bg-background text-foreground border-border rounded-2xl border shadow-lg;
+            @apply rounded-2xl border border-border bg-background text-foreground shadow-lg;
             @apply flex w-full items-start gap-x-2.5 px-3.5 py-3;
         }
 
@@ -197,16 +197,16 @@
         [data-content] {
             @apply flex-1 space-y-px!;
             [data-title] {
-                @apply text-primary! text-sm font-semibold;
+                @apply text-sm font-semibold text-primary!;
             }
             [data-description] {
-                @apply text-primary! text-sm leading-snug!;
+                @apply text-sm leading-snug! text-primary!;
             }
         }
 
         /* Toast -> Button */
         [data-close-button] {
-            @apply text-primary! relative! bg-transparent!; /* Overwrite */
+            @apply relative! bg-transparent! text-primary!; /* Overwrite */
             @apply -mr-2 -ml-1 flex shrink-0 self-center! p-2 opacity-50! [&>svg]:size-5!;
             @apply order-4!;
         }

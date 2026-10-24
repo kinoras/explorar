@@ -1,12 +1,13 @@
-from typing import Annotated, Any, List, Optional
+from datetime import timedelta, timezone
+from typing import Annotated, Any
+
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
-from datetime import timezone, timedelta
 
 from .common import Model
 
 
-def parse_csv(v: Any) -> List[str]:
+def parse_csv(v: Any) -> list[str]:
     if isinstance(v, str):
         return [s.strip() for s in v.split(",") if s.strip()]
     if isinstance(v, list):
@@ -36,9 +37,9 @@ class Settings(BaseSettings):
 
     # Itinerary LLM
     MODEL_PROVIDER: Model = "openai"
-    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_API_KEY: str | None = None
     OPENAI_MODEL: str = "gpt-4o-mini"
-    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_API_KEY: str | None = None
     GEMINI_MODEL: str = "gemini-2.0-flash"
 
     @model_validator(mode="after")
@@ -50,12 +51,12 @@ class Settings(BaseSettings):
         return self
 
     # CORS
-    CORS_ORIGINS: Annotated[List[str], NoDecode] = []
+    CORS_ORIGINS: Annotated[list[str], NoDecode] = []
 
     # CORS: Allow comma-separated list
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
-    def parse_cors_origins(cls, v) -> List[str]:
+    def parse_cors_origins(cls, v) -> list[str]:
         if isinstance(v, str):
             return [x.strip() for x in v.split(",") if x.strip()]
         return []

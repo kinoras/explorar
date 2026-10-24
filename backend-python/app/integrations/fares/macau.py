@@ -1,11 +1,10 @@
 import math
-from typing import Optional
+
 from google.maps.routing_v2 import RouteLeg, TransitVehicle
 
 from app.utils.geometry import Coordinate, in_geofence, location_to_tuple
 
-from .data import MACAU_GEOFENCE_POLYLINES, MACAU_LRT_STATIONS, MACAU_LRT_DISTANCE_TABLE
-
+from .data import MACAU_GEOFENCE_POLYLINES, MACAU_LRT_DISTANCE_TABLE, MACAU_LRT_STATIONS
 
 FARE_FIELDS_MO = [
     "routes.legs.startLocation",
@@ -68,7 +67,7 @@ def _get_station_key(name: str) -> int:
 
 class MacauTaxiFareEstimator:
     @classmethod
-    def compute(cls, leg: RouteLeg) -> Optional[float]:
+    def compute(cls, leg: RouteLeg) -> float | None:
         # Extract key data
         pickup = location_to_tuple(leg.start_location)
         dropoff = location_to_tuple(leg.end_location)
@@ -109,7 +108,7 @@ class MacauTaxiFareEstimator:
 
 class MacauTransitFareEstimator:
     @classmethod
-    def compute(cls, leg: RouteLeg) -> Optional[float]:
+    def compute(cls, leg: RouteLeg) -> float | None:
         steps = list(leg.steps or [])
         fare = 0.0
 

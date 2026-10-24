@@ -1,9 +1,8 @@
 from functools import cache
 
+from google.maps.routing_v2 import Location
 from polyline import decode
 from shapely.geometry import Point, Polygon
-from google.maps.routing_v2 import Location
-
 
 type Coordinate = tuple[float, float]  # (lat, lon)
 
