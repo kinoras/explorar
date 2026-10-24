@@ -1,7 +1,7 @@
 import { computeRoutes as _computeRoutes } from '@/integrations/client'
 import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
-import { AppError } from '@/lib/errors'
+import { AppError, toAppError } from '@/lib/errors'
 import { isPresent } from '@/lib/utils'
 
 import type { LocationID } from '@/types/location'
@@ -50,7 +50,7 @@ export const computeRoutes = async (
             return []
 
         // General error
-        throw new AppError('UNKNOWN', errorMessage)
+        throw toAppError(error)
     }
 
     return (route?.routes ?? [])

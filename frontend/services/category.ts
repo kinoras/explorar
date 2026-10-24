@@ -3,7 +3,7 @@ import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
 import { defaultCategoryKey } from '@/lib/config'
 import { categories } from '@/lib/const'
-import { AppError } from '@/lib/errors'
+import { AppError, toAppError } from '@/lib/errors'
 
 import type { Category, CategoryKey } from '@/types/category'
 import type { Region } from '@/types/region'
@@ -61,7 +61,7 @@ export const getCategoriesByRegion = async (region: Region): Promise<Category[]>
             throw new AppError('INVALID_REGION', errorMessage)
 
         // General error
-        throw new AppError('UNKNOWN', errorMessage)
+        throw toAppError(error)
     }
 
     // Return the categories as Category objects

@@ -1,7 +1,7 @@
 import { planItinerary as _planItinerary } from '@/integrations/client/sdk.gen'
 import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
-import { AppError } from '@/lib/errors'
+import { AppError, toAppError } from '@/lib/errors'
 
 import type { LocationID } from '@/types/location'
 
@@ -45,7 +45,7 @@ export const planItinerary = async (
             return Array.from({ length: duration }, () => [])
 
         // General error
-        throw new AppError('UNKNOWN', errorMessage)
+        throw toAppError(error)
     }
 
     // Initialize itinerary

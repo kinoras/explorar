@@ -2,7 +2,7 @@ import { getPlaces } from '@/integrations/client'
 import { getPlaceById } from '@/integrations/client'
 import { getErrorCode, getErrorMessage } from '@/integrations/errors'
 
-import { AppError } from '@/lib/errors'
+import { AppError, toAppError } from '@/lib/errors'
 
 import type { CategoryKey } from '@/types/category'
 import type { Location, LocationID, LocationSortOption, LocationsPage } from '@/types/location'
@@ -52,7 +52,7 @@ export const getLocationsByRegion = async (
             throw new AppError('INVALID_LOCATION_CURSOR', errorMessage)
 
         // General error
-        throw new AppError('UNKNOWN', errorMessage)
+        throw toAppError(error)
     }
 
     const places = data?.places ?? []
@@ -83,7 +83,7 @@ export const getLocationById = async (id: LocationID): Promise<Location | undefi
             throw new AppError('LOCATION_NOT_FOUND', errorMessage)
 
         // General error
-        throw new AppError('UNKNOWN', errorMessage)
+        throw toAppError(error)
     }
 
     return place

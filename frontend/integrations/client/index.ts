@@ -51,6 +51,7 @@ export type {
     PlanItineraryErrors,
     PlanItineraryResponse,
     PlanItineraryResponses,
+    PydanticObjectId,
     Region,
     RegularHours,
     Route,
