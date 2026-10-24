@@ -3,14 +3,13 @@ import { defineConfig } from '@hey-api/openapi-ts'
 export default defineConfig({
     input: 'http://localhost:8000/api/v1/openapi.json',
     output: {
-        format: 'prettier',
-        lint: 'eslint',
+        postProcess: ['prettier'],
         path: './integrations/client'
     },
     plugins: [
         {
             name: '@hey-api/client-next',
-            runtimeConfigPath: '../hey-api.ts' // Relative to `integrations/client/client.gen.ts`
+            runtimeConfigPath: './integrations/hey-api' // Relative to the frontend directory
         }
     ]
 })

@@ -6,6 +6,7 @@
     "singleQuote": true,
     "endOfLine": "auto",
     "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+    "tailwindStylesheet": "./app/globals.css",
     "importOrder": [
         "^react(/.*)?$",
         "^next(-.*|/.*)?$",

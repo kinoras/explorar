@@ -5,18 +5,18 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "beanie>=2.0.1",
-    "fastapi[standard]==0.136.0",
-    "google-genai>=1.64.0",
-    "google-maps-routing>=0.8.0",
+    "beanie>=2.2.0",
+    "fastapi[standard]==0.143.3",
+    "google-genai>=2.31.0",
+    "google-maps-routing>=0.11.2",
     "jsonschema>=4.26.0",
-    "openai>=2.23.0",
+    "openai>=3.33.0",
     "polyline>=2.0.4",
-    "pydantic-settings>=2.12.0",
-    "pymongo>=4.16.0",
-    "python-dotenv>=1.2.1",
-    "shapely>=2.1.2",
-    "uvicorn[standard]>=0.40.0",
+    "pydantic-settings>=2.16.0",
+    "pymongo>=4.19.0",
+    "python-dotenv>=1.2.4",
+    "shapely>=2.2.0",
+    "uvicorn[standard]>=0.54.0",
 ]
 
 [project.scripts]
@@ -30,7 +30,7 @@ dev = [
     "pytest>=9.0.2",
     "pytest-asyncio>=0.25.0",
     "pytest-cov>=7.0.0",
-    "ruff>=0.14.13",
+    "ruff>=0.17.1",
 ]
 
 [tool.uv]
