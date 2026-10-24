@@ -255,6 +255,8 @@ export type PlacesPublic = {
     nextCursor?: PlaceId | null
 }
 
+export type PydanticObjectId = string
+
 /**
  * Region
  */
@@ -467,7 +469,7 @@ export type GetPlacesResponse = GetPlacesResponses[keyof GetPlacesResponses]
 export type GetPlaceByIdData = {
     body?: never
     path: {
-        id: PlaceId
+        id: PydanticObjectId
     }
     query?: never
     url: '/places/{id}'

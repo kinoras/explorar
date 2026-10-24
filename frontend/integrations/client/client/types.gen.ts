@@ -71,6 +71,7 @@ export interface ResolvedRequestOptions<
     ThrowOnError extends boolean = boolean,
     Url extends string = string
 > extends RequestOptions<unknown, ThrowOnError, Url> {
+    headers: Headers
     serializedBody?: string
 }
 
@@ -94,7 +95,8 @@ export type RequestResult<
                     error: TError extends Record<string, unknown> ? TError[keyof TError] : TError
                 }
           ) & {
-              response: Response
+              /** response may be undefined due to a network error where no response object is produced */
+              response?: Response
           }
       >
 
@@ -107,9 +109,14 @@ type MethodFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean
     options: Omit<RequestOptions<TData, ThrowOnError>, 'method'>
 ) => RequestResult<TData, TError, ThrowOnError>
 
-type SseFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false>(
-    options: Omit<RequestOptions<TData, ThrowOnError>, 'method'>
-) => Promise<ServerSentEventsResult<TData, TError>>
+type SseFn = <
+    TData = unknown,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _TError = unknown,
+    ThrowOnError extends boolean = false
+>(
+    options: Omit<RequestOptions<never, ThrowOnError>, 'method'>
+) => Promise<ServerSentEventsResult<TData>>
 
 type RequestFn = <TData = unknown, TError = unknown, ThrowOnError extends boolean = false>(
     options: Omit<RequestOptions<TData, ThrowOnError>, 'method'> &
